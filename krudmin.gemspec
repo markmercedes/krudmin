@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Krudmin::VERSION
   s.authors     = ["Marcos Mercedes"]
   s.email       = ["marcos.mercedesn@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Krudmin."
-  s.description = "TODO: Description of Krudmin."
+  s.homepage    = "https://github.com/markmercedes/krudmin"
+  s.summary     = "OMW: Summary of Krudmin."
+  s.description = "OMW: Description of Krudmin."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
@@ -19,4 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 5.1.3"
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "factory_bot_rails", "~> 4.8.2"
+  s.add_development_dependency "ffaker", "~> 2.7.0"
+  s.add_development_dependency 'rspec-rails', "~> 3.7.2"
 end
