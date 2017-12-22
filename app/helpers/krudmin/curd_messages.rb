@@ -1,7 +1,7 @@
 module Krudmin
   module CrudMessages
     def created_message_for(label)
-      "`#{label}` fue creado con exito"
+      I18n.t('krudmin.messages.create', label: label)
     end
 
     def modified_message_for(label)
@@ -40,16 +40,16 @@ module Krudmin
       I18n.t('krudmin.messages.cant_be_destroyed', label: label)
     end
 
-    def confirm_destroy_message
-      I18n.t('krudmin.messages.confirm_destroy', label: model_label)
+    def confirm_destroy_message(given_model)
+      I18n.t('krudmin.messages.confirm_destroy', label: krudmin_manager.model_label(given_model))
     end
 
-    def confirm_activation_message
-      I18n.t('krudmin.messages.confirm_activation', label: model_label)
+    def confirm_activation_message(given_model)
+      I18n.t('krudmin.messages.confirm_activation', label: krudmin_manager.model_label(given_model))
     end
 
-    def confirm_deactivation_message
-      I18n.t('krudmin.messages.confirm_deactivation', label: model_label)
+    def confirm_deactivation_message(given_model)
+      I18n.t('krudmin.messages.confirm_deactivation', label: krudmin_manager.model_label(given_model))
     end
 
     def edit_title
@@ -57,7 +57,7 @@ module Krudmin
     end
 
     def new_title
-      I18n.t('krudmin.messages.new_record', label: resource_name)
+      I18n.t('krudmin.messages.new_record', label: resource_label)
     end
 
     def created_message

@@ -7,6 +7,7 @@
     .card-header
       %h4.pull-left
         %i.fa.fa-align-justify
+        = t('krudmin.actions.manage_resources', label: resources_label)
       = link_to(new_resource_path, class: 'btn btn-success pull-right') do
         %i.fa.fa-plus
         = t('krudmin.actions.add_new')

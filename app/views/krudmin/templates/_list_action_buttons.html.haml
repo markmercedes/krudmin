@@ -10,13 +10,13 @@
   - if listable_actions.include?(:active)
     - if item.active?
       %li.list-inline-item
-        = link_to(deactivate_path.call(item.id), method: :post, remote: true, data: {confirm: confirm_deactivation_message}, class: "btn btn-warning btn-disable") do
+        = link_to(deactivate_path.call(item.id), method: :post, remote: true, data: {confirm: confirm_deactivation_message(item)}, class: "btn btn-warning btn-disable") do
           %i.fa.fa-times
     - unless item.active?
       %li.list-inline-item
-        = link_to(activate_path.call(item.id), method: :post, remote: true, data: {confirm: confirm_activation_message }, class: "btn btn-success btn-enable") do
+        = link_to(activate_path.call(item.id), method: :post, remote: true, data: {confirm: confirm_activation_message(item) }, class: "btn btn-success btn-enable") do
           %i.fa.fa-check
   - if listable_actions.include?(:destroy)
     %li.list-inline-item
-      = link_to(resource_path(item.id), method: :delete, remote: true, data: {confirm: confirm_destroy_message}, class: "btn btn-danger delete-btn") do
+      = link_to(resource_path(item.id), method: :delete, remote: true, data: {confirm: confirm_destroy_message(item)}, class: "btn btn-danger delete-btn") do
         %i.fa.fa-trash

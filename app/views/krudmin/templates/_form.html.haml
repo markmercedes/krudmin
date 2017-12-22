@@ -15,7 +15,7 @@
       = simple_form_for(model, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
         .card
           .card-header
-            %strong= resource_name
+            %strong= crud_title
           .card-body
             - yielded = yield(f)
             - if yielded.present?
