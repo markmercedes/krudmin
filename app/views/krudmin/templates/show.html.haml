@@ -1,0 +1,27 @@
+- content_for :breadcrumb do
+  %li.breadcrumb-item.active
+    = link_to(resource_root) do
+      = "#{resources_label}"
+  %li.breadcrumb-item.active
+    = link_to(edit_resource_path(model)) do
+      = crud_title
+
+.row
+  .col-lg-10.offset-lg-1.col-md-12
+    .card
+      .card-body
+        .reading-mode
+          .message
+            %h3.text-center
+              = model_label
+          %table.table
+            - editable_attributes.each do |attribute|
+              %tr
+                %th
+                  = model_class.human_attribute_name(attribute)
+                %td
+                  = model.send(attribute)
+          .form-group
+            = link_to edit_resource_path(model), class: "btn btn-success" do
+              %i.fa.fa-pencil
+              = crud_title

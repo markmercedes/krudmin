@@ -23,4 +23,5 @@ en:
       label: "Actions"
       save: "Save"
       cancel: "Cancel"
+      show: "Show"
       manage_resources: "Manage %{label}"

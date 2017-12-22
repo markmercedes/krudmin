@@ -7,3 +7,8 @@
     = link_to(resource_root, class: "btn btn-danger") do
       %i.fa.fa-close
       = t('krudmin.actions.cancel')
+    - unless model.new_record?
+      &nbsp;
+      = link_to(resource_path(model_id), class: "btn btn-secondary") do
+        %i.fa.fa-eye
+        = t('krudmin.actions.show')
