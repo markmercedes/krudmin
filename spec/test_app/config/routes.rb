@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :cars
   end
+
+  namespace :console do
+    resources :cars
+  end
 end
