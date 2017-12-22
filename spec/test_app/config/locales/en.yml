@@ -3,7 +3,7 @@ en:
   krudmin:
     messages:
       modified: "%{label} was successfully modified"
-      created: "#{label} was successfully created"
+      created: "%{label} was successfully created"
       cant_be_created: "%{label} couldn't be created"
       cant_be_modified: "%{label} couldn't be modified"
       cant_be_activated: "%{label} couldn't be activated"
