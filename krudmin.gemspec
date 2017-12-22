@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Marcos Mercedes"]
   s.email       = ["marcos.mercedesn@gmail.com"]
   s.homepage    = "https://github.com/markmercedes/krudmin"
-  s.summary     = "OMW: Summary of Krudmin."
-  s.description = "OMW: Description of Krudmin."
+  s.summary     = "A Framework on top of Rails engine that provides easy ways to manage your backend data."
+  s.description = "A Framework on top of Rails engine that provides easy ways to manage your backend data."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
