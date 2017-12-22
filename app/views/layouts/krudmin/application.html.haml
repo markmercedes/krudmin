@@ -1,0 +1,26 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{charset: "utf-8"}/
+    %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{content: "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    = stylesheet_link_tag    'krudmin/application', media: 'all', 'data-turbolinks-track' => 'reload'
+    = javascript_include_tag 'krudmin/application', 'data-turbolinks-track' => 'reload'
+
+  %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden
+    = render partial: 'layouts/krudmin/header'
+    .app-body
+      = render partial: 'layouts/krudmin/sidebar_menu'
+      %main.main
+        = render partial: 'layouts/krudmin/breadcrumbs'
+        .container-fluid
+          #ui-view
+            .row
+              .col-lg-12
+                = render 'layouts/krudmin/messages'
+
+            = yield
+    %footer.app-footer
+      %span
+        = link_to("©", "http://rails.com/", target: :_blank)

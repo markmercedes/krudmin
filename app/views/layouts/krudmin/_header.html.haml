@@ -1,0 +1,28 @@
+%header.app-header.navbar
+  %button.navbar-toggler.mobile-sidebar-toggler.d-lg-none.mr-auto{type: "button"}
+    %span.navbar-toggler-icon
+  %a.navbar-brand{href: krudmin_path}
+  %button.navbar-toggler.sidebar-toggler.d-md-down-none{type: "button"}
+    %span.navbar-toggler-icon
+  %ul.nav.navbar-nav.d-md-down-none
+    %li.nav-item.px-3
+      %a.nav-link{href: krudmin_path} Dashboard
+  %ul.nav.navbar-nav.ml-auto
+    %li.nav-item.dropdown
+      %a.nav-link.dropdown-toggle.nav-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+        %span.hidden-xs-down
+          = current_user.name
+        %span.hidden-sm-up
+          %i.icon-people
+      .dropdown-menu.dropdown-menu-right
+        .dropdown-header.text-center
+          %strong Settings
+        = link_to("#", class: 'dropdown-item') do
+          %i.fa.fa-user
+          Perfil
+        = link_to("#", method: :delete, data: {no_turbolink: true}, class: 'dropdown-item') do
+          %i.fa.fa-lock
+          Salir
+  %button.navbar-toggler
+  -# %button.navbar-toggler.aside-menu-toggler{type: "button"}
+  -#   %span.navbar-toggler-icon
