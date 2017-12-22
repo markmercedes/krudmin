@@ -22,7 +22,7 @@ module Krudmin
       end
 
       def menu_items
-        @menu_items ||= []
+        @menu_items ||= proc { [] }
       end
     end
   end

@@ -25,7 +25,7 @@ module Krudmin
     def items
       @items ||= [
         Krudmin::NavigationItems::Node.new(:dashboard, routes.krudmin_path, icon: :tachometer)
-      ].concat(Krudmin::Config.menu_items.call)
+      ].concat(Krudmin::Config.menu_items.call).compact
     end
 
     class Node
@@ -47,7 +47,7 @@ module Krudmin
         end
 
         def node_for(label, resource, visible: true, icon: :file, module_path: nil, manage: true, add: true)
-          new(label, "#", items: links_for(resource, module_path, manage: manage, add: add), icon: icon, visible: visible)
+          new(label, "#", items: links_for(resource, module_path, manage: manage, add: add), icon: icon, visible: visible) if(manage || add)
         end
 
         def links_for(resource, module_path = '', manage: true, add: true)
