@@ -22,4 +22,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "factory_bot_rails", "~> 4.8.2"
   s.add_development_dependency "ffaker", "~> 2.7.0"
   s.add_development_dependency 'rspec-rails', "~> 3.7.2"
+  s.add_development_dependency 'pry', "~> 0.11.3"
+  s.add_development_dependency "simplecov", "~> 0.15.1"
+
+  s.add_dependency 'simple_form'
 end
