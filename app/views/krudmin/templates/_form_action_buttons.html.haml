@@ -1,0 +1,9 @@
+.card-footer
+  .form-group
+    = button_tag(type: :submit, class: "btn btn-primary") do
+      %i.fa.fa-save
+      = t('krudmin.actions.save')
+    &nbsp;
+    = link_to(resource_root, class: "btn btn-danger") do
+      %i.fa.fa-close
+      = t('krudmin.actions.cancel')
