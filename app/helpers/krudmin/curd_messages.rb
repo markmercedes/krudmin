@@ -1,7 +1,7 @@
 module Krudmin
   module CrudMessages
     def created_message_for(label)
-      I18n.t('krudmin.messages.create', label: label)
+      I18n.t('krudmin.messages.created', label: label)
     end
 
     def modified_message_for(label)
