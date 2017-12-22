@@ -1,17 +1,30 @@
 module Krudmin
   class ApplicationController < ActionController::Base
-    include Admin::CrudMessages
+    include Krudmin::CrudMessages
+    include ApplicationHelper
 
     before_action :set_model, only: [:new, :edit, :create]
 
-    helper_method :items, :resource_label, :resources_label, :model_label, :resource_root, :resource_path, :list_actions, :listable_columns, :edit_resource_path, :default_view_path, :resource, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path
+    helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :resource_path, :listable_actions, :listable_attributes, :edit_resource_path, :default_view_path, :resource_name, :model_class, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path, :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :menu_items, :resources_name
 
-    delegate :scope, :items, :activate_path, :deactivate_path, :list_actions, :listable_columns, :resource_root, :resource_label, :resources_label, :resource, :model_id, :editable_attributes, :new_resource_path, :resource_path, :edit_resource_path, to: :krudmin_manager
+    delegate :resource_label, :resources_label, :scope, :activate_path, :deactivate_path, :listable_actions, :listable_attributes, :resource_root, :resource_name, :model_class, :model_id, :editable_attributes, :new_resource_path, :resource_path, :edit_resource_path, :resources_name, to: :krudmin_manager
 
-    DEFAULT_VIEW_PATH = 'krudmin'.freeze
+    DEFAULT_VIEW_PATH = 'krudmin/templates'.freeze
+
+    def menu_items
+      @menu_items ||= Krudmin::NavigationItems.new(user: current_user)
+    end
+
+    def inferred_resource_manager
+      "Krudmin::#{self.class.name.demodulize.gsub('Controller', '')}Manager".constantize
+    end
+
+    def items
+      @items ||= krudmin_manager.items.page(page).per(limit)
+    end
 
     def krudmin_manager
-      @krudmin_manager ||= self.class::GATEWAY.new(self)
+      @krudmin_manager ||= inferred_resource_manager.new
     end
 
     def default_view_path
@@ -19,21 +32,20 @@ module Krudmin
     end
 
     def index
-      render template: "#{DEFAULT_VIEW_PATH}/index"
+      render template: "#{default_view_path}/index"
     end
 
     def edit
       model.destroy if params.fetch(:failed_destroy, false)
-      render template: "#{DEFAULT_VIEW_PATH}/edit"
+      render template: "#{default_view_path}/edit"
     end
 
     def show
-      raise NotImplementedError
-      # render template: "#{DEFAULT_VIEW_PATH}/new"
+      render template: "#{default_view_path}/show"
     end
 
     def new
-      render template: "#{DEFAULT_VIEW_PATH}/new"
+      render template: "#{default_view_path}/new"
     end
 
     def create
@@ -44,7 +56,7 @@ module Krudmin
           format.html { redirect_to edit_resource_path(model), notice: created_message }
         else
           format.html {
-            render template: "#{DEFAULT_VIEW_PATH}/new"
+            render template: "#{default_view_path}/new"
           }
         end
       end
@@ -60,7 +72,7 @@ module Krudmin
           }
         else
           format.html {
-            render template: "#{DEFAULT_VIEW_PATH}/edit"
+            render template: "#{default_view_path}/edit"
           }
         end
       end
@@ -100,7 +112,7 @@ module Krudmin
     end
 
     def model_label
-      @model_label ||= krudmin_manager.model_label
+      @model_label ||= krudmin_manager.model_label(model)
     end
 
     def set_model
@@ -119,8 +131,16 @@ module Krudmin
       {}
     end
 
+    def page
+      params.fetch(:page, 0)
+    end
+
+    def limit
+      params.fetch(:limit, 25)
+    end
+
     def model_params
-      @model_params ||= params.require(resource.name.underscore.downcase.to_sym).permit(krudmin_manager.permitted_attributes)
+      @model_params ||= params.require(model_class.name.underscore.downcase.to_sym).permit(krudmin_manager.permitted_attributes)
     end
 
     def form_submit_path
