@@ -1,12 +1,9 @@
-require 'active_support/inflector'
-require 'active_support/core_ext/module/delegation'
-
 module Krudmin
   module ResourceManagers
     class Base
       include Enumerable
 
-      delegate :each, to: :items
+      delegate :each, :total_pages, :current_page, :limit_value, to: :items
 
       MODEL_CLASSNAME = nil
       LISTABLE_ATTRIBUTES = []
@@ -17,6 +14,8 @@ module Krudmin
       RESOURCE_INSTANCE_LABEL_ATTRIBUTE = nil
       PREPEND_ROUTE_PATH = :krudmin
       RESOURCE_NAME = ""
+      RESOURCE_LABEL = ""
+      RESOURCES_LABEL = ""
 
       def self.constantized_methods(*attrs)
         attrs.flatten.each do |attr|
@@ -26,7 +25,11 @@ module Krudmin
         end
       end
 
-      constantized_methods :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :prepend_route_path
+      def model_label(given_model)
+        given_model.send(resource_instance_label_attribute)
+      end
+
+      constantized_methods :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :prepend_route_path
 
       def resource_name
         @resource_name ||= self.class::RESOURCE_NAME.to_s.underscore
@@ -105,8 +108,6 @@ module Krudmin
       def list_scope
         scope.includes(listable_includes).order(order_by)
       end
-
-      protected
 
       def model_class
         @model_class ||= model_classname.constantize
