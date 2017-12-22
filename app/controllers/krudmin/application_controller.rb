@@ -1,6 +1,7 @@
 module Krudmin
-  class ApplicationController < ActionController::Base
+  class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::CrudMessages
+    include Pundit
 
     before_action :set_model, only: [:new, :edit, :create]
 
@@ -14,6 +15,10 @@ module Krudmin
       instance_eval(&Krudmin::Config.current_user_method)
     end
 
+    def pundit_user
+      _current_user
+    end
+
     def menu_items
       @menu_items ||= Krudmin::NavigationItems.new(user: _current_user)
     end
@@ -23,7 +28,7 @@ module Krudmin
     end
 
     def items
-      @items ||= krudmin_manager.items.page(page).per(limit)
+      @items ||= policy_scope(krudmin_manager.items).page(page).per(limit)
     end
 
     def krudmin_manager
@@ -39,20 +44,28 @@ module Krudmin
     end
 
     def edit
+      authorize model
+
       model.destroy if params.fetch(:failed_destroy, false)
       render template: "#{default_view_path}/edit"
     end
 
     def show
+      authorize model
+
       render template: "#{default_view_path}/show"
     end
 
     def new
+      authorize model
+
       render template: "#{default_view_path}/new"
     end
 
     def create
       model.attributes = model_params
+
+      authorize model
 
       respond_to do |format|
         if model.save
@@ -66,6 +79,7 @@ module Krudmin
     end
 
     def update
+      authorize model
       model.update_attributes(model_params)
 
       respond_to do |format|
@@ -82,6 +96,8 @@ module Krudmin
     end
 
     def activate
+      authorize model
+
       respond_to do |format|
         if model.activate!
           format.html { redirect_to resource_root, notice: activated_message }
@@ -93,6 +109,8 @@ module Krudmin
     end
 
     def deactivate
+      authorize model
+
       respond_to do |format|
         if model.deactivate!
           format.html { redirect_to resource_root, notice: deactivated_message }

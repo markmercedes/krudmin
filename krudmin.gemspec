@@ -36,4 +36,5 @@ Gem::Specification.new do |s|
   s.add_dependency "momentjs-rails"
   s.add_dependency "selectize-rails"
   s.add_dependency "turbolinks"
+  s.add_dependency "pundit"
 end

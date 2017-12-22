@@ -7,6 +7,7 @@ require "font-awesome-rails"
 require "bootstrap"
 require "simple_form"
 require "turbolinks"
+require "pundit"
 require_relative "../../config/initializers/simple_form_bootstrap"
 
 module Krudmin
