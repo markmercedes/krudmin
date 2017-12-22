@@ -18,5 +18,9 @@ module Krudmin
       g.test_framework :rspec
       g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
+
+    config.after_initialize do
+      config.i18n.load_path += Dir["#{config.root}/config/locales/**/*.yml"]
+    end
   end
 end
