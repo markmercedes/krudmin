@@ -1,18 +1,21 @@
 module Krudmin
   class ApplicationController < ActionController::Base
     include Krudmin::CrudMessages
-    include ApplicationHelper
 
     before_action :set_model, only: [:new, :edit, :create]
 
-    helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :resource_path, :listable_actions, :listable_attributes, :edit_resource_path, :default_view_path, :resource_name, :model_class, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path, :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :menu_items, :resources_name
+    helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :resource_path, :listable_actions, :listable_attributes, :edit_resource_path, :default_view_path, :resource_name, :model_class, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path, :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :menu_items, :resources_name, :_current_user
 
     delegate :resource_label, :resources_label, :scope, :activate_path, :deactivate_path, :listable_actions, :listable_attributes, :resource_root, :resource_name, :model_class, :model_id, :editable_attributes, :new_resource_path, :resource_path, :edit_resource_path, :resources_name, to: :krudmin_manager
 
     DEFAULT_VIEW_PATH = 'krudmin/templates'.freeze
 
+    def _current_user
+      instance_eval(&Krudmin::Config.current_user_method)
+    end
+
     def menu_items
-      @menu_items ||= Krudmin::NavigationItems.new(user: current_user)
+      @menu_items ||= Krudmin::NavigationItems.new(user: _current_user)
     end
 
     def inferred_resource_manager
