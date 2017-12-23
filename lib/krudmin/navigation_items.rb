@@ -34,7 +34,9 @@ module Krudmin
       attr_reader :label, :link, :visible, :items, :icon, :module_path
 
       def initialize(label, link, visible: true, items: [], icon: :file, module_path: nil)
-        @label, @link, @visible, @items, @icon, @module_path = label, link, visible, items, icon, module_path
+        @label, @visible, @items, @icon, @module_path = label, visible, items, icon, module_path
+
+        @link = link.is_a?(Symbol) ? routes.send(link) : link
       end
 
       def each(&block)
@@ -64,6 +66,10 @@ module Krudmin
 
       def visible_items
         items.select(&:visible)
+      end
+
+      def routes
+        Rails.application.routes.url_helpers
       end
     end
   end

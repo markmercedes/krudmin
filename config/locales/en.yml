@@ -1,6 +1,9 @@
 en:
   hello: "Hello world"
   krudmin:
+    labels:
+      active: Active
+      inactive: Inactive
     messages:
       modified: "%{label} was successfully modified"
       created: "%{label} was successfully created"
