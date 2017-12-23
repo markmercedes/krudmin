@@ -34,7 +34,7 @@
                     = item.send("#{column_label}_label")
               - if listable_actions.any?
                 %td{width: "20%"}
-                  = render partial: "krudmin/templates/list_action_buttons", locals: {item: item}
+                  = render partial: "list_action_buttons", locals: {item: item}
 
       %nav
         = paginate items

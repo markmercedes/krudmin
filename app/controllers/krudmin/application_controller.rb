@@ -9,7 +9,7 @@ module Krudmin
 
     delegate :resource_label, :resources_label, :scope, :activate_path, :deactivate_path, :listable_actions, :listable_attributes, :resource_root, :resource_name, :model_class, :model_id, :editable_attributes, :new_resource_path, :resource_path, :edit_resource_path, :resources_name, to: :krudmin_manager
 
-    DEFAULT_VIEW_PATH = 'krudmin/templates'.freeze
+    DEFAULT_VIEW_PATH = 'krudmin/application'.freeze
 
     def _current_user
       instance_eval(&Krudmin::Config.current_user_method)
