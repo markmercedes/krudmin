@@ -17,3 +17,4 @@
 //= require turbolinks
 //= require krudmin/turbo-forms
 //= require krudmin/app
+//= require krudmin_scripts
