@@ -44,7 +44,11 @@ module Krudmin
     end
 
     def items
-      @items ||= (krudmin_manager.items).page(page).per(limit).ransack(search_form.params)
+      @items ||= item_list.ransack(search_form.params)
+    end
+
+    def item_list
+      krudmin_manager.items.page(page).per(limit)
     end
 
     def krudmin_manager
