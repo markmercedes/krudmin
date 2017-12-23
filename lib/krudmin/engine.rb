@@ -9,6 +9,7 @@ require "simple_form"
 require "turbolinks"
 require "pundit"
 require "arbre"
+require "ransack"
 require_relative "../../config/initializers/simple_form_bootstrap"
 
 module Krudmin

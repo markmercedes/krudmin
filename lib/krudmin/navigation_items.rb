@@ -24,7 +24,7 @@ module Krudmin
 
     def items
       @items ||= [
-        Krudmin::NavigationItems::Node.new(:dashboard, routes.krudmin_path, icon: :tachometer)
+        Krudmin::NavigationItems::Node.new(:dashboard, Krudmin::Config.krudmin_root_path, icon: :tachometer)
       ].concat(Krudmin::Config.menu_items.call).compact
     end
 

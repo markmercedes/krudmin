@@ -5,6 +5,7 @@ require_relative "../lib/krudmin/resource_managers/base"
 require "krudmin/labelize_methods"
 require "krudmin/activable_labeler"
 require "krudmin/navigation_items"
+require "krudmin/search_form"
 require_relative "config"
 
 module Krudmin

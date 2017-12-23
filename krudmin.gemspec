@@ -38,4 +38,5 @@ Gem::Specification.new do |s|
   s.add_dependency "turbolinks"
   s.add_dependency "pundit"
   s.add_dependency "arbre"
+  s.add_dependency "ransack"
 end

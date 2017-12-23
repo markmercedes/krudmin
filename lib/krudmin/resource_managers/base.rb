@@ -8,6 +8,7 @@ module Krudmin
       MODEL_CLASSNAME = nil
       LISTABLE_ATTRIBUTES = []
       EDITABLE_ATTRIBUTES = []
+      SEARCHABLE_ATTRIBUTES = []
       LISTABLE_ACTIONS = [:show, :edit, :destroy]
       ORDER_BY = []
       LISTABLE_INCLUDES = []
@@ -29,7 +30,7 @@ module Krudmin
         given_model.send(resource_instance_label_attribute)
       end
 
-      constantized_methods :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :prepend_route_path
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :prepend_route_path
 
       def resource_name
         @resource_name ||= self.class::RESOURCE_NAME.to_s.underscore

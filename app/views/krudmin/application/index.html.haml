@@ -1,40 +1,52 @@
 - content_for :breadcrumb do
   %li.breadcrumb-item.active
-    = resources_label
+    = link_to(resource_root) do
+      = resources_label
 
-.col-lg-12.no-padding
-  .card.items-list
-    .card-header
-      %h4.pull-left
-        %i.fa.fa-align-justify
-        = t('krudmin.actions.manage_resources', label: resources_label)
-      = link_to(new_resource_path, class: 'btn btn-success pull-right') do
-        %i.fa.fa-plus
-        = t('krudmin.actions.add_new')
-    .card-body
-      %table.table.table-striped.table-sm
-        %thead
-          %tr
-            - listable_attributes.each_with_index do |column_label, column_index|
-              - if column_index.zero?
-                %th{width: "35%"}= model_class.human_attribute_name(column_label)
-              - else
-                %th= model_class.human_attribute_name(column_label)
-            - if listable_actions.any?
-              %th{width: "20%"}= t('krudmin.actions.label')
-        %tbody
-          - items.each do |item|
-            %tr{class: "item-model-#{item.id}"}
+= render "search_form", locals: {search_form: search_form}
+
+.row
+  .col-lg-12.no-padding
+    .card.items-list
+      .card-header
+        %h4.pull-left
+          %i.fa.fa-align-justify
+          = t('krudmin.actions.manage_resources', label: resources_label)
+        .pull-right
+          = link_to(new_resource_path, class: 'btn btn-success') do
+            %i.fa.fa-plus
+            = t('krudmin.actions.add_new')
+          &nbsp;
+          = link_to("#", class: "btn btn-warning aside-menu-toggler") do
+            %i.fa.fa-search
+            = t('krudmin.actions.search')
+      .card-body
+        %table.table.table-striped.table-sm
+          %thead
+            %tr.search-filters-description
+              %td{colspan: listable_attributes.count + 1}
+                = search_form.filters.join(", ")
+            %tr
               - listable_attributes.each_with_index do |column_label, column_index|
                 - if column_index.zero?
-                  %td{width: "35%"}
-                    = link_to(item.send(column_label), edit_resource_path(item.id))
+                  %th{width: "35%"}= model_class.human_attribute_name(column_label)
                 - else
-                  %td
-                    = item.send("#{column_label}_label")
+                  %th= model_class.human_attribute_name(column_label)
               - if listable_actions.any?
-                %td{width: "20%"}
-                  = render partial: "list_action_buttons", locals: {item: item}
+                %th{width: "20%"}= t('krudmin.actions.label')
+          %tbody
+            - items.result.each do |item|
+              %tr{class: "item-model-#{item.id}"}
+                - listable_attributes.each_with_index do |column_label, column_index|
+                  - if column_index.zero?
+                    %td{width: "35%"}
+                      = link_to(item.send(column_label), edit_resource_path(item.id))
+                  - else
+                    %td
+                      = item.send("#{column_label}__label")
+                - if listable_actions.any?
+                  %td{width: "20%"}
+                    = render partial: "list_action_buttons", locals: {item: item}
 
-      %nav
-        = paginate items
+        %nav
+          = paginate items.result

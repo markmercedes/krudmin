@@ -27,4 +27,6 @@ en:
       save: "Save"
       cancel: "Cancel"
       show: "Show"
+      search: "Search"
+      reset: "Reset"
       manage_resources: "Manage %{label}"

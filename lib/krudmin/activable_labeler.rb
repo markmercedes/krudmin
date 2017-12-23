@@ -1,5 +1,5 @@
 module Krudmin::ActivableLabeler
-  def active_label
+  def active__label
     active ? label_for_active : label_for_inactive
   end
 
