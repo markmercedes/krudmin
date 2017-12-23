@@ -7,13 +7,15 @@
             .form-group.row
               .col-sm-12
                 %label
-                  = model_class.human_attribute_name(field)
+                  %strong
+                    = model_class.human_attribute_name(field)
               .col-sm-5
                 = f.select "#{field}_options", options_for_select(search_form.search_predicates, search_form.send("#{field}_options")), {}, {class: "form-control"}
               .col-sm-7
                 = f.text_field field, required: false, class: "form-control"
     .row
       .col-sm-12
+        %br
         = button_tag(type: :submit, class: "btn btn-warning") do
           %i.fa.fa-search
           = t('krudmin.actions.search')
