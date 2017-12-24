@@ -19,7 +19,34 @@ module Krudmin
       "doesn't start with" => :not_start,
       "ends with" => :end,
       "doesn't end with" => :not_end,
+      "yes" => :true,
+      "no" => :false
     }.freeze
+
+    TYPE_PREDICATES = {
+      numeric: [:eq, :not_eq, :lt, :lteq, :gt, :gteq],
+      calendar: [:eq, :not_eq, :lt, :lteq, :gt, :gteq],
+      string: [:cont, :eq, :matches, :does_not_match, :start, :not_start, :end, :not_end],
+      boolean: [:true, :false],
+    }.freeze
+
+    def input_type_for(field)
+      case model_class.type_for_attribute(field.to_s).type
+      when :decimal, :integer, :bigint, :float
+        :numeric
+      when :date, :datetime, :timestamp
+        :calendar
+      when :boolean
+        :boolean
+      else
+        :string
+      end
+    end
+
+    def search_predicates_for(field)
+      type_predicates = TYPE_PREDICATES[input_type_for(field)]
+      SEARCH_PREDICATES.select{|label, key| type_predicates.include?(key) }
+    end
 
     def initialize(fields, model_class)
       @model_class = model_class
@@ -41,10 +68,10 @@ module Krudmin
 
     def filters
       fields.map{|field|
-        next if search_criteria[field.to_s].blank?
+        next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
         [
           "`#{model_class.human_attribute_name(field)}`",
-          SEARCH_PREDICATES.find{|pre| pre.last == search_criteria["#{field.to_s}_options"].to_sym }.first,
+          SEARCH_PREDICATES.find{|pre| pre.last == search_criteria["#{field}_options"].to_sym }.first,
           "< #{search_criteria[field.to_s]} >"
         ].join(' ')
       }.compact
@@ -57,11 +84,15 @@ module Krudmin
 
       @params = fields_with_values.inject({}) do |hash, key|
         criteria = search_criteria["#{key}_options"]
-        hash["#{key}_#{criteria}"] = search_criteria[key]
-        attrs[key] = search_criteria[key]
-        attrs["#{key}_options"] = criteria
+        unless criteria.blank?
+          hash["#{key}_#{criteria}"] = search_criteria[key]
+          attrs[key] = search_criteria[key]
+          attrs["#{key}_options"] = criteria
+        end
         hash
       end
+
+      @params
     end
 
     def method_missing(method, *args, &block)

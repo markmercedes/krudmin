@@ -9,10 +9,15 @@
                 %label
                   %strong
                     = model_class.human_attribute_name(field)
-              .col-sm-5
-                = f.select "#{field}_options", options_for_select(search_form.search_predicates, search_form.send("#{field}_options")), {}, {class: "form-control"}
-              .col-sm-7
-                = f.text_field field, required: false, class: "form-control"
+              - if search_form.input_type_for(field) == :boolean
+                .col-sm-12
+                  = f.hidden_field field, required: false, class: "form-control", value: true
+                  = f.select "#{field}_options", options_for_select(search_form.search_predicates_for(field), search_form.send("#{field}_options")), {include_blank: true}, {class: "form-control"}
+              - else
+                .col-sm-5
+                  = f.select "#{field}_options", options_for_select(search_form.search_predicates_for(field), search_form.send("#{field}_options")), {}, {class: "form-control"}
+                .col-sm-7
+                  = f.text_field field, required: false, class: "form-control"
     .row
       .col-sm-12
         %br
