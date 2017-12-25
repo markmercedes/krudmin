@@ -1,7 +1,7 @@
 module Krudmin
   class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::CrudMessages
-    # include Pundit
+    include Pundit
 
     before_action :set_model, only: [:new, :edit, :create]
 
@@ -23,12 +23,12 @@ module Krudmin
 
     DEFAULT_VIEW_PATH = 'krudmin/application'.freeze
 
-    def krudmin_root_path
-      '#'
-    end
-
     def _current_user
       instance_eval(&Krudmin::Config.current_user_method)
+    end
+
+    def krudmin_root_path
+      @krudmin_root_path ||= Rails.application.routes.url_helpers.send(Krudmin::Config.krudmin_root_path)
     end
 
     def pundit_user
@@ -44,7 +44,7 @@ module Krudmin
     end
 
     def items
-      @items ||= item_list.ransack(search_form.params)
+      @items ||= policy_scope(item_list).ransack(search_form.params)
     end
 
     def item_list
@@ -165,15 +165,11 @@ module Krudmin
     end
 
     def model
-      @model ||= model_id ? scope.find(model_id) : scope.all.build(default_model_attributes)
+      @model ||= model_id ? policy_scope(scope).find(model_id) : scope.all.build(default_model_attributes)
     end
 
     def default_model_attributes
       {}
-    end
-
-    def authorize(*)
-      true
     end
 
     def page
@@ -185,7 +181,11 @@ module Krudmin
     end
 
     def model_params
-      @model_params ||= params.require(model_class.name.underscore.downcase.to_sym).permit(krudmin_manager.permitted_attributes)
+      @model_params ||= params.require(model_class.name.underscore.downcase.to_sym).permit(permitted_attributes)
+    end
+
+    def permitted_attributes
+      krudmin_manager.permitted_attributes
     end
 
     def form_submit_path

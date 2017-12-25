@@ -6,6 +6,10 @@ describe Krudmin::SearchForm do
   let(:fields) { [:name, :age] }
 
   module MockedModel
+    def self.type_for_attribute(*)
+      OpenStruct.new(type: :string)
+    end
+
     def self.human_attribute_name(attribute)
       attribute
     end
