@@ -86,7 +86,11 @@ module Krudmin
         criteria = search_criteria["#{key}_options"]
         unless criteria.blank?
           hash["#{key}_#{criteria}"] = search_criteria[key]
-          attrs[key] = search_criteria[key]
+          if input_type_for(key) == :calendar
+            attrs[key] = Date.parse(search_criteria[key])
+          else
+            attrs[key] = search_criteria[key]
+          end
           attrs["#{key}_options"] = criteria
         end
         hash
