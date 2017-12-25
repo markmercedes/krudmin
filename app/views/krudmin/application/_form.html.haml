@@ -12,7 +12,7 @@
 
   .row
     .col-md-8
-      = simple_form_for(model, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
+      = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
         .card
           .card-header
             %strong= crud_title
