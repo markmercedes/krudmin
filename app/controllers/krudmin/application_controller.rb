@@ -10,7 +10,11 @@ module Krudmin
     delegate :resource_label, :resources_label, :scope, :activate_path, :deactivate_path, :listable_actions, :listable_attributes, :resource_root, :resource_name, :model_class, :model_id, :editable_attributes, :new_resource_path, :resource_path, :edit_resource_path, :resources_name, :resource_instance_label_attribute, :searchable_attributes, to: :krudmin_manager
 
     def search_form_params
-      params.include?(:q) ? params.require(:q).permit! : {}
+      params.include?(:q) ? params.require(:q).permit! : default_search_params
+    end
+
+    def default_search_params
+      {}
     end
 
     def search_form
@@ -51,8 +55,12 @@ module Krudmin
       krudmin_manager.items.page(page).per(limit)
     end
 
+    def resource_manager
+      inferred_resource_manager
+    end
+
     def krudmin_manager
-      @krudmin_manager ||= inferred_resource_manager.new
+      @krudmin_manager ||= resource_manager.new
     end
 
     def default_view_path
