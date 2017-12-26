@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry', "~> 0.11.3"
   s.add_development_dependency "simplecov", "~> 0.15.1"
   s.add_development_dependency "haml-rails", "~> 1.0.0"
+  s.add_development_dependency "guard-rspec", "~> 4.7.3"
 
   s.add_dependency 'simple_form'
   s.add_dependency 'haml'

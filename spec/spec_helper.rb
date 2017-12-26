@@ -4,6 +4,10 @@ require 'active_model'
 
 SimpleCov.start
 
+I18n.backend.store_translations(:en,
+  YAML.load_file(File.open('./config/locales/en.yml'))['en']
+)
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

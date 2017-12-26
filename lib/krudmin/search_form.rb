@@ -4,23 +4,42 @@ module Krudmin
 
     include ActiveModel::Model
 
-    SEARCH_PREDICATES  = {
-      "contains" => :cont,
-      "equals" => :eq,
-      "not equal to" => :not_eq,
-      "matches" => :matches,
-      "doesn't match" => :does_not_match,
-      "less than" => :lt,
-      "less than or equal to" => :lteq,
-      "greater than" => :gt,
-      "greater than or equal to" => :gteq,
-      "doesn't contain" => :not_cont,
-      "starts with" => :start,
-      "doesn't start with" => :not_start,
-      "ends with" => :end,
-      "doesn't end with" => :not_end,
-      "yes" => :true,
-      "no" => :false
+    class SearchTranslation
+      attr_accessor :str
+      def initialize(str)
+        @str = str
+      end
+
+      def to_s
+        I18n.t("krudmin.search.#{@str}")
+      end
+
+      def join_phrase
+        I18n.t("krudmin.search.join_phrases.#{@str}")
+      end
+    end
+
+    def self.translation_for(key)
+      SearchTranslation.new(key)
+    end
+
+    SEARCH_PREDICATES = {
+      translation_for(:contains) => :cont,
+      translation_for(:equals) => :eq,
+      translation_for(:not_equal_to) => :not_eq,
+      translation_for(:matches) => :matches,
+      translation_for(:doesnt_match) => :does_not_match,
+      translation_for(:less_than) => :lt,
+      translation_for(:less_than_or_equal_to) => :lteq,
+      translation_for(:greater_than) => :gt,
+      translation_for(:greater_than_or_equal_to) => :gteq,
+      translation_for(:doesnt_contain) => :not_cont,
+      translation_for(:starts_with) => :start,
+      translation_for(:doesnt_start_with) => :not_start,
+      translation_for(:ends_with) => :end,
+      translation_for(:doesnt_end_with) => :not_end,
+      translation_for(:yes) => :true,
+      translation_for(:no) => :false
     }.freeze
 
     TYPE_PREDICATES = {
@@ -29,6 +48,11 @@ module Krudmin
       string: [:cont, :eq, :matches, :does_not_match, :start, :not_start, :end, :not_end],
       boolean: [:true, :false],
     }.freeze
+
+    LABELIZED_TYPE_PREDICATES = TYPE_PREDICATES.inject({}) {|hash, type|
+        hash[type.first] = SEARCH_PREDICATES.select{|label, key| type.last.include?(key) }
+        hash
+      }.freeze
 
     def input_type_for(field)
       case model_class.type_for_attribute(field.to_s).type
@@ -44,8 +68,7 @@ module Krudmin
     end
 
     def search_predicates_for(field)
-      type_predicates = TYPE_PREDICATES[input_type_for(field)]
-      SEARCH_PREDICATES.select{|label, key| type_predicates.include?(key) }
+      LABELIZED_TYPE_PREDICATES[input_type_for(field)]
     end
 
     def initialize(fields, model_class)
@@ -62,19 +85,29 @@ module Krudmin
       @search_criteria = {}
     end
 
-    def search_predicates
-      SEARCH_PREDICATES
+    def seach_filter_label_for(field)
     end
 
     def filters
       fields.map{|field|
         next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
-        [
-          "`#{model_class.human_attribute_name(field)}`",
-          SEARCH_PREDICATES.find{|pre| pre.last == search_criteria["#{field}_options"].to_sym }.first,
-          "< #{search_criteria[field.to_s]} >"
-        ].join(' ')
+        if input_type_for(field) == :boolean
+          [
+            search_phrase_for(field),
+            "`#{model_class.human_attribute_name(field)}`"
+          ].join(' ')
+        else
+          [
+            "`#{model_class.human_attribute_name(field)}`",
+            search_phrase_for(field),
+            "< #{search_criteria[field.to_s]} >"
+          ].join(' ')
+        end
       }.compact
+    end
+
+    def search_phrase_for(field)
+      SEARCH_PREDICATES.find{|pre| pre.last == search_criteria["#{field}_options"].to_sym }.first.join_phrase
     end
 
     def fill_with(values)
