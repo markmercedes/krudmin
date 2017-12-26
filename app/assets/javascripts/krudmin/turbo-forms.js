@@ -53,10 +53,16 @@ $(document).on('submit', '.turbo-form[method=get]', function(e) {
   );
 });
 
+$(document).on('click', 'button[formaction]', function(e) {
+  $(this).closest('form').attr('action', $(this).attr('formaction'));
+  e.preventDefault();
+  $(this).closest('form').submit();
+});
+
 $(document).on('submit', '.turbo-form[method=post],.turbo-form[method=put]', function(e) {
   e.preventDefault();
 
-  var obj = objectifyForm($(this).serializeArray());
+  var obj =  $(this).serialize();
 
   var actionPath = $(this).find('select[data-action-path="true"]').val();
 
@@ -82,6 +88,8 @@ $(document).on('submit', '.turbo-form[method=post],.turbo-form[method=put]', fun
       });
 
       document.dispatchEvent(event);
+
+      $("html, body").animate({ scrollTop: 0 }, "slow");
     }
   });
 
