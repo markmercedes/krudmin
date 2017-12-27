@@ -36,7 +36,7 @@ module Krudmin
         metadata.is_a?(Array) ? metadata[1] : {}
       end
 
-      def field_for(field, data)
+      def field_for(field, data = nil)
         field_type_for(field).new(field, data, field_options_for(field))
       end
 

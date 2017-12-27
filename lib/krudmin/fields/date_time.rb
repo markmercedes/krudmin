@@ -29,14 +29,33 @@ module Krudmin
         end
       end
 
-      private
-
       def format
         options.fetch(:format, :default)
       end
 
       def timezone
         options.fetch(:timezone, "UTC")
+      end
+
+      def render_search(page, h, options)
+        form = options.fetch(:form)
+        _attribute = attribute
+
+        Arbre::Context.new do
+          div(class: "col-sm-6") do
+            ul(class: "list-unstyled") do
+              li form.hidden_field "#{_attribute}__from_options", value: :gteq
+              li form.date_field "#{_attribute}__from", required: false, class: "form-control"
+            end
+          end
+
+          div(class: "col-sm-6") do
+            ul(class: "list-unstyled") do
+              li form.hidden_field "#{_attribute}__to_options", value: :gteq
+              li form.date_field "#{_attribute}__to", required: false, class: "form-control"
+            end
+          end
+        end
       end
     end
   end

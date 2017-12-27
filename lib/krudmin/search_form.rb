@@ -56,12 +56,7 @@ module Krudmin
     end
 
     def search_predicates_for(field)
-      type_predicates = input_type_for(field)::SEARCH_PREDICATES
-
-      type_predicates.inject({}) {|hash, type|
-        hash[type] = SEARCH_PREDICATES.select{|label, key| type_predicates.include?(key) }
-        hash
-      }.freeze
+      input_type_for(field)::SEARCH_PREDICATES.map{|type| SEARCH_PREDICATES.find{|label, key| type == key}}
     end
 
     def initialize(fields, model_class)

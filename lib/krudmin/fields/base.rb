@@ -57,8 +57,24 @@ module Krudmin
       end
 
       def render_search(page, h, options)
-        # = f.text_field field, required: false, class: "form-control"
-        options.fetch(:form).text_field(attribute, class: "form-control", required: false)
+        form = options.fetch(:form)
+        search_form = options.fetch(:search_form)
+        _attribute = attribute
+        _h = h
+
+        Arbre::Context.new do
+          div(class: "col-sm-5") do
+            ul(class: "list-unstyled") do
+              li form.select "#{_attribute}_options", h.options_for_select(search_form.search_predicates_for(_attribute), search_form.send("#{_attribute}_options")), {}, {class: "form-control"}
+            end
+          end
+
+          div(class: "col-sm-7") do
+            ul(class: "list-unstyled") do
+              li form.text_field(_attribute, class: "form-control", required: false)
+            end
+          end
+        end
       end
 
       def to_s
