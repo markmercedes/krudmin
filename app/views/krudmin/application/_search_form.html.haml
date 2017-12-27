@@ -9,10 +9,8 @@
                 %label
                   %strong
                     = model_class.human_attribute_name(field)
-              - if search_form.input_type_for(field) == :boolean
-                .col-sm-12
-                  = f.hidden_field field, required: false, class: "form-control", value: true
-                  = f.select "#{field}_options", options_for_select(search_form.search_predicates_for(field), search_form.send("#{field}_options")), {include_blank: true}, {class: "form-control"}
+              - if search_form.input_type_for(field) == Krudmin::Fields::Boolean
+                = field_for(field, search_form.send(field)).render(:search, self, {form: f, search_form: search_form})
               - elsif search_form.input_type_for(field) == :calendar
                 .col-sm-6
                   = f.hidden_field "#{field}__from_options", value: :gteq

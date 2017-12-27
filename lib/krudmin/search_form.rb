@@ -56,8 +56,10 @@ module Krudmin
     end
 
     def search_predicates_for(field)
-      input_type_for(field)::SEARCH_PREDICATES.inject({}) {|hash, type|
-        hash[type.first] = SEARCH_PREDICATES.select{|label, key| type.last.include?(key) }
+      type_predicates = input_type_for(field)::SEARCH_PREDICATES
+
+      type_predicates.inject({}) {|hash, type|
+        hash[type] = SEARCH_PREDICATES.select{|label, key| type_predicates.include?(key) }
         hash
       }.freeze
     end
