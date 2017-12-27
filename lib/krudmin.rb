@@ -7,6 +7,11 @@ require "krudmin/activable_labeler"
 require "krudmin/navigation_items"
 require "krudmin/search_form"
 require_relative "config"
+require "krudmin/fields/base"
+require "krudmin/fields/string"
+require "krudmin/fields/number"
+require "krudmin/fields/date_time"
+require "krudmin/fields/boolean"
 
 module Krudmin
   def self.config(&block)

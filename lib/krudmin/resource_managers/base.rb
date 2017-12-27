@@ -17,6 +17,23 @@ module Krudmin
       RESOURCE_NAME = ""
       RESOURCE_LABEL = ""
       RESOURCES_LABEL = ""
+      ATTRIBUTE_TYPES = {}
+
+      def default_attribute_type
+        Krudmin::Fields::String
+      end
+
+      def html_class_for(field)
+        field_type_for(field).html_class
+      end
+
+      def field_type_for(field)
+        self.class::ATTRIBUTE_TYPES[field] || default_attribute_type
+      end
+
+      def formatted_field_for(field, data)
+        field_type_for(field).new(field, data)
+      end
 
       def self.constantized_methods(*attrs)
         attrs.flatten.each do |attr|

@@ -4,6 +4,8 @@ en:
     labels:
       active: Active
       inactive: Inactive
+      'yes': "Yes"
+      'no': "No"
     search:
       contains: "Contains"
       equals: "Equals"

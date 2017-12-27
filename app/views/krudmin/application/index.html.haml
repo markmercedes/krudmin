@@ -29,9 +29,9 @@
             %tr
               - listable_attributes.each_with_index do |column_label, column_index|
                 - if column_index.zero?
-                  %th{width: "35%"}= model_class.human_attribute_name(column_label)
+                  %th{class: "#{krudmin_manager.html_class_for(column_label)}", width: "35%"}= model_class.human_attribute_name(column_label)
                 - else
-                  %th= model_class.human_attribute_name(column_label)
+                  %th{class: "#{krudmin_manager.html_class_for(column_label)}"}= model_class.human_attribute_name(column_label)
               - if listable_actions.any?
                 %th{width: "20%"}= t('krudmin.actions.label')
           %tbody
@@ -39,11 +39,11 @@
               %tr{class: "item-model-#{item.id}"}
                 - listable_attributes.each_with_index do |column_label, column_index|
                   - if column_index.zero?
-                    %td{width: "35%"}
-                      = link_to(item.send(column_label), edit_resource_path(item.id))
+                    %td{width: "35%", class: "#{krudmin_manager.html_class_for(column_label)}"}
+                      = link_to(krudmin_manager.formatted_field_for(column_label, item.send("#{column_label}__label")).render(:list, self), edit_resource_path(item.id))
                   - else
-                    %td
-                      = item.send("#{column_label}__label")
+                    %td{class: "#{krudmin_manager.html_class_for(column_label)}"}
+                      = krudmin_manager.formatted_field_for(column_label, item.send("#{column_label}__label")).render(:list, self)
                 - if listable_actions.any?
                   %td{width: "20%"}
                     = render partial: "list_action_buttons", locals: {item: item}

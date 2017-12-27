@@ -1,6 +1,6 @@
 module Krudmin
   class SearchForm
-    attr_reader :attrs, :fields, :all_fields, :params, :search_criteria, :model_class
+    attr_reader :attrs, :fields, :enhanced_fields, :all_fields, :params, :search_criteria, :model_class
 
     include ActiveModel::Model
 
@@ -74,36 +74,78 @@ module Krudmin
     def initialize(fields, model_class)
       @model_class = model_class
 
-      fields_options = fields.map{|field| "#{field}_options".to_sym}
+      @enhanced_fields = (fields.map do |field|
+        if input_type_for(field) == :calendar
+          ["#{field}__from".to_sym, "#{field}__to".to_sym]
+        else
+          field
+        end
+      end).flatten
+
+      fields_options = @enhanced_fields.map{|field| "#{field}_options".to_sym}
+
+      @all_fields = [@enhanced_fields, fields_options].flatten
 
       @fields = fields
-
-      @all_fields = [fields, fields_options].flatten
 
       @attrs = HashWithIndifferentAccess.new
       @params = {}
       @search_criteria = {}
     end
 
-    def seach_filter_label_for(field)
+    def real_field_for(field)
+      field.to_s.gsub('__from', '').gsub('__to', '')
+    end
+
+    def calendar_filter_for(field)
+      from = search_criteria["#{field}__from"]
+      to = search_criteria["#{field}__to"]
+
+      result = []
+
+      if from.present?
+        result.push(
+          [
+            "`#{model_class.human_attribute_name(field)}`",
+            search_phrase_for("#{field}__from"),
+            "< #{search_criteria["#{field}__from"]} >"
+          ].join(' ')
+        )
+      end
+
+      if to.present?
+        result.push(
+          [
+            "`#{model_class.human_attribute_name(field)}`",
+            search_phrase_for("#{field}__to"),
+            "< #{search_criteria["#{field}__to"]} >"
+          ].join(' ')
+        )
+      end
+
+      result
     end
 
     def filters
       fields.map{|field|
-        next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
         if input_type_for(field) == :boolean
+          next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
           [
             search_phrase_for(field),
             "`#{model_class.human_attribute_name(field)}`"
           ].join(' ')
+        elsif input_type_for(field) == :calendar
+          calendar_filter_for(field)
         else
+          next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
+          real_field = real_field_for(field)
           [
-            "`#{model_class.human_attribute_name(field)}`",
+            "`#{model_class.human_attribute_name(real_field)}`",
             search_phrase_for(field),
             "< #{search_criteria[field.to_s]} >"
           ].join(' ')
         end
-      }.compact
+      }.compact.flatten
     end
 
     def search_phrase_for(field)
@@ -118,11 +160,20 @@ module Krudmin
       @params = fields_with_values.inject({}) do |hash, key|
         criteria = search_criteria["#{key}_options"]
         unless criteria.blank?
-          hash["#{key}_#{criteria}"] = search_criteria[key]
-          if input_type_for(key) == :calendar
+          if input_type_for(real_field_for(key)) == :calendar
             attrs[key] = Date.parse(search_criteria[key])
+
+            if key.to_s.end_with?("__to")
+              attrs[key] = attrs[key].end_of_day
+              hash["#{real_field_for(key)}_#{criteria}"] = attrs[key]
+            else
+              attrs[key] = attrs[key].beginning_of_day
+              hash["#{real_field_for(key)}_#{criteria}"] = attrs[key]
+            end
+
           else
             attrs[key] = search_criteria[key]
+            hash["#{key}_#{criteria}"] = search_criteria[key]
           end
           attrs["#{key}_options"] = criteria
         end
