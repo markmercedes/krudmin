@@ -42,12 +42,23 @@ module Krudmin
         self::HTML_ATTRS
       end
 
-      def render(page, h = nil)
+      def render(page, h = nil, options = {})
+        # binding.pry if attribute == :active
         if respond_to?("render_#{page}")
-          send("render_#{page}", page, h)
+          send("render_#{page}", page, h, options)
         else
+          # attribute
           to_s
         end
+      end
+
+      def render_form(page, h, options)
+        options.fetch(:form).input(attribute)
+      end
+
+      def render_search(page, h, options)
+        # = f.text_field field, required: false, class: "form-control"
+        options.fetch(:form).text_field(attribute, class: "form-control", required: false)
       end
 
       def to_s

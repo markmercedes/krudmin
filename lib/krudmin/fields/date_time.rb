@@ -1,6 +1,8 @@
 module Krudmin
   module Fields
     class DateTime < Base
+      SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
+
       def date
         I18n.localize(
           data.in_time_zone(timezone).to_date,
@@ -18,7 +20,9 @@ module Krudmin
 
       def to_s
         case value
-        when Date
+        when ::DateTime
+          datetime
+        when ::Date
           date
         else
           datetime

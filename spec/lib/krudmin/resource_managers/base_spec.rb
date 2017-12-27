@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'rspec/mocks'
 
+require "#{Dir.pwd}/lib/krudmin/fields/base"
+require "#{Dir.pwd}/lib/krudmin/fields/number"
+require "#{Dir.pwd}/lib/krudmin/fields/String"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/base"
 
 describe Krudmin::ResourceManagers::Base do
@@ -24,12 +27,28 @@ describe Krudmin::ResourceManagers::Base do
     RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :description
     PREPEND_ROUTE_PATH = :namespace
     RESOURCE_NAME = "Item"
+    ATTRIBUTE_TYPES = {priority: [Krudmin::Fields::Number, {decimals: 3}]}
   end
 
   subject { MockedGateway.new }
 
   before do
     allow(subject).to receive(:routes) { predefined_routes }
+  end
+
+  it do
+    expect(subject.field_type_for(:priority)).to eq(Krudmin::Fields::Number)
+    expect(subject.field_for(:priority, 9001.199999).to_s).to eq("9001.200")
+    expect(subject.html_class_for(:priority)).to eq("text-right")
+  end
+
+  it do
+    expect(subject.model_label(OpenStruct.new(description: "hello"))).to eq("hello")
+  end
+
+  it do
+    expect(subject.field_type_for(:description)).to eq(Krudmin::Fields::String)
+    expect(subject.field_for(:description, "Llame pa verte").to_s).to eq("Llame pa verte")
   end
 
   it do
@@ -59,12 +78,6 @@ describe Krudmin::ResourceManagers::Base do
     expect(subject.resource_path(model_id)).to eq("resource_path")
     expect(subject.edit_resource_path(model_id)).to eq("edit_resource_path")
     expect(subject.resource_root).to eq("resource_root")
-
-
-
-
-    # expect(subject.new_resource_path).to eq("new_namespace_item_path")
-    # expect(subject.activate_path(model_id)).to eq("new_namespace_item_path")
   end
 
   describe "label_for" do

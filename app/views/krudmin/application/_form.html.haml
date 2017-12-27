@@ -11,7 +11,7 @@
       = content_tag :div, msg, class: "alert alert-danger"
 
   .row
-    .col-md-8
+    .col-md-6
       = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
         .card
           .card-header
@@ -23,6 +23,6 @@
             - else
               - editable_attributes.each do |attribute|
                 .form-group
-                  = f.input attribute
+                  = field_for(attribute, model.send(attribute)).render(:form, self, {form: f})
 
           = render partial: "form_action_buttons"

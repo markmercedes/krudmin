@@ -28,11 +28,16 @@ module Krudmin
       end
 
       def field_type_for(field)
-        self.class::ATTRIBUTE_TYPES[field] || default_attribute_type
+        Array(self.class::ATTRIBUTE_TYPES[field]).first || default_attribute_type
       end
 
-      def formatted_field_for(field, data)
-        field_type_for(field).new(field, data)
+      def field_options_for(field)
+        metadata = self.class::ATTRIBUTE_TYPES[field]
+        metadata.is_a?(Array) ? metadata[1] : {}
+      end
+
+      def field_for(field, data)
+        field_type_for(field).new(field, data, field_options_for(field))
       end
 
       def self.constantized_methods(*attrs)

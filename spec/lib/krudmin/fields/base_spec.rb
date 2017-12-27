@@ -33,7 +33,7 @@ describe Krudmin::Fields::Base do
     context "with custom renderer" do
       it "is able to render custom views" do
         class FieldWithCustomRender < described_class
-          def render_show(page, h)
+          def render_show(page, h, options)
             h.render("/krudmin/fields/#{page}")
           end
         end

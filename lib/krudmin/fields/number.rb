@@ -2,16 +2,17 @@ module Krudmin
   module Fields
     class Number < Base
       HTML_CLASS = 'text-right'
+      SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
 
       def to_s
         data.nil? ? "-" : format_string % value
       end
 
       def value
-        data.round(decimals) * options.fetch(:multiplier, 1)
+        (data * options.fetch(:multiplier, 1)).round(decimals)
       end
 
-      def render_list(page, h)
+      def render_list(page, h, options)
         h.number_with_delimiter(value)
       end
 

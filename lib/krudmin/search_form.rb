@@ -42,40 +42,31 @@ module Krudmin
       translation_for(:no) => :false
     }.freeze
 
-    TYPE_PREDICATES = {
-      numeric: [:eq, :not_eq, :lt, :lteq, :gt, :gteq],
-      calendar: [:eq, :not_eq, :lt, :lteq, :gt, :gteq],
-      string: [:cont, :eq, :matches, :does_not_match, :start, :not_start, :end, :not_end],
-      boolean: [:true, :false],
-    }.freeze
-
-    LABELIZED_TYPE_PREDICATES = TYPE_PREDICATES.inject({}) {|hash, type|
-        hash[type.first] = SEARCH_PREDICATES.select{|label, key| type.last.include?(key) }
-        hash
-      }.freeze
-
     def input_type_for(field)
       case model_class.type_for_attribute(field.to_s).type
       when :decimal, :integer, :bigint, :float
-        :numeric
+        Krudmin::Fields::Number
       when :date, :datetime, :timestamp
-        :calendar
+        Krudmin::Fields::DateTime
       when :boolean
-        :boolean
+        Krudmin::Fields::Boolean
       else
-        :string
+        Krudmin::Fields::String
       end
     end
 
     def search_predicates_for(field)
-      LABELIZED_TYPE_PREDICATES[input_type_for(field)]
+      input_type_for(field)::SEARCH_PREDICATES.inject({}) {|hash, type|
+        hash[type.first] = SEARCH_PREDICATES.select{|label, key| type.last.include?(key) }
+        hash
+      }.freeze
     end
 
     def initialize(fields, model_class)
       @model_class = model_class
 
       @enhanced_fields = (fields.map do |field|
-        if input_type_for(field) == :calendar
+        if input_type_for(field) == Krudmin::Fields::DateTime
           ["#{field}__from".to_sym, "#{field}__to".to_sym]
         else
           field
@@ -128,13 +119,13 @@ module Krudmin
 
     def filters
       fields.map{|field|
-        if input_type_for(field) == :boolean
+        if input_type_for(field) == Krudmin::Fields::Boolean
           next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
           [
             search_phrase_for(field),
             "`#{model_class.human_attribute_name(field)}`"
           ].join(' ')
-        elsif input_type_for(field) == :calendar
+        elsif input_type_for(field) == Krudmin::Fields::DateTime
           calendar_filter_for(field)
         else
           next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
@@ -160,7 +151,7 @@ module Krudmin
       @params = fields_with_values.inject({}) do |hash, key|
         criteria = search_criteria["#{key}_options"]
         unless criteria.blank?
-          if input_type_for(real_field_for(key)) == :calendar
+          if input_type_for(real_field_for(key)) == Krudmin::Fields::DateTime
             attrs[key] = Date.parse(search_criteria[key])
 
             if key.to_s.end_with?("__to")

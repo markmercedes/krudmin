@@ -3,6 +3,7 @@ module Krudmin
     class Boolean < Base
       include Krudmin::ActivableLabeler
 
+      SEARCH_PREDICATES = [:true, :false]
       HTML_CLASS = 'text-center'
 
       def to_s

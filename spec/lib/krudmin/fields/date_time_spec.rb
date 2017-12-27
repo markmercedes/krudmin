@@ -18,15 +18,35 @@ describe Krudmin::Fields::DateTime do
     expect(subject.date).to eq("1989-12-14")
   end
 
-  it "can be displayed as datetime" do
-    expect(subject.datetime).to eq("Thu, 14 Dec 1989 15:01:32 +0000")
+  context "datetime" do
+    let(:options) { {format: "%H %d %p"} }
+
+    it "can be displayed as datetime" do
+      expect(subject.datetime).to eq("15 14 PM")
+      expect(subject.to_s).to eq("15 14 PM")
+    end
   end
 
-  describe "display formats" do
-    let(:options) { {format: :short} }
+  context "date" do
+    describe "display formats" do
+      let(:options) { {format: :short} }
+      let(:date) { Date.new(1989, 12, 14) }
 
-    it do
-      expect(subject.date).to eq("Dec 14")
+      it do
+        expect(subject.to_s).to eq("Dec 14")
+        expect(subject.date).to eq("Dec 14")
+      end
+    end
+  end
+
+  context "time and others" do
+    describe "fallbacks to datetime" do
+      let(:options) { {format: :short} }
+      let(:date) { Time.new(1989, 12, 14) }
+
+      it do
+        expect(subject.to_s).to eq("14 Dec 04:00")
+      end
     end
   end
 end

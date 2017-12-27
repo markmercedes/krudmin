@@ -1,6 +1,16 @@
 require 'spec_helper'
 
+require "krudmin/labelize_methods"
+require "krudmin/activable_labeler"
 require "#{Dir.pwd}/lib/krudmin/search_form"
+require "krudmin/fields/base"
+require "krudmin/fields/string"
+require "krudmin/fields/number"
+require "krudmin/fields/date_time"
+require "krudmin/fields/boolean"
+require "krudmin/fields/associated"
+require "krudmin/fields/belongs_to"
+require "krudmin/fields/enum_type"
 
 describe Krudmin::SearchForm do
   let(:fields) { [:name, :age, :active, :arrival_date] }
