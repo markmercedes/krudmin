@@ -3,11 +3,13 @@ require 'spec_helper'
 require "#{Dir.pwd}/lib/krudmin/search_form"
 
 describe Krudmin::SearchForm do
-  let(:fields) { [:name, :age, :active] }
+  let(:fields) { [:name, :age, :active, :arrival_date] }
 
   module MockedModel
     def self.type_for_attribute(attribute)
-      case attribute
+      case attribute.to_s
+      when "arrival_date"
+        OpenStruct.new(type: :date)
       when "active"
         OpenStruct.new(type: :boolean)
       else
@@ -33,6 +35,26 @@ describe Krudmin::SearchForm do
       expect(subject.attrs).to eq({"name" => :MyName, "age" => 9001, "active" => "true"})
 
       expect{ subject.undefined_field }.to raise_error(NoMethodError)
+    end
+  end
+
+  describe "Dynamic attribute assignment" do
+    it do
+      subject.arrival_date__from = "2017-11-11"
+      expect(subject.arrival_date__from).to eq("2017-11-11")
+
+      subject.arrival_date__from_options = :gteq
+
+      subject.fill_with({"arrival_date__from" => "2017-11-10", "arrival_date__from_options" => "gteq", "arrival_date__to" => "2017-11-15", "arrival_date__to_options" => "lteq"})
+
+      expect(subject.fields).to eq([:name, :age, :active, :arrival_date])
+      expect(subject.enhanced_fields).to eq([:name, :age, :active, :arrival_date__from, :arrival_date__to])
+
+      expect(subject.params).to eq({"arrival_date_gteq"=>Date.parse("2017-11-10").beginning_of_day, "arrival_date_lteq"=>Date.parse("2017-11-15").end_of_day})
+
+      expect(subject.attrs).to eq({"arrival_date__from"=>Date.parse("2017-11-10").beginning_of_day, "arrival_date__from_options" => "gteq", "arrival_date__to"=>Date.parse("2017-11-15").end_of_day, "arrival_date__to_options"=>"lteq"})
+
+      expect(subject.filters).to eq(["`arrival_date` Is greater than or equal to < 2017-11-10 >", "`arrival_date` Is less than or equal to < 2017-11-15 >"])
     end
   end
 
