@@ -26,7 +26,6 @@ module Krudmin
         form.association association_name, collection: associated_options, label_method: collection_label_field, value_method: :id, input_html: {class: 'form-control select2', include_blank: true}
       end
 
-
       def render_search(page, h, options)
         form = options.fetch(:form)
         search_form = options.fetch(:search_form)
