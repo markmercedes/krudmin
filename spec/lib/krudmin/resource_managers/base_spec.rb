@@ -3,7 +3,7 @@ require 'rspec/mocks'
 
 require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/number"
-require "#{Dir.pwd}/lib/krudmin/fields/String"
+require "#{Dir.pwd}/lib/krudmin/fields/string"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/base"
 
 describe Krudmin::ResourceManagers::Base do

@@ -3,6 +3,13 @@ require 'spec_helper'
 require_relative '../../../lib/krudmin/navigation_items'
 
 describe Krudmin::NavigationItems do
+  before do
+    stuff = double(link: :link)
+    allow_any_instance_of(Krudmin::NavigationItems).to receive(:routes).and_return(stuff)
+    allow_any_instance_of(Krudmin::NavigationItems::Node).to receive(:routes).and_return(stuff)
+    allow(Krudmin::NavigationItems::Node).to receive(:routes).and_return(stuff)
+  end
+
   let(:items) {
     [
       Krudmin::NavigationItems::Node.new(:label, :link),
@@ -25,6 +32,7 @@ describe Krudmin::NavigationItems do
         expect(instance.label).to eql("Link Label")
         expect(instance.link).to eql("My Link")
         expect(instance.icon).to eql(:iconName)
+        expect(instance.label_class).to eql("menu-node-link-label")
         expect(instance.visible).to be_truthy
       }
     end

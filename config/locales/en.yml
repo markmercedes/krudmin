@@ -6,6 +6,8 @@ en:
       inactive: Inactive
       'yes': "Yes"
       'no': "No"
+      edit_profile: "Edit Profile"
+      logout: "Logout"
     search:
       contains: "Contains"
       equals: "Equals"

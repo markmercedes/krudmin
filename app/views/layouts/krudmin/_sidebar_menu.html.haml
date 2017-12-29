@@ -5,7 +5,7 @@
         Menu
       - menu_items.each do |item|
         - if item.items.any?
-          %li.nav-item.nav-dropdown
+          %li.nav-item.nav-dropdown{class: item.label_class}
             = link_to(item.link, class: "nav-link nav-dropdown-toggle") do
               %i{class: "fa fa-#{item.icon}"}
               = t(item.label)
@@ -16,7 +16,7 @@
                     %i{class: "fa fa-#{child_item.icon}"}
                     = child_item.label
         - else
-          %li.nav-item
+          %li.nav-item{class: item.label_class}
             = link_to(item.link, class: "nav-link") do
               %i{class: "fa fa-#{item.icon}"}
               = t(item.label)

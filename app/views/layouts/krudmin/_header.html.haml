@@ -7,7 +7,7 @@
   %ul.nav.navbar-nav.d-md-down-none
     %li.nav-item.px-3
       %a.nav-link{href: krudmin_root_path} Dashboard
-  %ul.nav.navbar-nav.ml-auto
+  %ul.nav.navbar-nav.ml-auto#main-user-menu
     - if _current_user
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle.nav-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
@@ -20,10 +20,10 @@
             %strong Settings
           = link_to(send(Krudmin::Config.edit_profile_path, _current_user), class: 'dropdown-item') do
             %i.fa.fa-user
-            Perfil
+            = I18n.t('krudmin.labels.edit_profile')
           = link_to(send(Krudmin::Config.logout_path), method: :delete, data: {no_turbolink: true}, class: 'dropdown-item') do
             %i.fa.fa-lock
-            Salir
+            = I18n.t('krudmin.labels.logout')
   -# %button.navbar-toggler
   -#   %button.navbar-toggler.aside-menu-toggler{type: "button"}
   -#     %span.navbar-toggler-icon

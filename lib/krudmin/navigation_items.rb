@@ -31,10 +31,12 @@ module Krudmin
     class Node
       include Enumerable
 
-      attr_reader :label, :link, :visible, :items, :icon, :module_path
+      attr_reader :label, :link, :label_class, :visible, :items, :icon, :module_path
 
       def initialize(label, link, visible: true, items: [], icon: :file, module_path: nil)
         @label, @visible, @items, @icon, @module_path = label, visible, items, icon, module_path
+
+        @label_class = "menu-node-#{label}".parameterize
 
         @link = link.is_a?(Symbol) ? routes.send(link) : link
       end
@@ -49,7 +51,7 @@ module Krudmin
         end
 
         def node_for(label, resource, visible: true, icon: :file, module_path: nil, manage: true, add: true)
-          new(label, "#", items: links_for(resource, module_path, manage: manage, add: add), icon: icon, visible: visible) if(manage || add)
+          new(label, "#", items: links_for(resource, module_path, manage: manage, add: add), icon: icon, visible: visible, module_path: module_path) if(manage || add)
         end
 
         def links_for(resource, module_path = '', manage: true, add: true)
