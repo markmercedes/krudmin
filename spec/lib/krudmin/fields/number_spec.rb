@@ -3,10 +3,10 @@ require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/number"
 
 describe Krudmin::Fields::Number do
-  let(:data) { 9001  }
+  let(:model) { double(level: 9001) }
   let(:options) { {resource: "Humanoid"} }
 
-  subject { described_class.new(:level, data, options ) }
+  subject { described_class.new(:level, model, options ) }
 
   it "is aligned to the right" do
     expect(described_class::HTML_CLASS).to eq('text-right')
@@ -34,7 +34,7 @@ describe Krudmin::Fields::Number do
     end
 
     context "with limited decimals" do
-      let(:data) { 7.123456 }
+      let(:model) { double(level: 7.123456) }
       let(:options) { {resource: "Humanoid", decimals: 2} }
 
       it "truncates size to given decimal number" do

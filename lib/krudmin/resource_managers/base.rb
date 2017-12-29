@@ -23,21 +23,25 @@ module Krudmin
         Krudmin::Fields::String
       end
 
+      def attribute_types
+        self.class::ATTRIBUTE_TYPES
+      end
+
       def html_class_for(field)
         field_type_for(field).html_class
       end
 
       def field_type_for(field)
-        Array(self.class::ATTRIBUTE_TYPES[field]).first || default_attribute_type
+        Array(attribute_types[field]).first || default_attribute_type
       end
 
       def field_options_for(field)
-        metadata = self.class::ATTRIBUTE_TYPES[field]
+        metadata = attribute_types[field]
         metadata.is_a?(Array) ? metadata[1] : {}
       end
 
-      def field_for(field, data = nil)
-        field_type_for(field).new(field, data, field_options_for(field))
+      def field_for(field, model = nil)
+        field_type_for(field).new(field, model, field_options_for(field))
       end
 
       def self.constantized_methods(*attrs)

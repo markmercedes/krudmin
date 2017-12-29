@@ -4,10 +4,10 @@ require "#{Dir.pwd}/lib/krudmin/fields/date_time"
 
 describe Krudmin::Fields::DateTime do
   let(:date) { DateTime.new(1989, 12, 14, 15, 01, 32) }
-  let(:data) { date }
+  let(:model) { double(birthday: date) }
   let(:options) { {} }
 
-  subject { described_class.new(:birthday, data, options) }
+  subject { described_class.new(:birthday, model, options) }
 
   it "hash a value" do
     expect(subject.attribute).to eq :birthday

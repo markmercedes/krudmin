@@ -38,7 +38,7 @@ describe Krudmin::ResourceManagers::Base do
 
   it do
     expect(subject.field_type_for(:priority)).to eq(Krudmin::Fields::Number)
-    expect(subject.field_for(:priority, 9001.199999).to_s).to eq("9001.200")
+    expect(subject.field_for(:priority, double(priority: 9001.199999)).to_s).to eq("9001.200")
     expect(subject.html_class_for(:priority)).to eq("text-right")
   end
 
@@ -48,7 +48,7 @@ describe Krudmin::ResourceManagers::Base do
 
   it do
     expect(subject.field_type_for(:description)).to eq(Krudmin::Fields::String)
-    expect(subject.field_for(:description, "Llame pa verte").to_s).to eq("Llame pa verte")
+    expect(subject.field_for(:description, double(description: "Llame pa verte")).to_s).to eq("Llame pa verte")
   end
 
   it do

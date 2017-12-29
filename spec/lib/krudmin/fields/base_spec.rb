@@ -2,10 +2,10 @@ require "spec_helper"
 require "#{Dir.pwd}/lib/krudmin/fields/base"
 
 describe Krudmin::Fields::Base do
-  let(:data) { "Goku" }
+  let(:model) { double(name: "Goku") }
   let(:options) { {resource: "Humanoid"} }
 
-  subject { described_class.new(:name, data, options ) }
+  subject { described_class.new(:name, model, options ) }
 
   it "Extracts the resource from the options hash and removes that key without modifying the original options hash" do
     expect(subject.resource).to eq("Humanoid")

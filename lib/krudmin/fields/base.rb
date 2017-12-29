@@ -5,13 +5,17 @@ module Krudmin
       HTML_FORMAT = ''
       HTML_ATTRS = {}
 
-      attr_accessor :attribute, :data, :resource, :options
-      def initialize(attribute, data, options = {})
+      attr_accessor :attribute, :model, :resource, :options, :model
+      def initialize(attribute, model, options = {})
         @attribute = attribute
-        @data = data
+        @model = model
         options = options.dup
         @resource = options.delete(:resource)
         @options = options
+      end
+
+      def data
+        @data ||= model and model.send(attribute)
       end
 
       def value
@@ -43,11 +47,9 @@ module Krudmin
       end
 
       def render(page, h = nil, options = {})
-        # binding.pry if attribute == :active
         if respond_to?("render_#{page}")
           send("render_#{page}", page, h, options)
         else
-          # attribute
           to_s
         end
       end

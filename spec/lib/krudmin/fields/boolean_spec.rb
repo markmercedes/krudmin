@@ -5,10 +5,10 @@ require "#{Dir.pwd}/lib/krudmin/fields/boolean"
 require "arbre"
 
 describe Krudmin::Fields::Boolean do
-  subject { described_class.new(:level, data) }
+  subject { described_class.new(:level, model) }
 
   context "true" do
-    let(:data) { true }
+    let(:model) { double(level: true) }
 
     it "generates a decorated label with positive value inside" do
       expect(subject.to_s.to_s).to eq("<span class=\"badge badge-success\">Yes</span>\n")
@@ -16,7 +16,7 @@ describe Krudmin::Fields::Boolean do
   end
 
   context "false" do
-    let(:data) { false }
+    let(:model) { double(level: false) }
 
     it "generates a decorated label negative true value inside" do
       expect(subject.to_s.to_s).to eq("<span class=\"badge badge-danger\">No</span>\n")

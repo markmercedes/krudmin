@@ -23,6 +23,6 @@
             - else
               - editable_attributes.each do |attribute|
                 .form-group
-                  = field_for(attribute, model.send(attribute)).render(:form, self, {form: f})
+                  = field_for(attribute, model).render(:form, self, {form: f})
 
           = render partial: "form_action_buttons"

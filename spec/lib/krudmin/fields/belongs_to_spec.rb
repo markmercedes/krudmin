@@ -5,8 +5,8 @@ require "#{Dir.pwd}/lib/krudmin/fields/associated"
 require "#{Dir.pwd}/lib/krudmin/fields/belongs_to"
 
 describe Krudmin::Fields::BelongsTo do
-  let(:data) { 1 }
-  subject { described_class.new(:ranger, data) }
+  let(:model) { double(ranger: 1) }
+  subject { described_class.new(:ranger, model) }
 
   module Ranger
     class << self
@@ -41,7 +41,7 @@ describe Krudmin::Fields::BelongsTo do
     end
 
     describe "associated_options" do
-      subject { described_class.new(:ranger, data, {association_predicate: -> (source) { source.main }}) }
+      subject { described_class.new(:ranger, model, {association_predicate: -> (source) { source.main }}) }
 
       it "executes the main method as the given scope" do
         expect(subject.associated_options).to eq(Ranger.main)
