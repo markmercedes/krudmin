@@ -11,7 +11,7 @@
       = content_tag :div, msg, class: "alert alert-danger"
 
   .row
-    .col-md-6
+    #div{class: content_for?(:form_container_klass) ? yield(:form_container_klass) : "col-md-6"}
       = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
         .card
           .card-header
