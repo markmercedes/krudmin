@@ -1,5 +1,4 @@
 class Car < ApplicationRecord
-  include Krudmin::LabelizedMethods
   include Krudmin::ActivableLabeler
 
   validates :model, :year, presence: true

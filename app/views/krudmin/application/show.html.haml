@@ -20,7 +20,7 @@
                 %th
                   = model_class.human_attribute_name(attribute)
                 %td
-                  = field_for(attribute, model.send("#{attribute}__label")).render(:list, self)
+                  = field_for(attribute, model).render(:list, self)
           .form-group
             = link_to edit_resource_path(model), class: "btn btn-success" do
               %i.fa.fa-pencil

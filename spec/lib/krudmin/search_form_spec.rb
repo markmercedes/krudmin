@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-require "krudmin/labelize_methods"
 require "krudmin/activable_labeler"
 require "#{Dir.pwd}/lib/krudmin/search_form"
 require "krudmin/fields/base"
