@@ -1,3 +1,6 @@
+- content_for(:page_title) do
+  = resources_label
+
 - content_for :breadcrumb do
   %li.breadcrumb-item.active
     = link_to(resource_root) do

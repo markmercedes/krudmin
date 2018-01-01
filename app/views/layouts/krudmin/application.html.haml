@@ -5,6 +5,8 @@
     %meta{charset: "utf-8"}/
     %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
     %meta{content: "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %title
+      = content_for?(:page_title) ? yield(:page_title) : try(:crud_title)
     = stylesheet_link_tag    'krudmin/application', media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag 'krudmin/application', 'data-turbolinks-track' => 'reload'
 
