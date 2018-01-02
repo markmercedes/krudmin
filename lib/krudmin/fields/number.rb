@@ -3,23 +3,29 @@ module Krudmin
     class Number < Base
       HTML_CLASS = 'text-right'
       SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
+      DEFAULT_VALUE = '-'
+      DEFAULT_PADDING_VALUE = '0'
 
       def to_s
-        data.nil? ? "-" : format_string % value
+        data.nil? ? default_value : format_string % value
       end
 
       def value
-        (data * options.fetch(:multiplier, 1)).round(decimals)
+        (data * options.fetch(:multiplier, 1)).round(decimals) if data
       end
 
       def render_list(page, h, options)
-        h.number_with_delimiter(value)
+        h.number_with_delimiter(to_s)
       end
 
       private
 
+      def default_value
+        options.fetch(:default_value, DEFAULT_VALUE)
+      end
+
       def format_string
-        prefix + "%.#{decimals}f" + suffix
+        (prefix + "%.#{decimals}f" + suffix).rjust(padding, pad_with)
       end
 
       def prefix
@@ -34,6 +40,14 @@ module Krudmin
         _left, right = data.to_s.split(".")
         default = right.nil? ? 0 : right.size
         options.fetch(:decimals, default)
+      end
+
+      def pad_with
+        options.fetch(:pad_with, DEFAULT_PADDING_VALUE)
+      end
+
+      def padding
+        options.fetch(:padding, 0)
       end
     end
   end
