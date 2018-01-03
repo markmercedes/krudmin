@@ -4,6 +4,8 @@ require 'rspec/mocks'
 require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/number"
 require "#{Dir.pwd}/lib/krudmin/fields/string"
+require "#{Dir.pwd}/lib/krudmin/fields/associated"
+require "#{Dir.pwd}/lib/krudmin/fields/has_many"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/base"
 
 describe Krudmin::ResourceManagers::Base do
@@ -20,14 +22,27 @@ describe Krudmin::ResourceManagers::Base do
   class MockedGateway < described_class
     MODEL_CLASSNAME = 'Krudmin::ItemSpecModel'
     LISTABLE_ATTRIBUTES = [:description, :priority]
-    EDITABLE_ATTRIBUTES = [:description]
+    EDITABLE_ATTRIBUTES = [:description, :properties]
     LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
     ORDER_BY = {description: :desc}
     LISTABLE_INCLUDES = [:logs]
     RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :description
     PREPEND_ROUTE_PATH = :namespace
     RESOURCE_NAME = "Item"
-    ATTRIBUTE_TYPES = {priority: [Krudmin::Fields::Number, {decimals: 3}]}
+    ATTRIBUTE_TYPES = {
+      priority: [Krudmin::Fields::Number, {decimals: 3}],
+      properties: Krudmin::Fields::HasMany
+    }
+  end
+
+  class PropertiesResourceManager < described_class
+    MODEL_CLASSNAME = 'Krudmin::ItemSpecModel'
+    EDITABLE_ATTRIBUTES = [:description, :year]
+
+    ATTRIBUTE_TYPES = {
+      description: Krudmin::Fields::String,
+      year: [Krudmin::Fields::Number, {decimals: 3}],
+    }
   end
 
   subject { MockedGateway.new }
@@ -102,11 +117,11 @@ describe Krudmin::ResourceManagers::Base do
       end
 
       it do
-        expect(subject.editable_attributes).to eq([:description])
+        expect(subject.editable_attributes).to eq([:description, :properties])
       end
 
       it do
-        expect(subject.permitted_attributes).to eq([:description])
+        expect(subject.permitted_attributes).to eq([:description, properties_attributes: [:id, :description, :year, :_destroy]])
       end
 
       it do
@@ -162,6 +177,23 @@ describe Krudmin::ResourceManagers::Base do
 
     it do
       expect(subject.edit_route_path).to eq("edit_namespace_item_path")
+    end
+  end
+
+  describe "attribute_types" do
+    it do
+      expect(subject.attribute_types).to eq(
+        {
+          :priority=>[Krudmin::Fields::Number, {:decimals=>3}],
+          :properties=>Krudmin::Fields::HasMany,
+          "properties__types" => Krudmin::Fields::HasMany.new(:properties, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+        }
+      )
+    end
+
+    it do
+      expect(subject.field_for(:year, nil, root: :properties)).to be_a(Krudmin::Fields::Number)
+      expect(subject.field_for(:year, nil, root: :properties).options).to eq({:decimals=>3})
     end
   end
 end
