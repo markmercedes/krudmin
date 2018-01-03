@@ -1,0 +1,6 @@
+%tr.nested-fields
+  - @field.associated_resource_manager_class::EDITABLE_ATTRIBUTES.each do |attribute|
+    %td
+      = field_for(attribute, @field.model).render(:form, self, {form: f, input: {label: false}})
+  %td
+    = link_to_remove_association "Eliminar", f, class: 'btn btn-danger pull-right'

@@ -37,6 +37,10 @@ module Krudmin
         @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize
       end
 
+      def render_form(page, h, options)
+        h.render(partial: "has_many_form", locals: {options: options, page: page, field: self})
+      end
+
       private
 
       def inferred_resource_manager
