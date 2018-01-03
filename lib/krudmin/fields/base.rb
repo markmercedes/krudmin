@@ -22,6 +22,10 @@ module Krudmin
         data
       end
 
+      def self.is?(klass)
+        klass == self
+      end
+
       def html_class
         self.class::HTML_CLASS
       end

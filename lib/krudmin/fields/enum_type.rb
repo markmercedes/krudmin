@@ -6,6 +6,10 @@ module Krudmin
         value
       end
 
+      def enum_value
+        @enum_value ||= model and model.send("#{attribute}_before_type_cast")
+      end
+
       def collection_label_field
         @collection_label_field ||= options.fetch(:collection_label_field, :label)
       end
@@ -21,7 +25,7 @@ module Krudmin
       def render_form(page, h, options)
         form = options.fetch(:form)
 
-        form.select(attribute, h.options_for_select(associated_options, value), {}, class: "form-control")
+        form.select(attribute, h.options_for_select(associated_options, enum_value), {}, class: "form-control")
       end
     end
   end

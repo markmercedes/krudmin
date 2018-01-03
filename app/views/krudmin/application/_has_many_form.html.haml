@@ -18,4 +18,4 @@
         %td{colspan: (field.associated_resource_manager_class::EDITABLE_ATTRIBUTES.count + 1)}
           = link_to_add_association(form, field.association_name, class: "btn btn-warning", partial: "has_many_fields", data: {association_insertion_node: ".krudmin-nested-fields-#{field.association_name}", association_insertion_method: :append}) do
             %i.fa.fa-plus
-            Agregar Editorial
+            = t('krudmin.actions.add_new')

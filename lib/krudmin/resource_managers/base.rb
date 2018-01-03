@@ -24,24 +24,37 @@ module Krudmin
       end
 
       def attribute_types
-        self.class::ATTRIBUTE_TYPES
+        @attribute_types ||= self.class::ATTRIBUTE_TYPES.inject({}) do |hash, item|
+          hash[item.first] = item.last
+          hash["#{item.first}__types"] = item.last.new(item.first, nil).associated_resource_manager_class::ATTRIBUTE_TYPES if Krudmin::Fields::HasMany.is?(item.last)
+          hash
+        end
       end
 
-      def html_class_for(field, model = nil)
-        field_type_for(field, model).html_class
+      def html_class_for(field, model = nil, root: nil)
+        field_type_for(field, model, root: root).html_class
       end
 
-      def field_type_for(field, model = nil)
-        Array(attribute_types[field]).first || default_attribute_type
+      def field_type_for(field, model = nil, root: nil)
+        if root
+          Array(attribute_types["#{root}__types"][field]).first
+        else
+          Array(attribute_types[field]).first
+        end || default_attribute_type
       end
 
-      def field_options_for(field, model = nil)
-        metadata = attribute_types[field]
+      def field_options_for(field, root: nil)
+        metadata = if root
+          attribute_types["#{root}__types"][field]
+        else
+          attribute_types[field]
+        end
+
         metadata.is_a?(Array) ? metadata[1] : {}
       end
 
-      def field_for(field, model = nil)
-        field_type_for(field, model).new(field, model, field_options_for(field))
+      def field_for(field, model = nil, root: nil)
+        field_type_for(field, model, root: root).new(field, model, field_options_for(field, root: root))
       end
 
       def self.constantized_methods(*attrs)
@@ -111,13 +124,23 @@ module Krudmin
       end
 
       def editable_attributes
-        self.class::EDITABLE_ATTRIBUTES.map do |field|
-          field.is_a?(Hash) ? field.first.first : field
-        end
+        self.class::EDITABLE_ATTRIBUTES
+      end
+
+      def has_many_edittable_hash_for(attribute)
+        field = Krudmin::Fields::HasMany.new(attribute, nil)
+
+        {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class::EDITABLE_ATTRIBUTES, :_destroy]}
       end
 
       def permitted_attributes
-        self.class::EDITABLE_ATTRIBUTES
+        self.class::EDITABLE_ATTRIBUTES.map do |attribute|
+          if field_type = attribute_types[attribute]
+            next has_many_edittable_hash_for(attribute) if Krudmin::Fields::HasMany.is?(field_type)
+          end
+
+          attribute
+        end
       end
 
       def label_for(given_model)
@@ -138,6 +161,10 @@ module Krudmin
 
       def model_class
         @model_class ||= model_classname.constantize
+      end
+
+      def self.model_class
+        self::MODEL_CLASSNAME.constantize
       end
 
       def routes
