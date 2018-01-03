@@ -55,7 +55,7 @@ module Krudmin
       end
 
       def render_form(page, h, options)
-        options.fetch(:form).input(attribute)
+        options.fetch(:form).input(attribute, options.fetch(:input, {}))
       end
 
       def render_search(page, h, options)
