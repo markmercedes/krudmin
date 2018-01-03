@@ -1,0 +1,10 @@
+%div{class: metadata.fetch(:class, 'col-lg-6 col-md-12')}
+  .card
+    .card-header
+      %strong= metadata.fetch(:label)
+    .card-body
+      - metadata.fetch(:attributes).each do |attribute|
+        .form-group
+          = field_for(attribute, model).render(:form, self, {form: f})
+    - if action_buttons
+      = render partial: "form_action_buttons"

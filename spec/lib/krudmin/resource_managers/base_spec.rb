@@ -19,10 +19,29 @@ describe Krudmin::ResourceManagers::Base do
 
   let(:predefined_routes) { double() }
 
+  describe "grouped_attributes" do
+    it do
+      expect(subject.grouped_attributes).to eq({
+        general: {attributes: [:description], label: "GENERALISIMO", class: "col-md-12"},
+        props: {attributes: [:properties], class: "col-md-6", label: "Props"}
+      })
+    end
+  end
+
   class MockedGateway < described_class
     MODEL_CLASSNAME = 'Krudmin::ItemSpecModel'
     LISTABLE_ATTRIBUTES = [:description, :priority]
-    EDITABLE_ATTRIBUTES = [:description, :properties]
+
+    EDITABLE_ATTRIBUTES = {
+      general: [:description],
+      props: [:properties]
+    }
+
+    PRESENTATION_METADATA = {
+      general: { label: "GENERALISIMO", class: "col-md-12" },
+      props: { class: "col-md-6", label: "Props" }
+    }
+
     LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
     ORDER_BY = {description: :desc}
     LISTABLE_INCLUDES = [:logs]

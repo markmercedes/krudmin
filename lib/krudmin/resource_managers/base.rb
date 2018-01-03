@@ -18,6 +18,7 @@ module Krudmin
       RESOURCE_LABEL = ""
       RESOURCES_LABEL = ""
       ATTRIBUTE_TYPES = {}
+      PRESENTATION_METADATA = {}
 
       def default_attribute_type
         Krudmin::Fields::String
@@ -123,18 +124,47 @@ module Krudmin
         routes.send("#{prepend_route_path}_#{resources_name}_path")
       end
 
-      def editable_attributes
+      def raw_editable_attributes
         self.class::EDITABLE_ATTRIBUTES
+      end
+
+      def editable_attributes
+        @editable_attributes ||= if raw_editable_attributes.is_a?(Hash)
+          raw_editable_attributes.values.flatten
+        else
+          raw_editable_attributes
+        end
+      end
+
+      def presentation_metadata
+        self.class::PRESENTATION_METADATA
+      end
+
+      def grouped_attributes
+        @grouped_attributes ||= if raw_editable_attributes.is_a?(Hash)
+          raw_editable_attributes.inject({}) do |hash, value|
+            key = value.first
+            attributes = value.last
+            hash[key] = {attributes: attributes}.merge(presentation_metadata.fetch(key))
+            hash
+          end
+        else
+          {general: {attributes: raw_editable_attributes, label: "General"}}
+        end
       end
 
       def has_many_edittable_hash_for(attribute)
         field = Krudmin::Fields::HasMany.new(attribute, nil)
 
-        {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class::EDITABLE_ATTRIBUTES, :_destroy]}
+        {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class.editable_attributes, :_destroy]}
+      end
+
+      def self.editable_attributes
+        new.editable_attributes
       end
 
       def permitted_attributes
-        self.class::EDITABLE_ATTRIBUTES.map do |attribute|
+        editable_attributes.map do |attribute|
           if field_type = attribute_types[attribute]
             next has_many_edittable_hash_for(attribute) if Krudmin::Fields::HasMany.is?(field_type)
           end
