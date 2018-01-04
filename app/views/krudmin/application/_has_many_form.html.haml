@@ -8,12 +8,12 @@
         %th
           = field.associated_resource_manager_class.model_class.human_attribute_name(attribute)
       %th
-  %tbody{class: "krudmin-nested-fields-#{field.association_name}"}
+  %tbody{id: "krudmin-nested-fields-#{field.association_name}"}
     = form.simple_fields_for field.association_name do |builder|
-      = render 'has_many_fields', f: builder, locals: {field: field}
+      = render field.child_partial_form, f: builder, locals: {field: field}
   %tfoot
     %tr
       %td{colspan: (field.associated_resource_manager_class.editable_attributes.count + 1)}
-        = link_to_add_association(form, field.association_name, class: "btn btn-warning", partial: "has_many_fields", data: {association_insertion_node: ".krudmin-nested-fields-#{field.association_name}", association_insertion_method: :append}) do
+        = link_to_add_association(form, field.association_name, class: "btn btn-warning", partial: field.child_partial_form, data: {association_insertion_node: "#krudmin-nested-fields-#{field.association_name}", association_insertion_method: :append}) do
           %i.fa.fa-plus
           = t('krudmin.actions.add_new')

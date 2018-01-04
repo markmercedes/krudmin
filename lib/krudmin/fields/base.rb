@@ -50,9 +50,17 @@ module Krudmin
         self::HTML_ATTRS
       end
 
+      def renderer
+        @renderer ||= if options[:render_with]
+                        options[:render_with].new(self)
+                      else
+                        self
+                      end
+      end
+
       def render(page, h = nil, options = {})
         if respond_to?("render_#{page}")
-          send("render_#{page}", page, h, options)
+          renderer.send("render_#{page}", page, h, options)
         else
           to_s
         end

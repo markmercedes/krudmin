@@ -38,7 +38,16 @@ module Krudmin
       end
 
       def render_form(page, h, options)
-        h.render(partial: "has_many_form", locals: {options: options, page: page, field: self})
+        h.render(partial: partial_form, locals: {options: options, page: page, field: self})
+      end
+
+      def partial_form
+        options.fetch(:partial_form, "has_many_form")
+
+      end
+
+      def child_partial_form
+        options.fetch(:child_partial_form, "has_many_fields")
       end
 
       private

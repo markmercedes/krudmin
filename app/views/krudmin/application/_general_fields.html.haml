@@ -3,8 +3,10 @@
     .card-header
       %strong= metadata.fetch(:label)
     .card-body
-      - metadata.fetch(:attributes).each do |attribute|
-        .form-group
-          = field_for(attribute, model).render(:form, self, {form: f})
-    - if action_buttons
+      .row
+        - metadata.fetch(:attributes).each do |attribute|
+          %div{class: metadata.fetch(:input_container_class, 'col-md-12')}
+            .form-group
+              = field_for(attribute, model).render(:form, self, {form: f})
+    - if metadata.fetch(:action_buttons, true)
       = render partial: "form_action_buttons"

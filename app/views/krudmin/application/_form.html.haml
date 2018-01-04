@@ -13,7 +13,7 @@
   = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
     .row
       - grouped_attributes.take(1).each do |key, metadata|
-        = render partial: "general_fields", locals: {metadata: metadata, f: f, action_buttons: true}
+        = render partial: "general_fields", locals: {metadata: metadata, f: f}
 
       - grouped_attributes.drop(1).each do |key, metadata|
-        = render partial: "general_fields", locals: {metadata: metadata, f: f, action_buttons: false}
+        = render partial: "general_fields", locals: {metadata: metadata, f: f}

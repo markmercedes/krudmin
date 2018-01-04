@@ -49,8 +49,8 @@ describe Krudmin::ResourceManagers::Base do
     PREPEND_ROUTE_PATH = :namespace
     RESOURCE_NAME = "Item"
     ATTRIBUTE_TYPES = {
-      priority: [Krudmin::Fields::Number, {decimals: 3}],
-      properties: Krudmin::Fields::HasMany
+      priority: {type: Krudmin::Fields::Number, decimals: 3},
+      properties: {type: Krudmin::Fields::HasMany, decimals: 3},
     }
   end
 
@@ -60,7 +60,7 @@ describe Krudmin::ResourceManagers::Base do
 
     ATTRIBUTE_TYPES = {
       description: Krudmin::Fields::String,
-      year: [Krudmin::Fields::Number, {decimals: 3}],
+      year: {type: Krudmin::Fields::Number, decimals: 3},
     }
   end
 
@@ -70,10 +70,15 @@ describe Krudmin::ResourceManagers::Base do
     allow(subject).to receive(:routes) { predefined_routes }
   end
 
-  it do
+  it "maps types and options for base properties" do
     expect(subject.field_type_for(:priority)).to eq(Krudmin::Fields::Number)
     expect(subject.field_for(:priority, double(priority: 9001.199999)).to_s).to eq("9001.200")
     expect(subject.html_class_for(:priority)).to eq("text-right")
+  end
+
+  it "maps types and options for associated properties" do
+    expect(subject.field_type_for(:year, root: :properties)).to eq(Krudmin::Fields::Number)
+    expect(subject.field_options_for(:year, root: :properties)).to eq({decimals: 3})
   end
 
   it do
@@ -203,8 +208,8 @@ describe Krudmin::ResourceManagers::Base do
     it do
       expect(subject.attribute_types).to eq(
         {
-          :priority=>[Krudmin::Fields::Number, {:decimals=>3}],
-          :properties=>Krudmin::Fields::HasMany,
+          priority: {type: Krudmin::Fields::Number, decimals: 3},
+          properties: {type: Krudmin::Fields::HasMany, decimals: 3},
           "properties__types" => Krudmin::Fields::HasMany.new(:properties, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
         }
       )

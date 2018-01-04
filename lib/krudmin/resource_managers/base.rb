@@ -24,10 +24,23 @@ module Krudmin
         Krudmin::Fields::String
       end
 
+      def map_has_many_associated_fields!(hash, key, value)
+        field_type = extract_field_type(value)
+
+        if Krudmin::Fields::HasMany.is?(field_type)
+          hash["#{key}__types"] = field_type.new(key, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+        end
+      end
+
       def attribute_types
         @attribute_types ||= self.class::ATTRIBUTE_TYPES.inject({}) do |hash, item|
-          hash[item.first] = item.last
-          hash["#{item.first}__types"] = item.last.new(item.first, nil).associated_resource_manager_class::ATTRIBUTE_TYPES if Krudmin::Fields::HasMany.is?(item.last)
+          key = item.first
+          value = item.last
+
+          hash[key] = value
+
+          map_has_many_associated_fields!(hash, key, value)
+
           hash
         end
       end
@@ -38,20 +51,18 @@ module Krudmin
 
       def field_type_for(field, model = nil, root: nil)
         if root
-          Array(attribute_types["#{root}__types"][field]).first
+          extract_field_type(attribute_types["#{root}__types"][field])
         else
-          Array(attribute_types[field]).first
-        end || default_attribute_type
+          extract_field_type(attribute_types[field])
+        end
       end
 
       def field_options_for(field, root: nil)
-        metadata = if root
-          attribute_types["#{root}__types"][field]
+        if root
+          extract_field_options(attribute_types["#{root}__types"][field])
         else
-          attribute_types[field]
+          extract_field_options(attribute_types[field])
         end
-
-        metadata.is_a?(Array) ? metadata[1] : {}
       end
 
       def field_for(field, model = nil, root: nil)
@@ -153,8 +164,8 @@ module Krudmin
         end
       end
 
-      def has_many_edittable_hash_for(attribute)
-        field = Krudmin::Fields::HasMany.new(attribute, nil)
+      def has_many_edittable_hash_for(attribute, field_type)
+        field = field_type.new(attribute, nil)
 
         {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class.editable_attributes, :_destroy]}
       end
@@ -165,8 +176,8 @@ module Krudmin
 
       def permitted_attributes
         editable_attributes.map do |attribute|
-          if field_type = attribute_types[attribute]
-            next has_many_edittable_hash_for(attribute) if Krudmin::Fields::HasMany.is?(field_type)
+          if field_type = extract_field_type(attribute_types[attribute])
+            next has_many_edittable_hash_for(attribute, field_type) if Krudmin::Fields::HasMany.is?(field_type)
           end
 
           attribute
@@ -197,8 +208,26 @@ module Krudmin
         self::MODEL_CLASSNAME.constantize
       end
 
+      private
+
       def routes
         Rails.application.routes.url_helpers
+      end
+
+      def extract_field_type(field_metadata)
+        if field_metadata.is_a?(Hash)
+          field_metadata.fetch(:type)
+        else
+          field_metadata
+        end || default_attribute_type
+      end
+
+      def extract_field_options(field_metadata)
+        if field_metadata.is_a?(Hash)
+          field_metadata.except(:type)
+        else
+          {}
+        end
       end
     end
   end
