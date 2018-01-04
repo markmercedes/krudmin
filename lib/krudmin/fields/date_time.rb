@@ -2,12 +2,13 @@ module Krudmin
   module Fields
     class DateTime < Base
       SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
+      DEFAULT_VALUE = '-'
 
       def date
         I18n.localize(
           data.in_time_zone(timezone).to_date,
           format: format,
-        )
+        ) if data
       end
 
       def datetime
@@ -15,7 +16,7 @@ module Krudmin
           data.in_time_zone(timezone),
           format: format,
           default: data,
-        )
+        ) if data
       end
 
       def to_s
@@ -26,7 +27,7 @@ module Krudmin
           date
         else
           datetime
-        end
+        end || default_value
       end
 
       def format
@@ -56,6 +57,12 @@ module Krudmin
             end
           end
         end
+      end
+
+      private
+
+      def default_value
+        options.fetch(:default_value, DEFAULT_VALUE)
       end
     end
   end

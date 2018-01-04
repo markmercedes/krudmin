@@ -10,19 +10,10 @@
     - model.errors.full_messages.each do |msg|
       = content_tag :div, msg, class: "alert alert-danger"
 
-  .row
-    #div{class: content_for?(:form_container_klass) ? yield(:form_container_klass) : "col-md-6"}
-      = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
-        .card
-          .card-header
-            %strong= crud_title
-          .card-body
-            - yielded = yield(f)
-            - if yielded.present?
-              = yielded
-            - else
-              - editable_attributes.each do |attribute|
-                .form-group
-                  = field_for(attribute, model).render(:form, self, {form: f})
+  = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
+    .row
+      - grouped_attributes.take(1).each do |key, metadata|
+        = render partial: "general_fields", locals: {metadata: metadata, f: f}
 
-          = render partial: "form_action_buttons"
+      - grouped_attributes.drop(1).each do |key, metadata|
+        = render partial: "general_fields", locals: {metadata: metadata, f: f}

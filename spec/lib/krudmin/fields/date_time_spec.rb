@@ -49,4 +49,14 @@ describe Krudmin::Fields::DateTime do
       end
     end
   end
+
+  context "with nil value" do
+    let(:model) { double(birthday: nil) }
+
+    it "returns nil" do
+      expect(subject.to_s).to eq("-")
+      expect(subject.datetime).to be_nil
+      expect(subject.date).to be_nil
+    end
+  end
 end

@@ -18,30 +18,55 @@ module Krudmin
       RESOURCE_LABEL = ""
       RESOURCES_LABEL = ""
       ATTRIBUTE_TYPES = {}
+      PRESENTATION_METADATA = {}
 
       def default_attribute_type
         Krudmin::Fields::String
       end
 
+      def map_has_many_associated_fields!(hash, key, value)
+        field_type = extract_field_type(value)
+
+        if Krudmin::Fields::HasMany.is?(field_type)
+          hash["#{key}__types"] = field_type.new(key, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+        end
+      end
+
       def attribute_types
-        self.class::ATTRIBUTE_TYPES
+        @attribute_types ||= self.class::ATTRIBUTE_TYPES.inject({}) do |hash, item|
+          key = item.first
+          value = item.last
+
+          hash[key] = value
+
+          map_has_many_associated_fields!(hash, key, value)
+
+          hash
+        end
       end
 
-      def html_class_for(field, model = nil)
-        field_type_for(field, model).html_class
+      def html_class_for(field, model = nil, root: nil)
+        field_type_for(field, model, root: root).html_class
       end
 
-      def field_type_for(field, model = nil)
-        Array(attribute_types[field]).first || default_attribute_type
+      def field_type_for(field, model = nil, root: nil)
+        if root
+          extract_field_type(attribute_types["#{root}__types"][field])
+        else
+          extract_field_type(attribute_types[field])
+        end
       end
 
-      def field_options_for(field, model = nil)
-        metadata = attribute_types[field]
-        metadata.is_a?(Array) ? metadata[1] : {}
+      def field_options_for(field, root: nil)
+        if root
+          extract_field_options(attribute_types["#{root}__types"][field])
+        else
+          extract_field_options(attribute_types[field])
+        end
       end
 
-      def field_for(field, model = nil)
-        field_type_for(field, model).new(field, model, field_options_for(field))
+      def field_for(field, model = nil, root: nil)
+        field_type_for(field, model, root: root).new(field, model, field_options_for(field, root: root))
       end
 
       def self.constantized_methods(*attrs)
@@ -110,14 +135,53 @@ module Krudmin
         routes.send("#{prepend_route_path}_#{resources_name}_path")
       end
 
+      def raw_editable_attributes
+        self.class::EDITABLE_ATTRIBUTES
+      end
+
       def editable_attributes
-        self.class::EDITABLE_ATTRIBUTES.map do |field|
-          field.is_a?(Hash) ? field.first.first : field
+        @editable_attributes ||= if raw_editable_attributes.is_a?(Hash)
+          raw_editable_attributes.values.flatten
+        else
+          raw_editable_attributes
         end
       end
 
+      def presentation_metadata
+        self.class::PRESENTATION_METADATA
+      end
+
+      def grouped_attributes
+        @grouped_attributes ||= if raw_editable_attributes.is_a?(Hash)
+          raw_editable_attributes.inject({}) do |hash, value|
+            key = value.first
+            attributes = value.last
+            hash[key] = {attributes: attributes}.merge(presentation_metadata.fetch(key))
+            hash
+          end
+        else
+          {general: {attributes: raw_editable_attributes, label: "General"}}
+        end
+      end
+
+      def has_many_edittable_hash_for(attribute, field_type)
+        field = field_type.new(attribute, nil)
+
+        {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class.editable_attributes, :_destroy]}
+      end
+
+      def self.editable_attributes
+        new.editable_attributes
+      end
+
       def permitted_attributes
-        self.class::EDITABLE_ATTRIBUTES
+        editable_attributes.map do |attribute|
+          if field_type = extract_field_type(attribute_types[attribute])
+            next has_many_edittable_hash_for(attribute, field_type) if Krudmin::Fields::HasMany.is?(field_type)
+          end
+
+          attribute
+        end
       end
 
       def label_for(given_model)
@@ -140,8 +204,30 @@ module Krudmin
         @model_class ||= model_classname.constantize
       end
 
+      def self.model_class
+        self::MODEL_CLASSNAME.constantize
+      end
+
+      private
+
       def routes
         Rails.application.routes.url_helpers
+      end
+
+      def extract_field_type(field_metadata)
+        if field_metadata.is_a?(Hash)
+          field_metadata.fetch(:type)
+        else
+          field_metadata
+        end || default_attribute_type
+      end
+
+      def extract_field_options(field_metadata)
+        if field_metadata.is_a?(Hash)
+          field_metadata.except(:type)
+        else
+          {}
+        end
       end
     end
   end

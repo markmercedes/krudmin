@@ -22,6 +22,10 @@ module Krudmin
         data
       end
 
+      def self.is?(klass)
+        klass == self
+      end
+
       def html_class
         self.class::HTML_CLASS
       end
@@ -46,16 +50,24 @@ module Krudmin
         self::HTML_ATTRS
       end
 
+      def renderer
+        @renderer ||= if options[:render_with]
+                        options[:render_with].new(self)
+                      else
+                        self
+                      end
+      end
+
       def render(page, h = nil, options = {})
         if respond_to?("render_#{page}")
-          send("render_#{page}", page, h, options)
+          renderer.send("render_#{page}", page, h, options)
         else
           to_s
         end
       end
 
       def render_form(page, h, options)
-        options.fetch(:form).input(attribute)
+        options.fetch(:form).input(attribute, options.fetch(:input, {}))
       end
 
       def render_search(page, h, options)

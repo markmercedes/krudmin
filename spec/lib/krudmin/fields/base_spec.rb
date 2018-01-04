@@ -13,6 +13,10 @@ describe Krudmin::Fields::Base do
     expect(options[:resource]).to eq("Humanoid")
   end
 
+  it do
+    expect(described_class.is?(Krudmin::Fields::Base)).to be_truthy
+  end
+
   it "hash a value" do
     expect(subject.attribute).to eq :name
     expect(subject.value).to eq "Goku"

@@ -5,9 +5,9 @@ module Krudmin
 
     before_action :set_model, only: [:new, :edit, :create]
 
-    helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :resource_path, :listable_actions, :listable_attributes, :edit_resource_path, :default_view_path, :resource_name, :model_class, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path, :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :menu_items, :resources_name, :_current_user, :krudmin_root_path, :resource_instance_label_attribute, :search_form, :searchable_attributes, :krudmin_manager, :field_for
+    helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :resource_path, :listable_actions, :listable_attributes, :edit_resource_path, :default_view_path, :resource_name, :model_class, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path, :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :menu_items, :resources_name, :_current_user, :krudmin_root_path, :resource_instance_label_attribute, :search_form, :searchable_attributes, :krudmin_manager, :field_for, :grouped_attributes
 
-    delegate :resource_label, :resources_label, :scope, :activate_path, :deactivate_path, :listable_actions, :listable_attributes, :resource_root, :resource_name, :model_class, :model_id, :editable_attributes, :new_resource_path, :resource_path, :edit_resource_path, :resources_name, :resource_instance_label_attribute, :searchable_attributes, :field_for, to: :krudmin_manager
+    delegate :resource_label, :resources_label, :scope, :activate_path, :deactivate_path, :listable_actions, :listable_attributes, :resource_root, :resource_name, :model_class, :model_id, :editable_attributes, :grouped_attributes, :new_resource_path, :resource_path, :edit_resource_path, :resources_name, :resource_instance_label_attribute, :searchable_attributes, :field_for, to: :krudmin_manager
 
     def search_form_params
       params.include?(:q) ? params.require(:q).permit! : default_search_params
