@@ -23,6 +23,28 @@ describe Krudmin::ResourceManagers::Routing do
     expect(generator.resource_root).to eq("resource_root")
   end
 
+  describe "parth parsing" do
+    context "with module" do
+      subject { described_class.from("namespace/sub-namespace/items") }
+
+      it "generates a router generator with a namespace" do
+        expect(subject.namespace).to eq("namespace/sub-namespace")
+        expect(subject.resource_name).to eq("item")
+        expect(subject.resources).to eq("items")
+      end
+    end
+
+    context "without module" do
+      subject { described_class.from("items") }
+
+      it "generates a router generator with a namespace" do
+        expect(subject.namespace).to be_nil
+        expect(subject.resource_name).to eq("item")
+        expect(subject.resources).to eq("items")
+      end
+    end
+  end
+
   context "without a prepended namespace" do
     it "generates routes methods withoud a namespace prepended" do
       expect(predefined_routes).to receive(:new_item_path) { "new_path" }

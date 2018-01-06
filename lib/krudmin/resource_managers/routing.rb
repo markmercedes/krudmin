@@ -4,8 +4,8 @@ module Krudmin
 
       attr_reader :resource_name, :namespace
       def initialize(resource_name, namespace = nil)
-        @resource_name = resource_name
-        @namespace = namespace
+        @resource_name = resource_name.to_s.singularize
+        @namespace = namespace.present? ? namespace : nil
       end
 
       def new_resource_path
@@ -38,6 +38,12 @@ module Krudmin
 
       def resources
         @resources ||= resource_name.to_s.pluralize.underscore
+      end
+
+      def self.from(controller_path)
+        path_parts = controller_path.split('/')
+
+        new(path_parts.last, path_parts[0..-2].join('/'))
       end
 
       private
