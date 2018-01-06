@@ -12,7 +12,6 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   LISTABLE_ATTRIBUTES = [:model]
   ORDER_BY = [:year]
   RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :model
-  RESOURCE_NAME = "car"
   RESOURCE_LABEL = "Car"
   RESOURCES_LABEL = "Cars"
 
