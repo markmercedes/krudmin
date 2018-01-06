@@ -2,6 +2,7 @@ module Krudmin
   class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::CrudMessages
     include Pundit
+    include Krudmin::PunditAuthorizable if Krudmin::Config.pundit_enabled?
 
     before_action :set_model, only: [:new, :edit, :create]
 

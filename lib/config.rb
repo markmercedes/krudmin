@@ -6,7 +6,7 @@ module Krudmin
         self
       end
 
-      attr_writer :menu_items, :parent_controller, :krudmin_root_path
+      attr_writer :menu_items, :parent_controller, :krudmin_root_path, :pundit_enabled
 
       attr_accessor :edit_profile_path, :logout_path
 
@@ -27,6 +27,10 @@ module Krudmin
       def current_user_method(&block)
         @current_user = block if block
         @current_user || DEFAULT_CURRENT_USER
+      end
+
+      def pundit_enabled?
+        @pundit_enabled
       end
 
       def menu_items
