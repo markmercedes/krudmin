@@ -110,23 +110,13 @@ module Krudmin
         end
       end
 
-      def has_many_edittable_hash_for(attribute, field_type)
-        field = field_type.new(attribute, nil)
-
-        {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class.editable_attributes, :_destroy]}
-      end
-
       def self.editable_attributes
         new.editable_attributes
       end
 
       def permitted_attributes
         editable_attributes.map do |attribute|
-          if field_type = extract_field_type(attribute_types[attribute])
-            next has_many_edittable_hash_for(attribute, field_type) if Krudmin::Fields::HasMany.is?(field_type)
-          end
-
-          attribute
+          extract_field_type(attribute_types[attribute]).editable_attribute(attribute)
         end
       end
 
