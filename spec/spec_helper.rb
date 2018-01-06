@@ -2,6 +2,11 @@ require 'simplecov'
 require 'active_support/all'
 require 'active_model'
 
+if ENV['COVERAGE_ARTIFACTS_DIRECTORY']
+  dir = File.join(ENV['COVERAGE_ARTIFACTS_DIRECTORY'], "coverage")
+  SimpleCov.coverage_dir(dir)
+end
+
 SimpleCov.start
 
 I18n.backend.store_translations(:en,
