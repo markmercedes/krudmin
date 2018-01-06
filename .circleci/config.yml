@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
        - image: circleci/ruby:2.4.1-node-browsers
+        environment:
+          - COVERAGE_ARTIFACTS_DIRECTORY: /tmp/test-results
 
     working_directory: ~/repo
 

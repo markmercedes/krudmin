@@ -2,8 +2,8 @@ require 'simplecov'
 require 'active_support/all'
 require 'active_model'
 
-if ENV['CIRCLE_ARTIFACTS']
-  dir = File.join(ENV['CIRCLE_ARTIFACTS'], "coverage")
+if ENV['COVERAGE_ARTIFACTS_DIRECTORY']
+  dir = File.join(ENV['COVERAGE_ARTIFACTS_DIRECTORY'], "coverage")
   SimpleCov.coverage_dir(dir)
 end
 
