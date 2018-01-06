@@ -26,7 +26,7 @@ module Krudmin
         field_type = extract_field_type(value)
 
         if Krudmin::Fields::HasMany.is?(field_type)
-          hash["#{key}__types"] = field_type.new(key, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+          hash["#{key}__types"] = field_type.new(key).associated_resource_manager_class::ATTRIBUTE_TYPES
         end
       end
 
