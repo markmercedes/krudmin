@@ -69,6 +69,7 @@ describe Krudmin::Fields::HasMany do
         expect(subject.associated_resource_manager_class).to eq(RangersResourceManager)
       end
     end
+
     describe "associated resource manager" do
       let(:resource_double) { double }
 
@@ -80,6 +81,40 @@ describe Krudmin::Fields::HasMany do
       it "infers the class of the associated resource manager" do
         expect(subject.associated_resource_manager_class).to eq(ResourceDouble)
         expect(subject.associated_collection).to eq(Rangers.rangers)
+      end
+    end
+
+    describe "partials" do
+      describe "partial_form" do
+        context "default" do
+          it "returns the default value" do
+            expect(subject.partial_form).to eq("has_many_form")
+          end
+        end
+
+        context "with custom option" do
+          subject { described_class.new(:rangers, model, {partial_form: "other"}) }
+
+          it "returns the custom value" do
+            expect(subject.partial_form).to eq("other")
+          end
+        end
+      end
+
+      describe "child_partial_form" do
+        context "default" do
+          it "returns the default value" do
+            expect(subject.child_partial_form).to eq("has_many_fields")
+          end
+        end
+
+        context "with custom option" do
+          subject { described_class.new(:rangers, model, {child_partial_form: "other"}) }
+
+          it "returns the custom value" do
+            expect(subject.child_partial_form).to eq("other")
+          end
+        end
       end
     end
   end
