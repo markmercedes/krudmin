@@ -68,26 +68,26 @@ module Krudmin
     end
 
     def index
-      render template: "#{default_view_path}/index"
+      render "index"
     end
 
     def edit
       authorize model
 
       model.destroy if params.fetch(:failed_destroy, false)
-      render template: "#{default_view_path}/edit"
+      render "edit"
     end
 
     def show
       authorize model
 
-      render template: "#{default_view_path}/show"
+      render "show"
     end
 
     def new
       authorize model
 
-      render template: "#{default_view_path}/new"
+      render "new"
     end
 
     def create
@@ -100,7 +100,7 @@ module Krudmin
           format.html { redirect_to edit_resource_path(model), notice: created_message }
         else
           format.html {
-            render template: "#{default_view_path}/new"
+            render "new"
           }
         end
       end
@@ -117,7 +117,7 @@ module Krudmin
           }
         else
           format.html {
-            render template: "#{default_view_path}/edit"
+            render "edit"
           }
         end
       end
