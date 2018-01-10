@@ -25,7 +25,7 @@ module Krudmin
       def render_form(page, h, options)
         form = options.fetch(:form)
 
-        form.select(attribute, h.options_for_select(associated_options, enum_value), {}, class: "form-control")
+        form.input attribute, collection: associated_options, selected: value, input_html: {class: "form-control select2"}
       end
     end
   end
