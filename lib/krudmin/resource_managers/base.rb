@@ -81,7 +81,7 @@ module Krudmin
         given_model.send(resource_instance_label_attribute)
       end
 
-      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :prepend_route_path
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :prepend_route_path, :presentation_metadata
 
       def resource_name
         @resource_name ||= self.class::RESOURCE_NAME.to_s.underscore
@@ -145,10 +145,6 @@ module Krudmin
         else
           raw_editable_attributes
         end
-      end
-
-      def presentation_metadata
-        self.class::PRESENTATION_METADATA
       end
 
       def grouped_attributes
