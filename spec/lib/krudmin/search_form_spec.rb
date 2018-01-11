@@ -87,5 +87,13 @@ describe Krudmin::SearchForm do
       expect(subject.fill_with(stuff)).to eq({"name_cont"=>"MyName", "age_gt"=>9000})
       expect(subject.filters).to eq(["`name` Contains < MyName >", "`age` Is greater than < 9000 >"])
     end
+
+    context "sorting fields" do
+      it do
+        stuff = {s: "name desc"}
+        expect(subject.fill_with(stuff)).to eq({s: "name desc"})
+        expect(subject.s).to eq("name desc")
+      end
+    end
   end
 end

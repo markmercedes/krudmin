@@ -1,5 +1,6 @@
 - content_for(:aside) do
   = simple_form_for(search_form, as: :q, method: :get, url: resource_root, html: { class: 'turbo-form' }) do |f|
+    = f.text_field :s
     - search_form.fields.each_slice(2) do |field_slice|
       .row
         - field_slice.each do |field|

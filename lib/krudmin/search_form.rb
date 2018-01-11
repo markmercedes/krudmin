@@ -1,6 +1,6 @@
 module Krudmin
   class SearchForm
-    attr_reader :attrs, :fields, :enhanced_fields, :all_fields, :params, :search_criteria, :model_class
+    attr_reader :attrs, :fields, :enhanced_fields, :all_fields, :params, :search_criteria, :model_class, :s
 
     include ActiveModel::Model
 
@@ -81,6 +81,63 @@ module Krudmin
       @search_criteria = {}
     end
 
+    def filters
+      fields.map{|field|
+        if input_type_for(field) == Krudmin::Fields::Boolean
+          next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
+          [
+            search_phrase_for(field),
+            "`#{model_class.human_attribute_name(field)}`"
+          ].join(' ')
+        elsif input_type_for(field) == Krudmin::Fields::DateTime
+          calendar_filter_for(field)
+        else
+          next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
+          real_field = real_field_for(field)
+          [
+            "`#{model_class.human_attribute_name(real_field)}`",
+            search_phrase_for(field),
+            "< #{search_criteria[field.to_s]} >"
+          ].join(' ')
+        end
+      }.compact.flatten
+    end
+
+
+
+    def fill_with(values)
+      @search_criteria = HashWithIndifferentAccess.new(values)
+
+      fields_with_values = search_criteria.keys.reject{|k| k.end_with?("_options")}
+
+      @params = fields_with_values.inject({}) do |hash, key|
+        criteria = search_criteria["#{key}_options"]
+        unless criteria.blank?
+          if input_type_for(real_field_for(key)) == Krudmin::Fields::DateTime
+            attrs[key] = Date.parse(search_criteria[key])
+
+            if key.to_s.end_with?("__to")
+              attrs[key] = attrs[key].end_of_day
+              hash["#{real_field_for(key)}_#{criteria}"] = attrs[key]
+            else
+              attrs[key] = attrs[key].beginning_of_day
+              hash["#{real_field_for(key)}_#{criteria}"] = attrs[key]
+            end
+
+          else
+            attrs[key] = search_criteria[key]
+            hash["#{key}_#{criteria}"] = search_criteria[key]
+          end
+          attrs["#{key}_options"] = criteria
+        end
+        hash
+      end
+      set_sorting(values[:s])
+      @params
+    end
+
+    private
+
     def real_field_for(field)
       field.to_s.gsub('__from', '').gsub('__to', '')
     end
@@ -114,61 +171,15 @@ module Krudmin
       result
     end
 
-    def filters
-      fields.map{|field|
-        if input_type_for(field) == Krudmin::Fields::Boolean
-          next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
-          [
-            search_phrase_for(field),
-            "`#{model_class.human_attribute_name(field)}`"
-          ].join(' ')
-        elsif input_type_for(field) == Krudmin::Fields::DateTime
-          calendar_filter_for(field)
-        else
-          next unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
-          real_field = real_field_for(field)
-          [
-            "`#{model_class.human_attribute_name(real_field)}`",
-            search_phrase_for(field),
-            "< #{search_criteria[field.to_s]} >"
-          ].join(' ')
-        end
-      }.compact.flatten
-    end
-
     def search_phrase_for(field)
       SEARCH_PREDICATES.find{|pre| pre.last == search_criteria["#{field}_options"].to_sym }.first.join_phrase
     end
 
-    def fill_with(values)
-      @search_criteria = HashWithIndifferentAccess.new(values)
-
-      fields_with_values = search_criteria.keys.reject{|k| k.end_with?("_options")}
-
-      @params = fields_with_values.inject({}) do |hash, key|
-        criteria = search_criteria["#{key}_options"]
-        unless criteria.blank?
-          if input_type_for(real_field_for(key)) == Krudmin::Fields::DateTime
-            attrs[key] = Date.parse(search_criteria[key])
-
-            if key.to_s.end_with?("__to")
-              attrs[key] = attrs[key].end_of_day
-              hash["#{real_field_for(key)}_#{criteria}"] = attrs[key]
-            else
-              attrs[key] = attrs[key].beginning_of_day
-              hash["#{real_field_for(key)}_#{criteria}"] = attrs[key]
-            end
-
-          else
-            attrs[key] = search_criteria[key]
-            hash["#{key}_#{criteria}"] = search_criteria[key]
-          end
-          attrs["#{key}_options"] = criteria
-        end
-        hash
+    def set_sorting(sorting_expression)
+      if sorting_expression.present?
+        @params[:s] = sorting_expression
+        @s = sorting_expression
       end
-
-      @params
     end
 
     def method_missing(method, *args, &block)
