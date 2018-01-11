@@ -132,7 +132,11 @@ module Krudmin
         end
         hash
       end
-      set_sorting(values[:s])
+      @params
+    end
+
+    def sort_with(sorting_expression)
+      set_sorting(sorting_expression) if sorting_expression.is_a?(String)
       @params
     end
 

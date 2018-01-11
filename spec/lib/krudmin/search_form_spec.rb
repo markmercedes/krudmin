@@ -90,8 +90,7 @@ describe Krudmin::SearchForm do
 
     context "sorting fields" do
       it do
-        stuff = {s: "name desc"}
-        expect(subject.fill_with(stuff)).to eq({s: "name desc"})
+        expect(subject.sort_with("name desc")).to eq({s: "name desc"})
         expect(subject.s).to eq("name desc")
       end
     end
