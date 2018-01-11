@@ -1,3 +1,6 @@
+require_relative "search_form/search_phrases_support"
+require_relative "search_form/calendar_filter"
+
 module Krudmin
   class SearchForm
     attr_reader :attrs, :fields, :enhanced_fields, :all_fields, :params, :search_criteria, :model_class, :s
@@ -66,8 +69,6 @@ module Krudmin
       }.compact.flatten
     end
 
-
-
     def fill_with(values)
       @search_criteria = HashWithIndifferentAccess.new(values)
 
@@ -110,36 +111,7 @@ module Krudmin
     end
 
     def calendar_filter_for(field)
-      from = search_criteria["#{field}__from"]
-      to = search_criteria["#{field}__to"]
-
-      result = []
-
-      if from.present?
-        result.push(
-          [
-            "`#{model_class.human_attribute_name(field)}`",
-            search_phrase_for("#{field}__from"),
-            "< #{search_criteria["#{field}__from"]} >"
-          ].join(' ')
-        )
-      end
-
-      if to.present?
-        result.push(
-          [
-            "`#{model_class.human_attribute_name(field)}`",
-            search_phrase_for("#{field}__to"),
-            "< #{search_criteria["#{field}__to"]} >"
-          ].join(' ')
-        )
-      end
-
-      result
-    end
-
-    def search_phrase_for(field)
-      SEARCH_PREDICATES.find{|pre| pre.last == search_criteria["#{field}_options"].to_sym }.first.join_phrase
+      Krudmin::SearchForm::CalendarFilter.for(field, search_criteria, model_class)
     end
 
     def set_sorting(sorting_expression)
