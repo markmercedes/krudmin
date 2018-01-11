@@ -18,12 +18,11 @@ module Krudmin
     end
 
     def search_form
-      @search_form ||= begin
-        _form = Krudmin::SearchForm.new(searchable_attributes, model_class)
-        _form.fill_with(search_form_params)
-        _form.sort_with(search_form_params[:s] || krudmin_manager.order_by)
-        _form
-      end
+      @search_form ||= Krudmin::SearchForm.new(searchable_attributes, model_class, search_by: search_form_params, order_by: sort_by_criteria)
+    end
+
+    def sort_by_criteria
+      search_form_params[:s] || krudmin_manager.order_by
     end
 
     DEFAULT_VIEW_PATH = 'krudmin/application'.freeze

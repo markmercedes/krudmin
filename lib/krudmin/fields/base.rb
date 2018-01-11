@@ -102,6 +102,14 @@ module Krudmin
       def self.field_type
         to_s.split("::").last.underscore
       end
+
+      def self.search_config_for(field)
+        field
+      end
+
+      def self.search_criteria_for(key, value)
+        value
+      end
     end
   end
 end

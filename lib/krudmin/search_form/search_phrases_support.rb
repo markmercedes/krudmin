@@ -39,6 +39,10 @@ module Krudmin
         translation_for(:no) => :false
       }.freeze
 
+      def search_predicates_for(field)
+        input_type_for(field)::SEARCH_PREDICATES.map{|type| SEARCH_PREDICATES.find{|label, key| type == key}}
+      end
+
       def search_phrase_for(field)
         SEARCH_PREDICATES.find{|pre| pre.last == search_criteria["#{field}_options"].to_sym }.first.join_phrase
       end
