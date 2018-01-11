@@ -65,12 +65,12 @@ describe Krudmin::ResourceManagers::Base do
     expect(subject.field_for(:priority, double(priority: 9001.199999)).to_s).to eq("9001.200")
   end
 
-  it do
+  it "Extracts the value from the attribute configured as the source of the label for the" do
     expect(subject.model_label(OpenStruct.new(description: "hello"))).to eq("hello")
   end
 
-  it "does something" do
-    expect(subject.field_for(:description, double(description: "Llame pa verte")).to_s).to eq("Llame pa verte")
+  it "Initializes a field for a given attribute, the type is defined by the resource manager" do
+    expect(subject.field_for(:description, double(description: "hello")).to_s).to eq("hello")
   end
 
   it do
