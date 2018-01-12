@@ -1,11 +1,10 @@
 module Krudmin
   class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::CrudMessages
-    include Pundit
 
     before_action :set_model, only: [:new, :edit, :create]
 
-    helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :resource_path, :listable_actions, :listable_attributes, :edit_resource_path, :default_view_path, :model_class, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path, :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :menu_items, :_current_user, :krudmin_root_path, :resource_instance_label_attribute, :search_form, :searchable_attributes, :krudmin_manager, :field_for, :grouped_attributes
+    helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :resource_path, :listable_actions, :listable_attributes, :edit_resource_path, :model_class, :activate_path, :deactivate_path, :crud_title, :model, :editable_attributes, :model_id, :new_resource_path, :form_submit_path, :resource_path, :edit_resource_path, :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :menu_items, :_current_user, :krudmin_root_path, :resource_instance_label_attribute, :search_form, :searchable_attributes, :krudmin_manager, :field_for, :grouped_attributes
 
     delegate :resource_label, :resources_label, :scope, :listable_actions, :listable_attributes, :resource_root, :model_class, :model_id, :editable_attributes, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :field_for, to: :krudmin_manager
 
@@ -28,8 +27,6 @@ module Krudmin
       end
     end
 
-    DEFAULT_VIEW_PATH = 'krudmin/application'.freeze
-
     def _current_user
       instance_eval(&Krudmin::Config.current_user_method)
     end
@@ -38,16 +35,8 @@ module Krudmin
       @krudmin_root_path ||= Rails.application.routes.url_helpers.send(Krudmin::Config.krudmin_root_path)
     end
 
-    def pundit_user
-      _current_user
-    end
-
     def menu_items
       @menu_items ||= Krudmin::NavigationItems.new(user: _current_user)
-    end
-
-    def inferred_resource_manager
-      @inferred_resource_manager ||= "#{self.class.name.demodulize.gsub('Controller', '')}ResourceManager".constantize
     end
 
     def krudmin_router
@@ -55,52 +44,30 @@ module Krudmin
     end
 
     def items
-      @items ||= policy_scope(item_list).ransack(search_form.params)
-    end
-
-    def item_list
-      krudmin_manager.items.page(page).per(limit)
-    end
-
-    def resource_manager
-      inferred_resource_manager
+      @items ||= item_list.ransack(search_form.params)
     end
 
     def krudmin_manager
       @krudmin_manager ||= resource_manager.new
     end
 
-    def default_view_path
-      DEFAULT_VIEW_PATH
-    end
-
     def index
-      render "index"
     end
 
     def edit
-      authorize model
-
       model.destroy if params.fetch(:failed_destroy, false)
-      render "edit"
     end
 
     def show
-      authorize model
-
-      render "show"
     end
 
     def new
-      authorize model
-
-      render "new"
     end
 
     def create
       model.attributes = model_params
 
-      authorize model
+      authorize_model(model)
 
       respond_to do |format|
         if model.save
@@ -114,7 +81,6 @@ module Krudmin
     end
 
     def update
-      authorize model
       model.update_attributes(model_params)
 
       respond_to do |format|
@@ -131,8 +97,6 @@ module Krudmin
     end
 
     def activate
-      authorize model
-
       respond_to do |format|
         if model.activate!
           format.html { redirect_to resource_root, notice: activated_message }
@@ -144,8 +108,6 @@ module Krudmin
     end
 
     def deactivate
-      authorize model
-
       respond_to do |format|
         if model.deactivate!
           format.html { redirect_to resource_root, notice: deactivated_message }
@@ -182,7 +144,7 @@ module Krudmin
     end
 
     def model
-      @model ||= model_id ? policy_scope(scope).find(model_id) : scope.all.build(default_model_attributes)
+      @model ||= model_id ? scope.find(model_id) : scope.all.build(default_model_attributes)
     end
 
     def default_model_attributes
@@ -207,6 +169,24 @@ module Krudmin
 
     def form_submit_path
       model.new_record? ? resource_root : resource_path(model)
+    end
+
+    private
+
+    def authorize_model(model)
+      model
+    end
+
+    def resource_manager
+      inferred_resource_manager
+    end
+
+    def inferred_resource_manager
+      @inferred_resource_manager ||= "#{self.class.name.demodulize.gsub('Controller', '')}ResourceManager".constantize
+    end
+
+    def item_list
+      krudmin_manager.items.page(page).per(limit)
     end
   end
 end
