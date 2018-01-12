@@ -17,8 +17,6 @@ describe Krudmin::ResourceManagers::Base do
     end
   end
 
-  let(:predefined_routes) { double() }
-
   describe "grouped_attributes" do
     it do
       expect(subject.grouped_attributes).to eq({
@@ -46,8 +44,6 @@ describe Krudmin::ResourceManagers::Base do
     ORDER_BY = {description: :desc}
     LISTABLE_INCLUDES = [:logs]
     RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :description
-    PREPEND_ROUTE_PATH = :namespace
-    RESOURCE_NAME = "Item"
     ATTRIBUTE_TYPES = {
       priority: {type: Krudmin::Fields::Number, decimals: 3},
       properties: {type: Krudmin::Fields::HasMany, decimals: 3},
@@ -65,10 +61,6 @@ describe Krudmin::ResourceManagers::Base do
   end
 
   subject { MockedGateway.new }
-
-  before do
-    allow(subject).to receive(:routes) { predefined_routes }
-  end
 
   it "maps types and options for base properties" do
     expect(subject.field_type_for(:priority)).to eq(Krudmin::Fields::Number)
@@ -99,24 +91,6 @@ describe Krudmin::ResourceManagers::Base do
     allow(subject).to receive(:model_class) { mocked_model_class }
 
     expect(subject.items).to eq([1, 2, 3])
-  end
-
-  it do
-    model_id = 1
-    expect(predefined_routes).to receive(:new_namespace_item_path) { "new_path" }
-    expect(predefined_routes).to receive(:activate_namespace_item_path).with(1) { "activate_path" }
-    expect(predefined_routes).to receive(:deactivate_namespace_item_path).with(1) { "deactivate_path" }
-    expect(predefined_routes).to receive(:namespace_item_path).with(1) { "resource_path" }
-    expect(predefined_routes).to receive(:edit_namespace_item_path).with(1, {}) { "edit_resource_path" }
-    expect(predefined_routes).to receive(:namespace_items_path) { "resource_root" }
-
-
-    expect(subject.new_resource_path).to eq("new_path")
-    expect(subject.activate_path(model_id)).to eq("activate_path")
-    expect(subject.deactivate_path(model_id)).to eq("deactivate_path")
-    expect(subject.resource_path(model_id)).to eq("resource_path")
-    expect(subject.edit_resource_path(model_id)).to eq("edit_resource_path")
-    expect(subject.resource_root).to eq("resource_root")
   end
 
   describe "label_for" do
@@ -163,44 +137,6 @@ describe Krudmin::ResourceManagers::Base do
       it do
         expect(subject.resource_instance_label_attribute).to eq(:description)
       end
-
-      it do
-        expect(subject.prepend_route_path).to eq(:namespace)
-      end
-
-      it do
-        expect(subject.resource_name).to eq('item')
-      end
-
-      it do
-        expect(subject.resources_name).to eq('items')
-      end
-    end
-  end
-
-  describe "route path generation" do
-    it do
-      expect(subject.new_route_path).to eq("new_namespace_item_path")
-    end
-
-    it do
-      expect(subject.prepend_route_path).to eq(:namespace)
-    end
-
-    it do
-      expect(subject.activate_route_path).to eq("activate_namespace_item_path")
-    end
-
-    it do
-      expect(subject.deactivate_route_path).to eq("deactivate_namespace_item_path")
-    end
-
-    it do
-      expect(subject.resource_route_path).to eq("namespace_item_path")
-    end
-
-    it do
-      expect(subject.edit_route_path).to eq("edit_namespace_item_path")
     end
   end
 
@@ -210,14 +146,14 @@ describe Krudmin::ResourceManagers::Base do
         {
           priority: {type: Krudmin::Fields::Number, decimals: 3},
           properties: {type: Krudmin::Fields::HasMany, decimals: 3},
-          "properties__types" => Krudmin::Fields::HasMany.new(:properties, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+          "properties__types" => Krudmin::Fields::HasMany.new(:properties).associated_resource_manager_class::ATTRIBUTE_TYPES
         }
       )
     end
 
     it do
-      expect(subject.field_for(:year, nil, root: :properties)).to be_a(Krudmin::Fields::Number)
-      expect(subject.field_for(:year, nil, root: :properties).options).to eq({:decimals=>3})
+      expect(subject.field_for(:year, root: :properties)).to be_a(Krudmin::Fields::Number)
+      expect(subject.field_for(:year, root: :properties).options).to eq({:decimals=>3})
     end
   end
 end
