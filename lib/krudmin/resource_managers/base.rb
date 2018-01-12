@@ -13,8 +13,6 @@ module Krudmin
       ORDER_BY = []
       LISTABLE_INCLUDES = []
       RESOURCE_INSTANCE_LABEL_ATTRIBUTE = nil
-      PREPEND_ROUTE_PATH = :krudmin
-      RESOURCE_NAME = ""
       RESOURCE_LABEL = ""
       RESOURCES_LABEL = ""
       ATTRIBUTE_TYPES = {}
@@ -28,7 +26,7 @@ module Krudmin
         field_type = extract_field_type(value)
 
         if Krudmin::Fields::HasMany.is?(field_type)
-          hash["#{key}__types"] = field_type.new(key, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+          hash["#{key}__types"] = field_type.new(key).associated_resource_manager_class::ATTRIBUTE_TYPES
         end
       end
 
@@ -81,59 +79,7 @@ module Krudmin
         given_model.send(resource_instance_label_attribute)
       end
 
-      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :prepend_route_path, :presentation_metadata
-
-      def resource_name
-        @resource_name ||= self.class::RESOURCE_NAME.to_s.underscore
-      end
-
-      def resources_name
-        @resources_name ||= self.class::RESOURCE_NAME.to_s.pluralize.underscore
-      end
-
-      def new_resource_path
-        routes.send(new_route_path)
-      end
-
-      def new_route_path
-        "new_#{prepend_route_path}_#{resource_name}_path"
-      end
-
-      def activate_path(given_model)
-        routes.send(activate_route_path, given_model)
-      end
-
-      def activate_route_path
-        "activate_#{prepend_route_path}_#{resource_name}_path"
-      end
-
-      def deactivate_path(given_model)
-        routes.send(deactivate_route_path, given_model)
-      end
-
-      def deactivate_route_path
-        "deactivate_#{prepend_route_path}_#{resource_name}_path"
-      end
-
-      def resource_path(given_model)
-        routes.send(resource_route_path, given_model)
-      end
-
-      def resource_route_path
-        "#{prepend_route_path}_#{resource_name}_path"
-      end
-
-      def edit_resource_path(given_model, params = {})
-        routes.send(edit_route_path, given_model, params)
-      end
-
-      def edit_route_path
-        "edit_#{prepend_route_path}_#{resource_name}_path"
-      end
-
-      def resource_root
-        routes.send("#{prepend_route_path}_#{resources_name}_path")
-      end
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :presentation_metadata
 
       def raw_editable_attributes
         self.class::EDITABLE_ATTRIBUTES
@@ -160,23 +106,13 @@ module Krudmin
         end
       end
 
-      def has_many_edittable_hash_for(attribute, field_type)
-        field = field_type.new(attribute, nil)
-
-        {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class.editable_attributes, :_destroy]}
-      end
-
       def self.editable_attributes
         new.editable_attributes
       end
 
       def permitted_attributes
         editable_attributes.map do |attribute|
-          if field_type = extract_field_type(attribute_types[attribute])
-            next has_many_edittable_hash_for(attribute, field_type) if Krudmin::Fields::HasMany.is?(field_type)
-          end
-
-          attribute
+          extract_field_type(attribute_types[attribute]).editable_attribute(attribute)
         end
       end
 
@@ -205,10 +141,6 @@ module Krudmin
       end
 
       private
-
-      def routes
-        Rails.application.routes.url_helpers
-      end
 
       def extract_field_type(field_metadata)
         if field_metadata.is_a?(Hash)

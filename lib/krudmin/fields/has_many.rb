@@ -50,6 +50,14 @@ module Krudmin
         options.fetch(:child_partial_form, "has_many_fields")
       end
 
+      def self.editable_attribute(attribute)
+        new(attribute).editable_attribute
+      end
+
+      def editable_attribute
+        {"#{attribute}_attributes".to_sym => [:id, *associated_resource_manager_class.editable_attributes, :_destroy]}
+      end
+
       private
 
       def inferred_resource_manager

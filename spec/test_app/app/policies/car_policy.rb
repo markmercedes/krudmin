@@ -39,4 +39,12 @@ class CarPolicy
   def destroy?
     true
   end
+
+  def activate?
+    true
+  end
+
+  def deactivate?
+    true
+  end
 end
