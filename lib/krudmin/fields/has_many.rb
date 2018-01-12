@@ -58,6 +58,13 @@ module Krudmin
         {"#{attribute}_attributes".to_sym => [:id, *associated_resource_manager_class.editable_attributes, :_destroy]}
       end
 
+      def self.type_as_hash(attribute, options)
+        {
+          attribute => options,
+          __attributes: Krudmin::ResourceManagers::Attribute.from_list(new(attribute).associated_resource_manager_class::ATTRIBUTE_TYPES)
+        }
+      end
+
       private
 
       def inferred_resource_manager

@@ -106,6 +106,10 @@ module Krudmin
       def self.editable_attribute(attribute)
         attribute
       end
+
+      def self.type_as_hash(attribute, options)
+        {attribute => options}
+      end
     end
   end
 end
