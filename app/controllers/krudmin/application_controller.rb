@@ -23,6 +23,7 @@ module Krudmin
       @search_form ||= begin
         _form = Krudmin::SearchForm.new(searchable_attributes, model_class)
         _form.fill_with(search_form_params)
+        _form.sort_with(search_form_params[:s] || krudmin_manager.order_by)
         _form
       end
     end
@@ -74,26 +75,26 @@ module Krudmin
     end
 
     def index
-      render template: "#{default_view_path}/index"
+      render "index"
     end
 
     def edit
       authorize model
 
       model.destroy if params.fetch(:failed_destroy, false)
-      render template: "#{default_view_path}/edit"
+      render "edit"
     end
 
     def show
       authorize model
 
-      render template: "#{default_view_path}/show"
+      render "show"
     end
 
     def new
       authorize model
 
-      render template: "#{default_view_path}/new"
+      render "new"
     end
 
     def create
@@ -106,7 +107,7 @@ module Krudmin
           format.html { redirect_to edit_resource_path(model), notice: created_message }
         else
           format.html {
-            render template: "#{default_view_path}/new"
+            render "new"
           }
         end
       end
@@ -123,7 +124,7 @@ module Krudmin
           }
         else
           format.html {
-            render template: "#{default_view_path}/edit"
+            render "edit"
           }
         end
       end
@@ -156,6 +157,8 @@ module Krudmin
     end
 
     def destroy
+      authorize model
+
       respond_to do |format|
         if model.destroy
           format.html { redirect_to resource_root, notice: destroyed_message }
