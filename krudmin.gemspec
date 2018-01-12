@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "haml-rails", "~> 1.0.0"
   s.add_development_dependency "guard-rspec", "~> 4.7.3"
 
+  s.add_dependency "rspec_junit_formatter"
   s.add_dependency 'simple_form'
   s.add_dependency 'haml'
   s.add_dependency 'bootstrap', '~> 4.0.0.beta2.1'

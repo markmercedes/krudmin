@@ -42,10 +42,10 @@ describe Krudmin::Fields::DateTime do
   context "time and others" do
     describe "fallbacks to datetime" do
       let(:options) { {format: :short} }
-      let(:date) { Time.new(1989, 12, 14) }
+      let(:date) { Time.new(1989, 12, 14, 4, 0).utc }
 
       it do
-        expect(subject.to_s).to eq("14 Dec 04:00")
+        expect(subject.to_s).to eq(date.to_s(:short))
       end
     end
   end

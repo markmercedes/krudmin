@@ -146,14 +146,14 @@ describe Krudmin::ResourceManagers::Base do
         {
           priority: {type: Krudmin::Fields::Number, decimals: 3},
           properties: {type: Krudmin::Fields::HasMany, decimals: 3},
-          "properties__types" => Krudmin::Fields::HasMany.new(:properties, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+          "properties__types" => Krudmin::Fields::HasMany.new(:properties).associated_resource_manager_class::ATTRIBUTE_TYPES
         }
       )
     end
 
     it do
-      expect(subject.field_for(:year, nil, root: :properties)).to be_a(Krudmin::Fields::Number)
-      expect(subject.field_for(:year, nil, root: :properties).options).to eq({:decimals=>3})
+      expect(subject.field_for(:year, root: :properties)).to be_a(Krudmin::Fields::Number)
+      expect(subject.field_for(:year, root: :properties).options).to eq({:decimals=>3})
     end
   end
 end

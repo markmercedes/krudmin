@@ -30,7 +30,7 @@ describe Krudmin::Fields::Base do
   describe "render" do
     context "default" do
       it do
-        expect(subject.render(:show, nil)).to eq("Goku")
+        expect(subject.render(:show)).to eq("Goku")
       end
     end
 
@@ -44,7 +44,7 @@ describe Krudmin::Fields::Base do
 
         fake_view_context = double
 
-        custom_field = FieldWithCustomRender.new(nil, nil)
+        custom_field = FieldWithCustomRender.new(nil)
 
         expect(fake_view_context).to receive(:render).with("/krudmin/fields/show") { "Yep" }
 

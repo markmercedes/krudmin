@@ -22,6 +22,7 @@ module Krudmin
       @search_form ||= begin
         _form = Krudmin::SearchForm.new(searchable_attributes, model_class)
         _form.fill_with(search_form_params)
+        _form.sort_with(search_form_params[:s] || krudmin_manager.order_by)
         _form
       end
     end
@@ -118,6 +119,8 @@ module Krudmin
     end
 
     def destroy
+      authorize model
+
       respond_to do |format|
         if model.destroy
           format.html { redirect_to resource_root, notice: destroyed_message }

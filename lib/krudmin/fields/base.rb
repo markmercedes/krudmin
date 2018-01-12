@@ -6,7 +6,7 @@ module Krudmin
       HTML_ATTRS = {}
 
       attr_accessor :attribute, :model, :resource, :options, :model
-      def initialize(attribute, model, options = {})
+      def initialize(attribute, model = nil, options = {})
         @attribute = attribute
         @model = model
         options = options.dup
@@ -101,6 +101,10 @@ module Krudmin
 
       def self.field_type
         to_s.split("::").last.underscore
+      end
+
+      def self.editable_attribute(attribute)
+        attribute
       end
     end
   end

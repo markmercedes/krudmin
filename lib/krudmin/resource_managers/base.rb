@@ -26,7 +26,7 @@ module Krudmin
         field_type = extract_field_type(value)
 
         if Krudmin::Fields::HasMany.is?(field_type)
-          hash["#{key}__types"] = field_type.new(key, nil).associated_resource_manager_class::ATTRIBUTE_TYPES
+          hash["#{key}__types"] = field_type.new(key).associated_resource_manager_class::ATTRIBUTE_TYPES
         end
       end
 
@@ -79,7 +79,7 @@ module Krudmin
         given_model.send(resource_instance_label_attribute)
       end
 
-      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :presentation_metadata
 
       def raw_editable_attributes
         self.class::EDITABLE_ATTRIBUTES
@@ -91,10 +91,6 @@ module Krudmin
         else
           raw_editable_attributes
         end
-      end
-
-      def presentation_metadata
-        self.class::PRESENTATION_METADATA
       end
 
       def grouped_attributes
@@ -110,23 +106,13 @@ module Krudmin
         end
       end
 
-      def has_many_edittable_hash_for(attribute, field_type)
-        field = field_type.new(attribute, nil)
-
-        {"#{attribute}_attributes".to_sym => [:id, *field.associated_resource_manager_class.editable_attributes, :_destroy]}
-      end
-
       def self.editable_attributes
         new.editable_attributes
       end
 
       def permitted_attributes
         editable_attributes.map do |attribute|
-          if field_type = extract_field_type(attribute_types[attribute])
-            next has_many_edittable_hash_for(attribute, field_type) if Krudmin::Fields::HasMany.is?(field_type)
-          end
-
-          attribute
+          extract_field_type(attribute_types[attribute]).editable_attribute(attribute)
         end
       end
 
