@@ -3,7 +3,20 @@ module Krudmin
     class << self
       def with(&block)
         yield(self)
+
+        after_config_received
+
         self
+      end
+
+      def after_config_received
+        configure_pundit
+      end
+
+      def configure_pundit
+        Krudmin::ApplicationController.class_eval do
+          include Krudmin::PunditAuthorizable
+        end if Krudmin::Config.pundit_enabled?
       end
 
       attr_writer :menu_items, :parent_controller, :krudmin_root_path, :pundit_enabled

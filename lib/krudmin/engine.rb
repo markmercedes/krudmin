@@ -13,6 +13,7 @@ require "ransack"
 require "cocoon"
 require_relative "../../config/initializers/simple_form_bootstrap"
 require_relative "../../app/controllers/krudmin/concerns/pundit_authorizable"
+require_relative "../config"
 
 module Krudmin
   class Engine < ::Rails::Engine
