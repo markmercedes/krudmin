@@ -5,10 +5,10 @@ require "#{Dir.pwd}/lib/krudmin/fields/associated"
 require "#{Dir.pwd}/lib/krudmin/fields/has_many"
 
 describe Krudmin::Fields::HasMany do
-  let(:model) { double(ranger: 1) }
+  let(:model) { double(id: 1, ranger: 1, class: double(table_name: "rangers")) }
   subject { described_class.new(:rangers, model) }
 
-  module Rangers
+  module Ranger
     class << self
       def where(*)
         rangers
@@ -51,13 +51,13 @@ describe Krudmin::Fields::HasMany do
 
     describe "associated_class_name" do
       it "infers the class name of the association" do
-        expect(subject.associated_class_name).to eq("Rangers")
+        expect(subject.associated_class_name).to eq("Ranger")
       end
     end
 
     describe "associated_class" do
       it "infers the class of the association" do
-        expect(subject.associated_class).to eq(Rangers)
+        expect(subject.associated_class).to eq(Ranger)
       end
     end
 
@@ -74,13 +74,21 @@ describe Krudmin::Fields::HasMany do
       let(:resource_double) { double }
 
       module ResourceDouble
+        def self.new
+          OpenStruct.new(items: Ranger.rangers)
+        end
+
       end
 
-      subject { described_class.new(:rangers, model, resource_manager: :ResourceDouble) }
+      subject {
+        described_class.new(:rangers, model,
+          association_predicate:->(*){Ranger.rangers},
+          resource_manager: :ResourceDouble)
+      }
 
       it "infers the class of the associated resource manager" do
         expect(subject.associated_resource_manager_class).to eq(ResourceDouble)
-        expect(subject.associated_collection).to eq(Rangers.rangers)
+        expect(subject.associated_collection).to eq(Ranger.rangers)
       end
     end
 

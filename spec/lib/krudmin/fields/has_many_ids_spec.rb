@@ -6,7 +6,7 @@ require "#{Dir.pwd}/lib/krudmin/fields/has_many"
 require "#{Dir.pwd}/lib/krudmin/fields/has_many_ids"
 
 describe Krudmin::Fields::HasManyIds do
-  let(:model) { double(ranger: 1) }
+  let(:model) { double(id: 1, ranger: 1, class: double(table_name: "rangers")) }
   subject { described_class.new(:ranger, model) }
 
   module Ranger
@@ -74,10 +74,18 @@ describe Krudmin::Fields::HasManyIds do
     describe "associated resource manager" do
       let(:resource_double) { double }
 
-      module ResourceDouble
+        module ResourceDouble
+        def self.new
+          OpenStruct.new(items: Ranger.rangers)
+        end
+
       end
 
-      subject { described_class.new(:ranger, model, resource_manager: :ResourceDouble) }
+      subject {
+        described_class.new(:rangers, model,
+          association_predicate:->(*){Ranger.rangers},
+          resource_manager: :ResourceDouble)
+      }
 
       it "infers the class of the associated resource manager" do
         expect(subject.associated_resource_manager_class).to eq(ResourceDouble)
