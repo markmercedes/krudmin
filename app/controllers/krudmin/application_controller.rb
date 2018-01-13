@@ -1,5 +1,3 @@
-require_relative 'concerns/model_status_toggler'
-
 module Krudmin
   class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::CrudMessages

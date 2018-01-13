@@ -43,17 +43,12 @@ module Krudmin
         _attribute = attribute
 
         Arbre::Context.new do
-          div(class: "col-sm-6") do
-            ul(class: "list-unstyled") do
-              li form.hidden_field "#{_attribute}__from_options", value: :gteq
-              li form.date_field "#{_attribute}__from", required: false, class: "form-control"
-            end
-          end
-
-          div(class: "col-sm-6") do
-            ul(class: "list-unstyled") do
-              li form.hidden_field "#{_attribute}__to_options", value: :gteq
-              li form.date_field "#{_attribute}__to", required: false, class: "form-control"
+          [:from, :to].each do |range_part|
+            div(class: "col-sm-6") do
+              ul(class: "list-unstyled") do
+                li form.hidden_field "#{_attribute}__#{range_part}_options", value: :gteq
+                li form.date_field "#{_attribute}__#{range_part}", required: false, class: "form-control"
+              end
             end
           end
         end
