@@ -6,7 +6,7 @@ module Krudmin
   module ResourceManagers
     class Base
       include Enumerable
-      extend ConstantsToMethodsExposer
+      extend Krudmin::ConstantsToMethodsExposer
 
       delegate :each, :total_pages, :current_page, :limit_value, to: :items
 
