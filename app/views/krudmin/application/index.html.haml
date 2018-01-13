@@ -32,10 +32,10 @@
             %tr
               - listable_attributes.each_with_index do |column_label, column_index|
                 - if column_index.zero?
-                  %th{class: "#{krudmin_manager.html_class_for(column_label)}", width: "35%"}
+                  %th{class: "#{krudmin_manager.field_for(column_label).html_class}", width: "35%"}
                     = sort_link items, column_label, model_class.human_attribute_name(column_label)
                 - else
-                  %th{class: "#{krudmin_manager.html_class_for(column_label)}"}
+                  %th{class: "#{krudmin_manager.field_for(column_label).html_class}"}
                     = sort_link items, column_label, model_class.human_attribute_name(column_label)
               - if listable_actions.any?
                 %th{width: "20%"}= t('krudmin.actions.label')
