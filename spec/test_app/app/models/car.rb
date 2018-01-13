@@ -8,6 +8,8 @@ class Car < ApplicationRecord
   has_many :passengers
   accepts_nested_attributes_for :passengers, reject_if: :all_blank, allow_destroy: true
 
+  belongs_to :car_brand
+
   def activate!
     update_attribute(:active, true)
   end

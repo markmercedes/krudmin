@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   mount Krudmin::Engine => "/krudmin"
 
   namespace :admin do
+    resources :car_brands
+
     resources :cars do
       member do
         post :activate

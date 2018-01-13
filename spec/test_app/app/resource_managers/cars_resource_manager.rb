@@ -3,7 +3,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
 
   EDITABLE_ATTRIBUTES = {
     general: [:active],
-    activation: [:model, :year],
+    activation: [:model, :year, :car_brand_id],
     passengers: [:passengers]
   }
 
@@ -25,6 +25,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     id: Krudmin::Fields::Number,
     year: Krudmin::Fields::Number,
     active: Krudmin::Fields::String,
-    passengers: Krudmin::Fields::HasMany
+    passengers: Krudmin::Fields::HasMany,
+    car_brand_id: {type: Krudmin::Fields::BelongsTo, collection_label_field: :description},
   }
 end
