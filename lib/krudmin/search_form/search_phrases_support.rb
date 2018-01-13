@@ -2,7 +2,7 @@ module Krudmin
   class SearchForm
     module SearchPhrasesSupport
       class SearchTranslation
-        attr_accessor :str
+        attr_reader :str
         def initialize(str)
           @str = str
         end
