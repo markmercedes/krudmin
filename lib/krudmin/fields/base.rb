@@ -1,9 +1,15 @@
+require_relative '../constants_to_methods_exposer'
+
 module Krudmin
   module Fields
     class Base
       HTML_CLASS = ''
       HTML_FORMAT = ''
       HTML_ATTRS = {}
+
+      extend Krudmin::ConstantsToMethodsExposer
+
+      constantized_methods :html_class, :html_format, :html_attrs
 
       attr_accessor :attribute, :model, :resource, :options, :model
       def initialize(attribute, model = nil, options = {})
@@ -24,30 +30,6 @@ module Krudmin
 
       def self.is?(klass)
         klass == self
-      end
-
-      def html_class
-        self.class::HTML_CLASS
-      end
-
-      def html_format
-        self.class::HTML_FORMAT
-      end
-
-      def html_attrs
-        self.class::HTML_ATTRS
-      end
-
-      def self.html_class
-        self::HTML_CLASS
-      end
-
-      def self.html_format
-        self::HTML_FORMAT
-      end
-
-      def self.html_attrs
-        self::HTML_ATTRS
       end
 
       def renderer
