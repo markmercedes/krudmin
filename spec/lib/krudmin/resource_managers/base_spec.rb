@@ -55,7 +55,6 @@ describe Krudmin::ResourceManagers::Base do
     EDITABLE_ATTRIBUTES = [:description, :year]
 
     ATTRIBUTE_TYPES = {
-      description: Krudmin::Fields::String,
       year: {type: Krudmin::Fields::Number, decimals: 3},
     }
   end
@@ -63,23 +62,15 @@ describe Krudmin::ResourceManagers::Base do
   subject { MockedGateway.new }
 
   it "maps types and options for base properties" do
-    expect(subject.field_type_for(:priority)).to eq(Krudmin::Fields::Number)
     expect(subject.field_for(:priority, double(priority: 9001.199999)).to_s).to eq("9001.200")
-    expect(subject.html_class_for(:priority)).to eq("text-right")
   end
 
-  it "maps types and options for associated properties" do
-    expect(subject.field_type_for(:year, root: :properties)).to eq(Krudmin::Fields::Number)
-    expect(subject.field_options_for(:year, root: :properties)).to eq({decimals: 3})
-  end
-
-  it do
+  it "Extracts the value from the attribute configured as the source of the label for the" do
     expect(subject.model_label(OpenStruct.new(description: "hello"))).to eq("hello")
   end
 
-  it do
-    expect(subject.field_type_for(:description)).to eq(Krudmin::Fields::String)
-    expect(subject.field_for(:description, double(description: "Llame pa verte")).to_s).to eq("Llame pa verte")
+  it "Initializes a field for a given attribute, the type is defined by the resource manager" do
+    expect(subject.field_for(:description, double(description: "hello")).to_s).to eq("hello")
   end
 
   it do
@@ -103,6 +94,7 @@ describe Krudmin::ResourceManagers::Base do
   describe "constant delegations" do
     describe do
       it do
+        expect(MockedGateway.model_class).to eq(Krudmin::ItemSpecModel)
         expect(subject.scope).to eq(Krudmin::ItemSpecModel.all)
       end
 
@@ -141,16 +133,6 @@ describe Krudmin::ResourceManagers::Base do
   end
 
   describe "attribute_types" do
-    it do
-      expect(subject.attribute_types).to eq(
-        {
-          priority: {type: Krudmin::Fields::Number, decimals: 3},
-          properties: {type: Krudmin::Fields::HasMany, decimals: 3},
-          "properties__types" => Krudmin::Fields::HasMany.new(:properties).associated_resource_manager_class::ATTRIBUTE_TYPES
-        }
-      )
-    end
-
     it do
       expect(subject.field_for(:year, root: :properties)).to be_a(Krudmin::Fields::Number)
       expect(subject.field_for(:year, root: :properties).options).to eq({:decimals=>3})
