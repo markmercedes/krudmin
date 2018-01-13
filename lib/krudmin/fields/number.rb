@@ -1,3 +1,5 @@
+require_relative '../presenters/number_field_presenter'
+
 module Krudmin
   module Fields
     class Number < Base
@@ -5,6 +7,7 @@ module Krudmin
       SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
       DEFAULT_VALUE = '-'
       DEFAULT_PADDING_VALUE = '0'
+      PRESENTER = Krudmin::Presenters::NumberFieldPresenter
 
       def to_s
         data.nil? ? default_value : format_string % value
@@ -12,10 +15,6 @@ module Krudmin
 
       def value
         (data * options.fetch(:multiplier, 1)).round(decimals) if data
-      end
-
-      def render_list(page, h, options)
-        h.number_with_delimiter(to_s)
       end
 
       private
