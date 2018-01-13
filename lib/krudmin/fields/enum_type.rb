@@ -1,6 +1,9 @@
+require_relative '../presenters/enum_type_field_presenter'
+
 module Krudmin
   module Fields
     class EnumType < Associated
+      PRESENTER = Krudmin::Presenters::EnumTypeFieldPresenter
 
       def selected
         value
@@ -20,16 +23,6 @@ module Krudmin
 
       def associated_options
         options.fetch(:associated_options).call
-      end
-
-      def render_form(page, h, options)
-        form = options.fetch(:form)
-
-        if options.fetch(:input, {})[:label] == false
-          form.select(attribute, h.options_for_select(associated_options, enum_value), {}, class: "form-control select2")
-        else
-          form.input attribute, collection: associated_options, selected: value, input_html: {class: "form-control select2"}
-        end
       end
     end
   end

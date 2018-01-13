@@ -7,7 +7,7 @@ module Krudmin
         new(field, search_criteria, model_class).filters
       end
 
-      attr_accessor :field, :search_criteria, :model_class
+      attr_reader :field, :search_criteria, :model_class
       def initialize(field, search_criteria, model_class)
         @field, @search_criteria, @model_class = field, search_criteria, model_class
       end

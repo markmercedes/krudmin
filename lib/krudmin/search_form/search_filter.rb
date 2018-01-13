@@ -12,7 +12,7 @@ module Krudmin
         Krudmin::SearchForm::CalendarFilter.for(field, search_criteria, model_class)
       end
 
-      attr_accessor :field, :search_criteria, :model_class
+      attr_reader :field, :search_criteria, :model_class
       def initialize(field, search_criteria, model_class)
         @field, @search_criteria, @model_class = field, search_criteria, model_class
       end
