@@ -59,6 +59,20 @@ module Krudmin
         end
       end
 
+      def self.search_config_for(field)
+        ["#{field}__from".to_sym, "#{field}__to".to_sym]
+      end
+
+      def self.search_criteria_for(key, _value)
+        value = Date.parse(_value)
+
+        if key.to_s.end_with?("__to")
+          value.end_of_day
+        else
+          value.beginning_of_day
+        end
+      end
+
       private
 
       def default_value
