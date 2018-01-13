@@ -1,6 +1,7 @@
 module Krudmin
   class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::CrudMessages
+    include Krudmin::ModelStatusToggler
 
     before_action :set_model, only: [:new, :edit, :create]
 
@@ -91,28 +92,6 @@ module Krudmin
           format.html {
             render "edit"
           }
-        end
-      end
-    end
-
-    def activate
-      respond_to do |format|
-        if model.activate!
-          format.html { redirect_to resource_root, notice: activated_message }
-        else
-          format.js { redirect_to edit_resource_path(model), notice: cant_be_activated_message }
-          format.html { redirect_to edit_resource_path(model), notice: cant_be_activated_message }
-        end
-      end
-    end
-
-    def deactivate
-      respond_to do |format|
-        if model.deactivate!
-          format.html { redirect_to resource_root, notice: deactivated_message }
-        else
-          format.js { redirect_to edit_resource_path(model), notice: cant_be_deactivated_message }
-          format.html { redirect_to edit_resource_path(model), notice: cant_be_deactivated_message }
         end
       end
     end

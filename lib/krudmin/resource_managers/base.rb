@@ -1,10 +1,12 @@
 require_relative 'attribute'
 require_relative 'attribute_collection'
+require_relative '../constants_to_methods_exposer'
 
 module Krudmin
   module ResourceManagers
     class Base
       include Enumerable
+      extend ConstantsToMethodsExposer
 
       delegate :each, :total_pages, :current_page, :limit_value, to: :items
 
@@ -20,14 +22,6 @@ module Krudmin
       RESOURCES_LABEL = ""
       ATTRIBUTE_TYPES = {}
       PRESENTATION_METADATA = {}
-
-      def self.constantized_methods(*attrs)
-        attrs.flatten.each do |attr|
-          define_method(attr) do
-            self.class.const_get(attr.upcase)
-          end
-        end
-      end
 
       constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :presentation_metadata
 
