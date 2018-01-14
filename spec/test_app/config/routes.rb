@@ -11,13 +11,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  namespace :console do
-    resources :cars do
-      member do
-        post :activate
-        post :deactivate
-      end
-    end
-  end
 end
