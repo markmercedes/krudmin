@@ -19,8 +19,8 @@ module Krudmin
     end
 
     module ModelAuthorizer
-      def authorize_model(_model = nil)
-        authorize _model || model
+      def authorize_model(given_model = model)
+        authorize given_model
       end
 
       def scope

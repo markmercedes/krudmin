@@ -1,9 +1,6 @@
 require "rails_helper"
 
 describe Admin::CarsController, type: :controller do
-
-  render_views
-
   let(:car_brand) { create(:car_brand) }
   let(:car) { create(:car, car_brand: car_brand) }
 

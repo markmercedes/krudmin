@@ -52,7 +52,7 @@ describe Krudmin::SearchForm do
     context "boolean fields" do
       subject { described_class.new(fields, MockedModel, search_by: {"active" => "true", "active_options" => "false"}) }
 
-      it do
+      it "says that the field is not active" do
         expect(subject.filters).to eq(["Is not `active`"])
         expect(subject.active_options).to eq("false")
       end
@@ -61,7 +61,7 @@ describe Krudmin::SearchForm do
     context "boolean fields" do
       subject { described_class.new(fields, MockedModel, search_by: {"active" => "true", "active_options" => "true"}) }
 
-      it do
+      it "says that the field is active" do
         expect(subject.filters).to eq(["Is `active`"])
         expect(subject.active_options).to eq("true")
       end

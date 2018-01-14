@@ -18,13 +18,12 @@ module Krudmin
     end
 
     def toggle_model_status(status_method)
-      respond_to do |format|
-        if model.send(status_method)
-          format.html { redirect_to resource_root, notice: model_status_messages[status_method][:on_success] }
-        else
-          format.js { redirect_to edit_resource_path(model), notice: model_status_messages[status_method][:on_error] }
-          format.html { redirect_to edit_resource_path(model), notice: model_status_messages[status_method][:on_error] }
-        end
+      message_node = model_status_messages[status_method]
+
+      if model.send(status_method)
+        redirect_to resource_root, notice: message_node[:on_success]
+      else
+        redirect_to edit_resource_path(model), notice: message_node[:on_error]
       end
     end
   end

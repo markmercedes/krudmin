@@ -4,7 +4,14 @@ jobs:
     docker:
       - image: circleci/ruby:2.4.1-node-browsers
         environment:
-          - COVERAGE_ARTIFACTS_DIRECTORY: /tmp/test-results
+            COVERAGE_ARTIFACTS_DIRECTORY: /tmp/test-results
+            PGHOST: localhost
+            PGUSER: krudmin_test
+      - image: postgres:9.5-alpine
+        environment:
+          POSTGRES_USER: krudmin_test
+          POSTGRES_DB: krudmin_test
+          POSTGRES_PASSWORD: ""
 
     working_directory: ~/repo
 

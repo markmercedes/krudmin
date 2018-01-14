@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20180114005733) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "car_brands", force: :cascade do |t|
     t.string "description", null: false
     t.datetime "created_at", null: false
@@ -24,7 +27,7 @@ ActiveRecord::Schema.define(version: 20180114005733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active"
-    t.integer "car_brand_id"
+    t.bigint "car_brand_id"
     t.text "description"
     t.index ["car_brand_id"], name: "index_cars_on_car_brand_id"
   end
@@ -33,7 +36,7 @@ ActiveRecord::Schema.define(version: 20180114005733) do
     t.string "name"
     t.integer "age"
     t.integer "gender"
-    t.integer "car_id"
+    t.bigint "car_id"
     t.index ["car_id"], name: "index_passengers_on_car_id"
   end
 
