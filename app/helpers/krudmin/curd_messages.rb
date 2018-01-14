@@ -35,14 +35,6 @@ module Krudmin
       I18n.t('krudmin.messages.modified', label: model_label)
     end
 
-    def cant_be_created_message
-      I18n.t('krudmin.messages.cant_be_created', label: model_label)
-    end
-
-    def cant_be_modified_message
-      I18n.t('krudmin.messages.cant_be_modified', label: model_label)
-    end
-
     def cant_be_activated_message
       I18n.t('krudmin.messages.cant_be_activated', label: model_label)
     end

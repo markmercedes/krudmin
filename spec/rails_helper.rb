@@ -21,6 +21,8 @@ def in_ci?
 end
 
 RSpec.configure do |config|
+  puts "Running specs in CI" if in_ci?
+
   config.include PageFeatures, type: :feature
   config.include FactoryBot::Syntax::Methods
   config.include ControllerHelpers, type: :controller
@@ -63,11 +65,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :feature) do
-    driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
-
-    unless driver_shares_db_connection_with_specs
-      DatabaseCleaner.strategy = :truncation
-    end
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each) do

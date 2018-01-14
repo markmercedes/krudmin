@@ -13,10 +13,9 @@ module Krudmin
         form = options.fetch(:form)
         search_form = options.fetch(:search_form)
         field_value = search_form.send(attribute)
-        _associated_options = associated_options
         _attribute = attribute
 
-        select_options = view_context.options_from_collection_for_select(_associated_options, :id, collection_label_field, field_value)
+        select_options = view_context.options_from_collection_for_select(associated_options, :id, collection_label_field, field_value)
 
         Arbre::Context.new do
           ul(class: "list-unstyled col-sm-12") do

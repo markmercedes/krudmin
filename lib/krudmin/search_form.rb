@@ -57,9 +57,8 @@ module Krudmin
 
     def method_missing(method, *args, &block)
       return "" if method == :""
-      return form_attributes[method] if all_fields.include?(method)
 
-      super
+      all_fields.include?(method) ? form_attributes[method] : super
     end
 
     def apply_sorting_on(params)

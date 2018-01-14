@@ -5,10 +5,6 @@ module Krudmin
         field.to_s.gsub('__from', '').gsub('__to', '')
       end
 
-      def real_input_for(key)
-        input_type_for(real_field_for(key))
-      end
-
       def search_criteria_for(key, value)
         input_type_for(real_field_for(key)).search_criteria_for(key, value)
       end

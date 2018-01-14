@@ -27,26 +27,6 @@ module Krudmin
 
       private
 
-      def attribute_name
-        @attribute_name ||= model_class.human_attribute_name(field)
-      end
-
-      def from_date_key
-        @from_date_key ||= "#{field}__from"
-      end
-
-      def to_date_key
-        @to_date_key ||= "#{field}__to"
-      end
-
-      def from_date
-        @from_date ||= search_criteria[from_date_key]
-      end
-
-      def to_date
-        @to_date ||= search_criteria[to_date_key]
-      end
-
       def valid_field?
         input_type == Krudmin::Fields::DateTime || (search_criteria["#{field}_options"].present? && search_criteria[field].present?)
       end

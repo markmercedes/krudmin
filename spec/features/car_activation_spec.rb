@@ -11,11 +11,25 @@ describe "line item index page", type: :feature do
     car_page.visit_page
   end
 
-  it "links to the edit page of a given item" do
-    car_page.click_activate_model_link
+  context "is activated" do
+    it "links to the edit page of a given item" do
+      car_page.click_activate_model_link
 
-    expect(car_page).to be_on_index_page
+      expect(car_page).to be_on_index_page
 
-    expect(car_page).to have_model_activated
+      expect(car_page).to have_model_activated
+    end
+  end
+
+  context "cant' be activated" do
+    let!(:car) { create(:car, model: car_model, active: false, year: 1989) }
+
+    it "displays a message indicating that the model couldn't be activated" do
+      car_page.click_activate_model_link
+
+      expect(car_page).to be_on_edit_page
+
+      expect(car_page).to have_model_unable_to_be_activated
+    end
   end
 end

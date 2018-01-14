@@ -3,13 +3,13 @@ require 'spec_helper'
 require "#{Dir.pwd}/lib/krudmin/search_form"
 
 describe Krudmin::SearchForm::CalendarFilter do
-  module MockedModel
-    def self.human_attribute_name(attribute)
-      attribute
-    end
-  end
+  let(:attr_name_source) { double }
 
-  subject { described_class.for(:arrival_date, search_criteria, MockedModel) }
+  subject { described_class.for(:arrival_date, search_criteria, attr_name_source) }
+
+  before do
+    expect(attr_name_source).to receive(:human_attribute_name).with(:arrival_date) { :arrival_date }
+  end
 
   describe "for" do
     context 'with from and to dates' do
