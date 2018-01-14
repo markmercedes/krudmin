@@ -16,6 +16,7 @@
 //= require bootstrap
 //= require turbolinks
 //= require cocoon
+//= require trix
 //= require krudmin/turbo-forms
 //= require krudmin/app
 //= require krudmin_scripts
