@@ -6,8 +6,7 @@ Krudmin::Config.with do |config|
 
   config.menu_items = -> { [
       Krudmin::NavigationItems::Node.node_for("Admin Cars", 'car', module_path: :admin, icon: :car),
-      Krudmin::NavigationItems::Node.node_for("Car Brands", 'car_brand', module_path: :admin, icon: :car),
-      Krudmin::NavigationItems::Node.node_for("Console Cars", 'car', module_path: :console, add: false, icon: :car)
+      Krudmin::NavigationItems::Node.node_for("Car Brands", 'car_brand', module_path: :admin, icon: :car)
     ]
   }
 end

@@ -97,8 +97,6 @@ module Krudmin
     end
 
     def destroy
-      authorize model
-
       respond_to do |format|
         if model.destroy
           format.html { redirect_to resource_root, notice: destroyed_message }
