@@ -2,14 +2,14 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   MODEL_CLASSNAME = "Car"
 
   EDITABLE_ATTRIBUTES = {
-    general: [:active],
+    general: [:active, :description],
     activation: [:model, :year, :car_brand_id],
     passengers: [:passengers]
   }
 
   SEARCHABLE_ATTRIBUTES = [:model, :year, :active]
   LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
-  LISTABLE_ATTRIBUTES = [:model, :year]
+  LISTABLE_ATTRIBUTES = [:model, :year, :description]
   ORDER_BY = [:year]
   RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :model
   RESOURCE_LABEL = "Car"
@@ -23,6 +23,8 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
 
   ATTRIBUTE_TYPES = {
     id: Krudmin::Fields::Number,
+    model: {type: Krudmin::Fields::Text, input: {rows: 2}},
+    description: {type: Krudmin::Fields::RichText, show_length: 20},
     year: Krudmin::Fields::Number,
     active: Krudmin::Fields::String,
     passengers: Krudmin::Fields::HasMany,
