@@ -1,5 +1,12 @@
 module Krudmin
   module CrudMessages
+
+    extend ActiveSupport::Concern
+
+    included do
+      helper_method :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message
+    end
+
     def created_message_for(label)
       I18n.t('krudmin.messages.created', label: label)
     end
