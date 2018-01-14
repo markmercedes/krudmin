@@ -16,16 +16,12 @@ ActiveRecord::Migration.maintain_test_schema!
 
 Dir[Rails.root.join("../../spec/support/**/*.rb")].each { |file| require file }
 
-module Features
-  include Formulaic::Dsl
-end
-
 def in_ci?
   ENV["CIRCLECI"].present?
 end
 
 RSpec.configure do |config|
-  config.include Features, type: :feature
+  config.include PageFeatures, type: :feature
   config.include FactoryBot::Syntax::Methods
   config.include ControllerHelpers, type: :controller
 

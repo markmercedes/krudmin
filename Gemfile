@@ -19,16 +19,15 @@ group :development, :test do
   gem "haml-rails"
   gem "pg"
   gem "pry"
-  gem "rspec_junit_formatter"
 end
 
 group :test do
   gem "database_cleaner"
-  gem "formulaic"
   gem "guard-rspec"
   gem "poltergeist"
   gem 'capybara-screenshot'
   gem "pundit"
+  gem "rspec_junit_formatter"
   gem "rspec-rails"
   gem "simplecov"
   gem "timecop"

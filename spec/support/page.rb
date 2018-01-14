@@ -1,4 +1,4 @@
-module Features
+module PageFeatures
   def have_header(title)
     have_css("h4", text: title)
   end

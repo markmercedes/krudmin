@@ -1,8 +1,7 @@
 class CarBrandPage
   include Capybara::DSL
   include FactoryBot::Syntax::Methods
-  include Rails.application.routes.url_helpers
-  include Features
+  include PageFeatures
 
   delegate :description, to: :model
 

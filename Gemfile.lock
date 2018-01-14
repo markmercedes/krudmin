@@ -103,10 +103,6 @@ GEM
     font-awesome-rails (4.7.0.3)
       railties (>= 3.2, < 5.2)
     formatador (0.2.5)
-    formulaic (0.4.0)
-      activesupport
-      capybara
-      i18n
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     guard (2.14.2)
@@ -317,7 +313,6 @@ DEPENDENCIES
   database_cleaner
   factory_bot_rails
   ffaker
-  formulaic
   guard-rspec
   haml-rails
   krudmin!
