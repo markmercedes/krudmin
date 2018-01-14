@@ -18,10 +18,9 @@ module Krudmin
       def initialize(attribute, model = nil, options = {})
         @attribute = attribute
         @model = model
-        options = options.dup
-        @resource = options.delete(:resource)
-        @options = options
-        @presenter = options.fetch(:present_with, self.class::PRESENTER)
+        @options = options.dup
+        @resource = @options.delete(:resource)
+        @presenter = @options.fetch(:present_with, self.class::PRESENTER)
         @presenter_contexts = {}
       end
 
@@ -53,7 +52,7 @@ module Krudmin
         field
       end
 
-      def self.search_criteria_for(key, value)
+      def self.search_criteria_for(_, value)
         value
       end
 

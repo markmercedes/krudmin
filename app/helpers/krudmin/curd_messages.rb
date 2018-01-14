@@ -1,43 +1,10 @@
 module Krudmin
   module CrudMessages
-    def created_message_for(label)
-      I18n.t('krudmin.messages.created', label: label)
-    end
 
-    def modified_message_for(label)
-      I18n.t('krudmin.messages.modified', label: label)
-    end
+    extend ActiveSupport::Concern
 
-    def cant_be_created_message_for(label)
-      I18n.t('krudmin.messages.cant_be_created', label: label)
-    end
-
-    def cant_be_modified_message_for(label)
-      I18n.t('krudmin.messages.cant_be_modified', label: label)
-    end
-
-    def cant_be_activated_message_for(label)
-      I18n.t('krudmin.messages.cant_be_activated', label: label)
-    end
-
-    def cant_be_deactivated_message_for(label)
-      I18n.t('krudmin.messages.cant_be_deactivated', label: label)
-    end
-
-    def activated_message_for(label)
-      I18n.t('krudmin.messages.activated', label: label)
-    end
-
-    def deactivated_message_for(label)
-      I18n.t('krudmin.messages.deactivated', label: label)
-    end
-
-    def destroyed_message_for(label)
-      I18n.t('krudmin.messages.destroyed', label: label)
-    end
-
-    def cant_be_destroyed_message_for(label)
-      I18n.t('krudmin.messages.cant_be_destroyed', label: label)
+    included do
+      helper_method :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :crud_title
     end
 
     def confirm_destroy_message(given_model)
@@ -61,43 +28,43 @@ module Krudmin
     end
 
     def created_message
-      created_message_for(model_label)
+      I18n.t('krudmin.messages.created', label: model_label)
     end
 
     def modified_message
-      modified_message_for(model_label)
+      I18n.t('krudmin.messages.modified', label: model_label)
     end
 
     def cant_be_created_message
-      cant_be_created_message_for(model_label)
+      I18n.t('krudmin.messages.cant_be_created', label: model_label)
     end
 
     def cant_be_modified_message
-      cant_be_modified_message_for(model_label)
+      I18n.t('krudmin.messages.cant_be_modified', label: model_label)
     end
 
     def cant_be_activated_message
-      cant_be_activated_message_for(model_label)
+      I18n.t('krudmin.messages.cant_be_activated', label: model_label)
     end
 
     def cant_be_deactivated_message
-      cant_be_deactivated_message_for(model_label)
+      I18n.t('krudmin.messages.cant_be_deactivated', label: model_label)
     end
 
     def activated_message
-      activated_message_for(model_label)
+      I18n.t('krudmin.messages.activated', label: model_label)
     end
 
     def deactivated_message
-      deactivated_message_for(model_label)
+      I18n.t('krudmin.messages.deactivated', label: model_label)
     end
 
     def destroyed_message
-      destroyed_message_for(model_label)
+      I18n.t('krudmin.messages.destroyed', label: model_label)
     end
 
     def cant_be_destroyed_message
-      cant_be_destroyed_message_for(model_label)
+      I18n.t('krudmin.messages.cant_be_destroyed', label: model_label)
     end
 
     def crud_title

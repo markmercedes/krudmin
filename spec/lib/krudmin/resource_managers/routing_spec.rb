@@ -8,10 +8,10 @@ describe Krudmin::ResourceManagers::Routing do
   let(:resource) { :item }
   let(:model_id) { 1 }
 
-  subject { described_class.new(resource) }
+  subject { described_class.new(predefined_routes, resource) }
 
   before do
-    allow(subject).to receive(:routes) { predefined_routes }
+    # allow(subject).to receive(:routes) { predefined_routes }
   end
 
   def test_routes(generator)
@@ -25,7 +25,7 @@ describe Krudmin::ResourceManagers::Routing do
 
   describe "parth parsing" do
     context "with module" do
-      subject { described_class.from("namespace/sub-namespace/items") }
+      subject { described_class.from(predefined_routes, "namespace/sub-namespace/items") }
 
       it "generates a router generator with a namespace" do
         expect(subject.namespace).to eq("namespace/sub-namespace")
@@ -35,7 +35,7 @@ describe Krudmin::ResourceManagers::Routing do
     end
 
     context "without module" do
-      subject { described_class.from("items") }
+      subject { described_class.from(predefined_routes, "items") }
 
       it "generates a router generator with a namespace" do
         expect(subject.namespace).to be_nil
@@ -64,7 +64,7 @@ describe Krudmin::ResourceManagers::Routing do
 
   context "with a prepended namespace" do
     let(:prepended_path) { :namespace }
-    subject { described_class.new(resource, prepended_path) }
+    subject { described_class.new(predefined_routes, resource, prepended_path) }
 
     it "generates routes methods with a namespace prepended" do
       expect(predefined_routes).to receive(:new_namespace_item_path) { "new_path" }

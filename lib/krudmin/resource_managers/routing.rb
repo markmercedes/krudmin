@@ -2,8 +2,9 @@ module Krudmin
   module ResourceManagers
     class Routing
 
-      attr_reader :resource_name, :namespace
-      def initialize(resource_name, namespace = nil)
+      attr_reader :routes, :resource_name, :namespace
+      def initialize(routes, resource_name, namespace = nil)
+        @routes = routes
         @resource_name = resource_name.to_s.singularize
         @namespace = namespace.present? ? namespace : nil
       end
@@ -40,10 +41,10 @@ module Krudmin
         @resources ||= resource_name.to_s.pluralize.underscore
       end
 
-      def self.from(controller_path)
+      def self.from(routes, controller_path)
         path_parts = controller_path.split('/')
 
-        new(path_parts.last, path_parts[0..-2].join('/'))
+        new(routes, path_parts.last, path_parts[0..-2].join('/'))
       end
 
       private
@@ -70,10 +71,6 @@ module Krudmin
 
       def path
         @path ||= namespace ? "#{namespace}_" : ""
-      end
-
-      def routes
-        Rails.application.routes.url_helpers
       end
     end
   end

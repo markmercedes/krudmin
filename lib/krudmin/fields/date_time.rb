@@ -45,8 +45,8 @@ module Krudmin
         ["#{field}__from".to_sym, "#{field}__to".to_sym]
       end
 
-      def self.search_criteria_for(key, _value)
-        value = Date.parse(_value)
+      def self.search_criteria_for(key, raw_value)
+        value = Date.parse(raw_value)
 
         if key.to_s.end_with?("__to")
           value.end_of_day

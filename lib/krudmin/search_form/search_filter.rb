@@ -8,32 +8,20 @@ module Krudmin
         new(field, search_criteria, model_class).filters
       end
 
-      def calendar_filter_for(field)
-        Krudmin::SearchForm::CalendarFilter.for(field, search_criteria, model_class)
-      end
-
       attr_reader :field, :search_criteria, :model_class
       def initialize(field, search_criteria, model_class)
         @field, @search_criteria, @model_class = field, search_criteria, model_class
       end
 
       def filters
-        if input_type_for(field) == Krudmin::Fields::Boolean
-          return unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
-          [
-            search_phrase_for(field),
-            "`#{model_class.human_attribute_name(field)}`"
-          ].join(' ')
-        elsif input_type_for(field) == Krudmin::Fields::DateTime
+        return unless valid_field?
+
+        if input_type == Krudmin::Fields::Boolean
+          boolean_filter_for(field)
+        elsif input_type == Krudmin::Fields::DateTime
           calendar_filter_for(field)
         else
-          return unless search_criteria["#{field}_options"].present? && search_criteria[field].present?
-          real_field = real_field_for(field)
-          [
-            "`#{model_class.human_attribute_name(real_field)}`",
-            search_phrase_for(field),
-            "< #{search_criteria[field.to_s]} >"
-          ].join(' ')
+          regular_filter_for(field)
         end
       end
 
@@ -57,6 +45,33 @@ module Krudmin
 
       def to_date
         @to_date ||= search_criteria[to_date_key]
+      end
+
+      def valid_field?
+        input_type == Krudmin::Fields::DateTime || (search_criteria["#{field}_options"].present? && search_criteria[field].present?)
+      end
+
+      def input_type
+        @input_type ||= input_type_for(field)
+      end
+
+      def calendar_filter_for(field)
+        Krudmin::SearchForm::CalendarFilter.for(field, search_criteria, model_class)
+      end
+
+      def boolean_filter_for(field)
+        [
+          search_phrase_for(field),
+          "`#{model_class.human_attribute_name(field)}`"
+        ].join(' ')
+      end
+
+      def regular_filter_for(field)
+        [
+          "`#{model_class.human_attribute_name(real_field_for(field))}`",
+          search_phrase_for(field),
+          "< #{search_criteria[field.to_s]} >"
+        ].join(' ')
       end
     end
   end
