@@ -2,7 +2,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/ruby:2.4.1-node-browsers
+    - image: epicname/ruby-node-phantomjs-docker
       environment:
         PGHOST: localhost
         PGUSER: krudmin_test
