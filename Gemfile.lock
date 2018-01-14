@@ -17,6 +17,7 @@ PATH
       sass-rails
       selectize-rails
       simple_form
+      trix
       turbolinks
 
 GEM
@@ -62,7 +63,7 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (8.0.0)
-    autoprefixer-rails (7.2.4)
+    autoprefixer-rails (7.2.5)
       execjs
     bootstrap (4.0.0.beta3)
       autoprefixer-rails (>= 6.0.3)
@@ -85,7 +86,7 @@ GEM
       railties (>= 3.0.0)
     ffaker (2.7.0)
     ffi (1.9.18)
-    font-awesome-rails (4.7.0.2)
+    font-awesome-rails (4.7.0.3)
       railties (>= 3.2, < 5.2)
     formatador (0.2.5)
     globalid (0.4.1)
@@ -224,13 +225,12 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.0)
-    rspec_junit_formatter (0.2.2)
-      builder (< 4)
+    rspec_junit_formatter (0.3.0)
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby_dep (1.5.0)
     ruby_parser (3.10.1)
       sexp_processor (~> 4.9)
-    sass (3.5.4)
+    sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -263,9 +263,11 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    turbolinks (5.0.1)
-      turbolinks-source (~> 5)
-    turbolinks-source (5.0.3)
+    trix (0.11.1)
+      rails (> 4.1, < 5.2)
+    turbolinks (5.1.0)
+      turbolinks-source (~> 5.1)
+    turbolinks-source (5.1.0)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
     websocket-driver (0.6.5)

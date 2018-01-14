@@ -42,4 +42,5 @@ Gem::Specification.new do |s|
   s.add_dependency "arbre"
   s.add_dependency "ransack"
   s.add_dependency "cocoon"
+  s.add_dependency "trix"
 end
