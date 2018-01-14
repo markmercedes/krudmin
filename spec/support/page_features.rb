@@ -1,16 +1,4 @@
 module PageFeatures
-  def have_header(title)
-    have_css("h4", text: title)
-  end
-
-  def have_label(title)
-    have_css("label", text: title)
-  end
-
-  def have_table_header(title)
-    have_css("th", text: title)
-  end
-
   def row_css_for(model)
     "tr.item-model-#{model.id}"
   end
@@ -30,6 +18,12 @@ module PageFeatures
   def click_destroy_link_for(model)
     within(row_css_for(model)) do
       all(".btn-destroy-item").first.click
+    end
+  end
+
+  def click_add_link
+    within('.card-header') do
+      click_link("Add")
     end
   end
 

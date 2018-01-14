@@ -31,6 +31,10 @@ class CarPage
     has_content?("#{description} was successfully modified") && has_field?(:car_model, with: description)
   end
 
+  def has_created_message_visible?(description)
+    has_content?("#{description} was successfully created") && has_field?(:car_model, with: description)
+  end
+
   def has_model_visible?
     has_selector?(row_css_for(model))
   end
@@ -49,6 +53,18 @@ class CarPage
 
   def click_deactivate_model_link
     click_deactivation_link_for(model)
+  end
+
+  def has_model_unable_to_be_destroyed?
+    has_content?("#{description} can't be destroyed")
+  end
+
+  def has_model_unable_to_be_activated?
+    has_content?("#{description} couldn't be activated")
+  end
+
+  def has_model_unable_to_be_deactivated?
+    has_content?("#{description} couldn't be deactivated")
   end
 
   def has_model_activated?

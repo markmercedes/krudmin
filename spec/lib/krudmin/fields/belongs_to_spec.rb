@@ -17,12 +17,6 @@ describe Krudmin::Fields::BelongsTo do
           OpenStruct.new(name: "Arnold", id: 3)
         ]
       end
-
-      def main
-        [
-          OpenStruct.new(name: "Rambo", id: 1)
-        ]
-      end
     end
   end
 

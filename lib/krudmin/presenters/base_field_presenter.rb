@@ -11,10 +11,6 @@ module Krudmin
         end
       end
 
-      def self.render(field, page, view_context = nil, options = {})
-        new(field, page, view_context, options).render
-      end
-
       delegate :attribute, :options, :value, :to_s, to: :field
 
       attr_reader :field, :page, :view_context, :options
