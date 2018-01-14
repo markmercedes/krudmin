@@ -11,7 +11,7 @@ describe "line item index page", type: :feature do
     car_page.visit_page
   end
 
-  it "links to the edit page of a given item", js: true do
+  it "links to the edit page of a given item" do
     click_edit_link_for(car)
 
     fill_in(:car_model, with: new_car_model)
