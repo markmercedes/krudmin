@@ -8,12 +8,10 @@ module Krudmin
       end
 
       def render_list
-        value.html_safe
+        value and value.html_safe
       end
 
-      def render_show
-        value.html_safe
-      end
+      alias_method :render_show, :render_list
     end
   end
 end
