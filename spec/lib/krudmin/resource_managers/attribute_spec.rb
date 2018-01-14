@@ -7,13 +7,6 @@ require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute_collection"
 
 describe Krudmin::ResourceManagers::Attribute do
-  let(:attributes) {
-    {
-      priority: {type: Krudmin::Fields::Number, decimals: 3},
-      properties: {type: Krudmin::Fields::HasMany, decimals: 3}
-    }
-  }
-
   describe "from" do
     let(:attribute) { :priority }
 
