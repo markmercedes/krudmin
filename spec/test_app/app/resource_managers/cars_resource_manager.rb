@@ -26,7 +26,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     model: {type: Krudmin::Fields::Text, input: {rows: 2}},
     description: {type: Krudmin::Fields::RichText, show_length: 20},
     year: Krudmin::Fields::Number,
-    active: Krudmin::Fields::String,
+    active: Krudmin::Fields::Boolean,
     passengers: Krudmin::Fields::HasMany,
     car_brand_id: {type: Krudmin::Fields::BelongsTo, collection_label_field: :description},
   }
