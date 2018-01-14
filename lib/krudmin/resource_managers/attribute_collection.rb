@@ -1,11 +1,22 @@
 module Krudmin
   module ResourceManagers
     class AttributeCollection
-      attr_reader :attributes_metadata, :attributes, :presentation_metadata
-      def initialize(attributes_metadata, attributes, presentation_metadata)
+      attr_reader :model, :attributes_metadata, :attributes, :searchable_attributes, :presentation_metadata, :listable_attributes
+      def initialize(model, attributes_metadata, attributes, listable_attributes, searchable_attributes, presentation_metadata)
+        @model = model
         @attributes_metadata = attributes_metadata
-        @attributes = attributes
         @presentation_metadata = presentation_metadata
+        @listable_attributes = collection_or_default(listable_attributes)
+        @searchable_attributes = collection_or_default(searchable_attributes)
+        @attributes = collection_or_default(attributes)
+      end
+
+      def collection_or_default(collection)
+        collection.any? ? collection : column_names
+      end
+
+      def column_names
+        @column_names ||= (model.column_names - invisible_columns).map(&:to_sym)
       end
 
       def grouped_attributes
@@ -47,6 +58,12 @@ module Krudmin
           hash[attribute] = Attribute.from(attribute, options)
           hash
         end
+      end
+
+      private
+
+      def invisible_columns
+        @invisible_columns ||= [model.primary_key, "created_at", "updated_at"]
       end
     end
   end

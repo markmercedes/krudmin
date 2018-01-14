@@ -23,7 +23,7 @@ module Krudmin
       ATTRIBUTE_TYPES = {}
       PRESENTATION_METADATA = {}
 
-      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_attributes, :editable_attributes, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :presentation_metadata
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :presentation_metadata
 
       def field_for(field, model = nil, root: nil)
         resource_attributes.attribute_for(field, root).new_field(model)
@@ -63,12 +63,15 @@ module Krudmin
 
       private
 
-      delegate :attribute_types, :permitted_attributes, :editable_attributes, :grouped_attributes, to: :resource_attributes
+      delegate :attribute_types, :permitted_attributes, :editable_attributes, :listable_attributes, :searchable_attributes, :grouped_attributes, to: :resource_attributes
 
       def resource_attributes
         @resource_attributes ||= Krudmin::ResourceManagers::AttributeCollection.new(
+                                                model_class,
                                                 self.class::ATTRIBUTE_TYPES,
                                                 self.class::EDITABLE_ATTRIBUTES,
+                                                self.class::LISTABLE_ATTRIBUTES,
+                                                self.class::SEARCHABLE_ATTRIBUTES,
                                                 self.class::PRESENTATION_METADATA)
       end
     end
