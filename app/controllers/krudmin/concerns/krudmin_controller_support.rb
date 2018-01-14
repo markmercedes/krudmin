@@ -5,7 +5,7 @@ module Krudmin
     included do
       delegate :permitted_attributes, :resource_label, :resources_label, :scope, :listable_actions, :listable_attributes, :model_class, :editable_attributes, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :field_for, to: :krudmin_manager
 
-      helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :listable_actions, :listable_attributes, :model_class, :crud_title, :model, :editable_attributes, :model_id, :krudmin_manager, :field_for, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes
+      helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :listable_actions, :listable_attributes, :model_class, :model, :editable_attributes, :model_id, :krudmin_manager, :field_for, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes
 
       delegate :resource_root, :activate_path, :deactivate_path, :new_resource_path, :resource_path, :edit_resource_path, to: :krudmin_router
 
@@ -39,7 +39,7 @@ module Krudmin
     end
 
     def krudmin_router
-      @krudmin_router ||= Krudmin::ResourceManagers::Routing.from(controller_path)
+      @krudmin_router ||= Krudmin::ResourceManagers::Routing.from(Rails.application.routes.url_helpers, controller_path)
     end
 
     def items

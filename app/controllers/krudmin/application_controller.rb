@@ -25,41 +25,28 @@ module Krudmin
 
       authorize_model(model)
 
-      respond_to do |format|
-        if model.save
-          format.html { redirect_to edit_resource_path(model), notice: created_message }
-        else
-          format.html {
-            render "new"
-          }
-        end
+      if model.save
+        redirect_to edit_resource_path(model), notice: created_message
+      else
+        render "new"
       end
     end
 
     def update
       model.update_attributes(model_params)
 
-      respond_to do |format|
-        if model.valid?
-          format.html {
-            redirect_to edit_resource_path(model), notice: modified_message
-          }
-        else
-          format.html {
-            render "edit"
-          }
-        end
+      if model.valid?
+        redirect_to edit_resource_path(model), notice: modified_message
+      else
+        render "edit"
       end
     end
 
     def destroy
-      respond_to do |format|
-        if model.destroy
-          format.html { redirect_to resource_root, notice: destroyed_message }
-        else
-          format.js { redirect_to edit_resource_path(model, failed_destroy: 1), notice: cant_be_destroyed_message }
-          format.html { redirect_to edit_resource_path(model, failed_destroy: 1), notice: cant_be_destroyed_message }
-        end
+      if model.destroy
+        redirect_to resource_root, notice: destroyed_message
+      else
+        redirect_to edit_resource_path(model, failed_destroy: 1), notice: cant_be_destroyed_message
       end
     end
 
