@@ -1,7 +1,6 @@
 require "jquery-rails"
 require "kaminari"
 require "momentjs-rails"
-require "selectize-rails"
 require "sass-rails"
 require "font-awesome-rails"
 require "bootstrap"
