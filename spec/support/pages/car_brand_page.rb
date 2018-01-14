@@ -1,3 +1,5 @@
+require_relative '../page_features'
+
 class CarBrandPage
   include Capybara::DSL
   include FactoryBot::Syntax::Methods

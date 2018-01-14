@@ -4,9 +4,8 @@ defaults: &defaults
   docker:
     - image: circleci/ruby:2.4.1-node-browsers
       environment:
-          COVERAGE_ARTIFACTS_DIRECTORY: /tmp/test-results
-          PGHOST: localhost
-          PGUSER: krudmin_test
+        PGHOST: localhost
+        PGUSER: krudmin_test
     - image: postgres:9.5-alpine
       environment:
         POSTGRES_USER: krudmin_test
@@ -55,12 +54,12 @@ jobs:
                             --out /tmp/test-results/rspec.xml \
                             --format progress
 
-            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.json coverage/.resultset.json
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.app.json coverage/.resultset.json
 
       - persist_to_workspace:
           root: tmp
           paths:
-            - codeclimate.json
+            - codeclimate.app.json
   upload-coverage:
     <<: *defaults
     environment:
@@ -71,7 +70,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
 workflows:
   version: 2
