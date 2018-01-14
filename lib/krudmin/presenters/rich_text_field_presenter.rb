@@ -6,6 +6,14 @@ module Krudmin
 
         form.trix_editor attribute, field.options.fetch(:input, {})
       end
+
+      def render_list
+        value.html_safe
+      end
+
+      def render_show
+        value.html_safe
+      end
     end
   end
 end
