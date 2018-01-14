@@ -7,9 +7,9 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     passengers: [:passengers]
   }
 
-  SEARCHABLE_ATTRIBUTES = [:model, :year, :active]
+  SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id]
   LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
-  LISTABLE_ATTRIBUTES = [:model, :year, :description]
+  LISTABLE_ATTRIBUTES = [:model, :year, :active, :description]
   ORDER_BY = [:year]
   RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :model
   RESOURCE_LABEL = "Car"
