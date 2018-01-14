@@ -14,6 +14,14 @@ describe Krudmin::ResourceManagers::Base do
       def all
         [1,2,3]
       end
+
+      def primary_key
+        "id"
+      end
+
+      def column_names
+        []
+      end
     end
   end
 
