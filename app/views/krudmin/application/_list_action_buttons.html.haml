@@ -1,22 +1,22 @@
 %ul.list-inline.actions-list
   - if listable_actions.include?(:show)
     %li.list-inline-item
-      = link_to resource_path(item.id), class: "btn btn-secondary" do
+      = link_to resource_path(item.id), class: "btn btn-secondary btn-show-item" do
         %i.fa.fa-eye
   - if listable_actions.include?(:edit)
     %li.list-inline-item
-      = link_to edit_resource_path(item.id), class: "btn btn-primary" do
+      = link_to edit_resource_path(item.id), class: "btn btn-primary btn-edit-item" do
         %i.fa.fa-pencil
   - if listable_actions.include?(:active)
     - if item.active?
       %li.list-inline-item
-        = link_to(deactivate_path(item.id), method: :post, remote: true, data: {confirm: confirm_deactivation_message(item)}, class: "btn btn-warning btn-disable") do
+        = link_to(deactivate_path(item.id), method: :post, remote: true, data: {confirm: confirm_deactivation_message(item)}, class: "btn btn-warning btn-disable btn-deactivate-item") do
           %i.fa.fa-times
     - unless item.active?
       %li.list-inline-item
-        = link_to(activate_path(item.id), method: :post, remote: true, data: {confirm: confirm_activation_message(item) }, class: "btn btn-success btn-enable") do
+        = link_to(activate_path(item.id), method: :post, remote: true, data: {confirm: confirm_activation_message(item) }, class: "btn btn-success btn-enable btn-activate-item") do
           %i.fa.fa-check
   - if listable_actions.include?(:destroy)
     %li.list-inline-item
-      = link_to(resource_path(item.id), method: :delete, remote: true, data: {confirm: confirm_destroy_message(item)}, class: "btn btn-danger delete-btn") do
+      = link_to(resource_path(item.id), method: :delete, remote: true, data: {confirm: confirm_destroy_message(item)}, class: "btn btn-danger delete-btn btn-destroy-item") do
         %i.fa.fa-trash

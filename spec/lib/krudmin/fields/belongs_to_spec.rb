@@ -17,11 +17,21 @@ describe Krudmin::Fields::BelongsTo do
           OpenStruct.new(name: "Arnold", id: 3)
         ]
       end
+    end
+  end
 
-      def main
-        [
-          OpenStruct.new(name: "Rambo", id: 1)
-        ]
+  describe "collection_label_field" do
+    context "default" do
+      it "returns the default value" do
+        expect(subject.collection_label_field).to eq(:label)
+      end
+    end
+
+    context "with custom option" do
+      subject { described_class.new(:ranger, model, collection_label_field: :slug) }
+
+      it "returns the value provided to the :collection_label_field option" do
+        expect(subject.collection_label_field).to eq(:slug)
       end
     end
   end

@@ -1,6 +1,12 @@
+require_relative '../presenters/has_many_field_presenter'
+
 module Krudmin
   module Fields
     class HasMany < Associated
+      PRESENTER = Krudmin::Presenters::HasManyFieldPresenter
+
+      delegate :partial_form, :child_partial_form, to: :presenter_instance
+
       def associated_collection
         @associated_collection ||= association_predicate.call(associated_resource_manager_class.new.items)
       end
@@ -45,36 +51,19 @@ module Krudmin
         @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize
       end
 
-      def render_form(page, h, options)
-        h.render(partial: partial_form, locals: {options: options, page: page, field: self})
-      end
-
-      def render_list(page, h, options)
-        h.render(partial: partial_display, locals: {options: options, page: page, field: self})
-      end
-
-      def partial_display
-        options.fetch(:partial_form, "has_many_display")
-      end
-
-      def child_partial_display
-        options.fetch(:child_partial_form, "has_many_fields_display")
-      end
-
-      def partial_form
-        options.fetch(:partial_form, "has_many_form")
-      end
-
-      def child_partial_form
-        options.fetch(:child_partial_form, "has_many_fields")
-      end
-
       def self.editable_attribute(attribute)
         new(attribute).editable_attribute
       end
 
       def editable_attribute
         {"#{attribute}_attributes".to_sym => [:id, *associated_resource_manager_class.editable_attributes, :_destroy]}
+      end
+
+      def self.type_as_hash(attribute, options)
+        {
+          attribute => options,
+          __attributes: Krudmin::ResourceManagers::Attribute.from_list(new(attribute).associated_resource_manager_class::ATTRIBUTE_TYPES)
+        }
       end
 
       private

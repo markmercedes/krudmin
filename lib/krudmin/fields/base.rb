@@ -1,17 +1,27 @@
+require_relative '../constants_to_methods_exposer'
+require_relative '../presenters/base_field_presenter'
+
 module Krudmin
   module Fields
     class Base
+      extend Krudmin::ConstantsToMethodsExposer
+      include Krudmin::Presenters::BaseFieldPresenter::Renderer
+
       HTML_CLASS = ''
       HTML_FORMAT = ''
       HTML_ATTRS = {}
+      PRESENTER = Krudmin::Presenters::BaseFieldPresenter
 
-      attr_accessor :attribute, :model, :resource, :options, :model
+      constantized_methods :html_class, :html_format, :html_attrs
+
+      attr_reader :attribute, :model, :resource, :options, :model, :presenter, :presenter_contexts
       def initialize(attribute, model = nil, options = {})
         @attribute = attribute
         @model = model
-        options = options.dup
-        @resource = options.delete(:resource)
-        @options = options
+        @options = options.dup
+        @resource = @options.delete(:resource)
+        @presenter = @options.fetch(:present_with, self.class::PRESENTER)
+        @presenter_contexts = {}
       end
 
       def data
@@ -24,71 +34,6 @@ module Krudmin
 
       def self.is?(klass)
         klass == self
-      end
-
-      def html_class
-        self.class::HTML_CLASS
-      end
-
-      def html_format
-        self.class::HTML_FORMAT
-      end
-
-      def html_attrs
-        self.class::HTML_ATTRS
-      end
-
-      def self.html_class
-        self::HTML_CLASS
-      end
-
-      def self.html_format
-        self::HTML_FORMAT
-      end
-
-      def self.html_attrs
-        self::HTML_ATTRS
-      end
-
-      def renderer
-        @renderer ||= if options[:render_with]
-                        options[:render_with].new(self)
-                      else
-                        self
-                      end
-      end
-
-      def render(page, h = nil, options = {})
-        if respond_to?("render_#{page}")
-          renderer.send("render_#{page}", page, h, options)
-        else
-          to_s
-        end
-      end
-
-      def render_form(page, h, options)
-        options.fetch(:form).input(attribute, options.fetch(:input, {}))
-      end
-
-      def render_search(page, h, options)
-        form = options.fetch(:form)
-        search_form = options.fetch(:search_form)
-        _attribute = attribute
-        _h = h
-
-        Arbre::Context.new do
-          div(class: "col-sm-5") do
-            ul(class: "list-unstyled") do
-              li form.select "#{_attribute}_options", h.options_for_select(search_form.search_predicates_for(_attribute), search_form.send("#{_attribute}_options")), {}, {class: "form-control"}
-            end
-          end
-
-          div(class: "col-sm-7") do
-            ul(class: "list-unstyled") do
-              li form.text_field(_attribute, class: "form-control", required: false)
-            end
-          end
-        end
       end
 
       def to_s
@@ -107,12 +52,16 @@ module Krudmin
         field
       end
 
-      def self.search_criteria_for(key, value)
+      def self.search_criteria_for(_, value)
         value
       end
 
       def self.editable_attribute(attribute)
         attribute
+      end
+
+      def self.type_as_hash(attribute, options)
+        {attribute => options}
       end
     end
   end

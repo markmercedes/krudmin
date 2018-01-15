@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103170252) do
+ActiveRecord::Schema.define(version: 20180114224530) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "car_brands", force: :cascade do |t|
+    t.string "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "cars", force: :cascade do |t|
     t.string "model"
@@ -18,13 +27,17 @@ ActiveRecord::Schema.define(version: 20180103170252) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active"
+    t.bigint "car_brand_id"
+    t.text "description"
+    t.integer "transmission"
+    t.index ["car_brand_id"], name: "index_cars_on_car_brand_id"
   end
 
   create_table "passengers", force: :cascade do |t|
     t.string "name"
     t.integer "age"
     t.integer "gender"
-    t.integer "car_id"
+    t.bigint "car_id"
     t.index ["car_id"], name: "index_passengers_on_car_id"
   end
 

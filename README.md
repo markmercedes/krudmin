@@ -1,3 +1,7 @@
+[![CircleCI](https://img.shields.io/circleci/project/markmercedes/krudmin.svg)](https://circleci.com/gh/markmercedes/krudmin/tree/master)
+[![Code Climate](https://codeclimate.com/github/markmercedes/krudmin/badges/gpa.svg)](https://codeclimate.com/github/markmercedes/krudmin)
+[![Test Coverage](https://d3s6mut3hikguw.cloudfront.net/github/markmercedes/krudmin/badges/coverage.svg)](http://codeclimate.com/github/markmercedes/krudmin/badges/)
+
 # Krudmin
 Short description and motivation.
 

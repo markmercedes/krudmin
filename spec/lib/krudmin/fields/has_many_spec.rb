@@ -21,12 +21,6 @@ describe Krudmin::Fields::HasMany do
           OpenStruct.new(name: "Arnold", id: 3, ranger_id: 1)
         ]
       end
-
-      def main
-        [
-          OpenStruct.new(name: "Rambo", id: 1, rangers: rangers)
-        ]
-      end
     end
   end
 

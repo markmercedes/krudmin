@@ -18,16 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 5.1.3"
 
-  s.add_development_dependency "sqlite3"
-  s.add_development_dependency "factory_bot_rails", "~> 4.8.2"
-  s.add_development_dependency "ffaker", "~> 2.7.0"
-  s.add_development_dependency 'rspec-rails', "~> 3.7.2"
-  s.add_development_dependency 'pry', "~> 0.11.3"
-  s.add_development_dependency "simplecov", "~> 0.15.1"
-  s.add_development_dependency "haml-rails", "~> 1.0.0"
-  s.add_development_dependency "guard-rspec", "~> 4.7.3"
-
-  s.add_dependency "rspec_junit_formatter"
   s.add_dependency 'simple_form'
   s.add_dependency 'haml'
   s.add_dependency 'bootstrap', '~> 4.0.0.beta2.1'
@@ -36,10 +26,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-rails'
   s.add_dependency 'kaminari'
   s.add_dependency "momentjs-rails"
-  s.add_dependency "selectize-rails"
   s.add_dependency "turbolinks"
   s.add_dependency "pundit"
   s.add_dependency "arbre"
   s.add_dependency "ransack"
   s.add_dependency "cocoon"
+  s.add_dependency "trix"
 end

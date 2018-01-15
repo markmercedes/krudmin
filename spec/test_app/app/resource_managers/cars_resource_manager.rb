@@ -2,14 +2,14 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   MODEL_CLASSNAME = "Car"
 
   EDITABLE_ATTRIBUTES = {
-    general: [:active],
-    activation: [:model, :year],
+    general: [:active, :description],
+    activation: [:model, :year, :car_brand_id, :transmission],
     passengers: [:passengers]
   }
 
-  SEARCHABLE_ATTRIBUTES = [:model, :year, :active]
+  SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id, :transmission, :created_at]
   LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
-  LISTABLE_ATTRIBUTES = [:model, :year]
+  LISTABLE_ATTRIBUTES = [:model, :year, :active, :description, :created_at]
   ORDER_BY = [:year]
   RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :model
   RESOURCE_LABEL = "Car"
@@ -23,8 +23,14 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
 
   ATTRIBUTE_TYPES = {
     id: Krudmin::Fields::Number,
+    model: {type: Krudmin::Fields::Text, input: {rows: 2}},
+    description: {type: Krudmin::Fields::RichText, show_length: 20},
     year: Krudmin::Fields::Number,
-    active: Krudmin::Fields::String,
-    passengers: Krudmin::Fields::HasMany
+    active: Krudmin::Fields::Boolean,
+    passengers: Krudmin::Fields::HasMany,
+    car_brand_id: {type: Krudmin::Fields::BelongsTo, collection_label_field: :description},
+    created_at: {type: Krudmin::Fields::DateTime, format: :short},
+    transmission: {type: Krudmin::Fields::EnumType, associated_options: -> { Car.transmissions }}
+    # {type: Krudmin::Fields::DateTime, format: :short}
   }
 end

@@ -35,20 +35,24 @@ describe Krudmin::Fields::Base do
     end
 
     context "with custom renderer" do
+      let(:model) { double(name: "Goku") }
+      let(:options) { {resource: "Humanoid", present_with: FieldWithCustomPresenter} }
+      subject { described_class.new(:name, model, options ) }
+
       it "is able to render custom views" do
-        class FieldWithCustomRender < described_class
-          def render_show(page, h, options)
-            h.render("/krudmin/fields/#{page}")
+        class FieldWithCustomPresenter < Krudmin::Presenters::BaseFieldPresenter
+          def render_show
+            view_context.render("/krudmin/fields/#{page}")
           end
         end
 
         fake_view_context = double
 
-        custom_field = FieldWithCustomRender.new(nil)
+        custom_field = FieldWithCustomPresenter
 
         expect(fake_view_context).to receive(:render).with("/krudmin/fields/show") { "Yep" }
 
-        expect(custom_field.render(:show, fake_view_context)).to eq "Yep"
+        expect(subject.render(:show, fake_view_context)).to eq "Yep"
       end
     end
   end

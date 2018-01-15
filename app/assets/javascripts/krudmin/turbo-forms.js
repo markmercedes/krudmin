@@ -24,10 +24,16 @@ $(document).on('submit', '.no-submit', function(e) {
   e.preventDefault();
 });
 
+function extractTurboActionPathFrom(context, actionPath) {
+  return actionPath ? context.find('select[data-action-path="true"]').val() : context.attr('action');
+}
+
 $(document).on('submit', '.turbo-form[method=get]', function(e) {
   e.preventDefault();
 
-  var obj = objectifyForm($(this).serializeArray());
+  var context = $(this);
+
+  var obj = objectifyForm(context.serializeArray());
 
   obj.utf8 = null;
 
@@ -35,15 +41,9 @@ $(document).on('submit', '.turbo-form[method=get]', function(e) {
 
   var onlyWithValues = extractPropertiesWithValuesOnly(obj);
 
-  var actionPath = $(this).find('select[data-action-path="true"]').val();
+  var actionPath = context.find('select[data-action-path="true"]').val();
 
-  var route = null;
-
-  if(actionPath) {
-    route = $(this).find('select[data-action-path="true"]').val();
-  } else {
-    route = $(this).attr('action');
-  }
+  var route = extractTurboActionPathFrom(context, actionPath);
 
   Turbolinks.visit(
     [
@@ -62,17 +62,13 @@ $(document).on('click', 'button[formaction]', function(e) {
 $(document).on('submit', '.turbo-form[method=post],.turbo-form[method=put]', function(e) {
   e.preventDefault();
 
-  var obj =  $(this).serialize();
+  var context = $(this);
 
-  var actionPath = $(this).find('select[data-action-path="true"]').val();
+  var obj =  context.serialize();
 
-  var route = null;
+  var actionPath = context.find('select[data-action-path="true"]').val();
 
-  if(actionPath) {
-    route = $(this).find('select[data-action-path="true"]').val();
-  } else {
-    route = $(this).attr('action');
-  }
+  var route = extractTurboActionPathFrom(context, actionPath);
 
   $.ajax({
     url: route,

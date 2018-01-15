@@ -16,7 +16,7 @@ module Krudmin
     def initialize(fields, model_class, search_by: {}, order_by: nil)
       @fields = fields
       @model_class = model_class
-      @search_criteria = i_hash(search_by)
+      @search_criteria = HashWithIndifferentAccess.new(search_by)
       @sorting_expression = order_by
     end
 
@@ -33,7 +33,7 @@ module Krudmin
     end
 
     def form_attributes
-      @form_attributes ||= fields_with_values.inject(i_hash) {|hash, key|
+      @form_attributes ||= fields_with_values.inject(HashWithIndifferentAccess.new) {|hash, key|
                     hash.merge(key => search_criteria_for(key, search_criteria[key]),
                               "#{key}_options" => search_criteria["#{key}_options"])
                  }
@@ -41,7 +41,7 @@ module Krudmin
 
     def params
       @params ||= begin
-        _params = fields_with_values.inject(i_hash) do |hash, key|
+        _params = fields_with_values.inject(HashWithIndifferentAccess.new) do |hash, key|
           criteria = search_criteria["#{key}_options"]
 
           hash["#{real_field_for(key)}_#{criteria}"] = form_attributes[key] unless criteria.blank?
@@ -57,9 +57,8 @@ module Krudmin
 
     def method_missing(method, *args, &block)
       return "" if method == :""
-      return form_attributes[method] if all_fields.include?(method)
 
-      super
+      all_fields.include?(method) ? form_attributes[method] : super
     end
 
     def apply_sorting_on(params)
@@ -77,11 +76,7 @@ module Krudmin
     end
 
     def fields_with_values
-      search_criteria.keys.reject{|k| k.end_with?("_options")}
-    end
-
-    def i_hash(value = {})
-      HashWithIndifferentAccess.new(value)
+      search_criteria.keys.reject{|key| key.end_with?("_options")}
     end
   end
 end

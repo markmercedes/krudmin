@@ -1,8 +1,11 @@
+require_relative '../presenters/date_time_field_presenter'
+
 module Krudmin
   module Fields
     class DateTime < Base
       SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
       DEFAULT_VALUE = '-'
+      PRESENTER = Krudmin::Presenters::DateTimeFieldPresenter
 
       def date
         I18n.localize(
@@ -38,33 +41,12 @@ module Krudmin
         options.fetch(:timezone, "UTC")
       end
 
-      def render_search(page, h, options)
-        form = options.fetch(:form)
-        _attribute = attribute
-
-        Arbre::Context.new do
-          div(class: "col-sm-6") do
-            ul(class: "list-unstyled") do
-              li form.hidden_field "#{_attribute}__from_options", value: :gteq
-              li form.date_field "#{_attribute}__from", required: false, class: "form-control"
-            end
-          end
-
-          div(class: "col-sm-6") do
-            ul(class: "list-unstyled") do
-              li form.hidden_field "#{_attribute}__to_options", value: :gteq
-              li form.date_field "#{_attribute}__to", required: false, class: "form-control"
-            end
-          end
-        end
-      end
-
       def self.search_config_for(field)
         ["#{field}__from".to_sym, "#{field}__to".to_sym]
       end
 
-      def self.search_criteria_for(key, _value)
-        value = Date.parse(_value)
+      def self.search_criteria_for(key, raw_value)
+        value = Date.parse(raw_value)
 
         if key.to_s.end_with?("__to")
           value.end_of_day

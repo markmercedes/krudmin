@@ -4,7 +4,7 @@ module Krudmin
     include Pundit
 
     included do |base|
-      before_action :authorize_model, only: [:edit, :show, :update, :activate, :deactivate]
+      before_action :authorize_model, only: [:new, :edit, :show, :update, :activate, :deactivate, :destroy]
       before_action :authorize_scope, only: [:index]
 
       prepend ModelAuthorizer
@@ -19,8 +19,8 @@ module Krudmin
     end
 
     module ModelAuthorizer
-      def authorize_model(_model = nil)
-        authorize _model || model
+      def authorize_model(given_model = model)
+        authorize given_model
       end
 
       def scope

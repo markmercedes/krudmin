@@ -12,3 +12,24 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+
+group :development, :test do
+  gem "factory_bot_rails"
+  gem "ffaker"
+  gem "haml-rails"
+  gem "pg"
+  gem "pry"
+end
+
+group :test do
+  gem "database_cleaner"
+  gem "guard-rspec"
+  gem "poltergeist"
+  gem 'capybara-screenshot'
+  gem "pundit"
+  gem "rspec_junit_formatter"
+  gem "rspec-rails"
+  gem "simplecov"
+  gem "timecop"
+  gem "webmock"
+end
