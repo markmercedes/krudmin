@@ -18,6 +18,8 @@ require "krudmin/fields/associated"
 require "krudmin/fields/belongs_to"
 require "krudmin/fields/has_many"
 require "krudmin/fields/enum_type"
+require "krudmin/fields/currency"
+require "krudmin/fields/decimal"
 
 module Krudmin
   def self.config(&block)

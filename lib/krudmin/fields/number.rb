@@ -14,13 +14,13 @@ module Krudmin
       end
 
       def value
-        (data * options.fetch(:multiplier, 1)).round(decimals) if data
+        (data * options.fetch(:multiplier, 1)) if data
       end
 
       private
 
       def default_value
-        options.fetch(:default_value, DEFAULT_VALUE)
+        options.fetch(:default_value, self.class::DEFAULT_VALUE)
       end
 
       def format_string
@@ -42,7 +42,7 @@ module Krudmin
       end
 
       def pad_with
-        options.fetch(:pad_with, DEFAULT_PADDING_VALUE)
+        options.fetch(:pad_with, self.class::DEFAULT_PADDING_VALUE)
       end
 
       def padding
