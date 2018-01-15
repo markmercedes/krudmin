@@ -26,28 +26,38 @@ module Krudmin
       end
 
       def render_form
-        options.fetch(:form).input(attribute, options.fetch(:input, {}))
+        form.input(attribute, options.fetch(:input, {}))
       end
 
       def render_search
-        form = options.fetch(:form)
-        search_form = options.fetch(:search_form)
         _attribute = attribute
         _view_context = view_context
+        _search_form = search_form
+        _form = form
 
         Arbre::Context.new do
           div(class: "col-sm-5") do
             ul(class: "list-unstyled") do
-              li form.select "#{_attribute}_options", _view_context.options_for_select(search_form.search_predicates_for(_attribute), search_form.send("#{_attribute}_options")), {}, {class: "form-control"}
+              li _form.select "#{_attribute}_options", _view_context.options_for_select(_search_form.search_predicates_for(_attribute), _search_form.send("#{_attribute}_options")), {}, {class: "form-control"}
             end
           end
 
           div(class: "col-sm-7") do
             ul(class: "list-unstyled") do
-              li form.text_field(_attribute, class: "form-control", required: false)
+              li _form.text_field(_attribute, class: "form-control", required: false)
             end
           end
         end
+      end
+
+      private
+
+      def form
+        @form ||= options.fetch(:form)
+      end
+
+      def search_form
+        @search_form ||= options.fetch(:search_form)
       end
     end
   end
