@@ -103,6 +103,22 @@ describe Krudmin::Fields::HasMany do
         end
       end
 
+      describe "partial_display" do
+        context "default" do
+          it "returns the default value" do
+            expect(subject.partial_display).to eq("has_many_display")
+          end
+        end
+
+        context "with custom option" do
+          subject { described_class.new(:rangers, model, {partial_display: "other"}) }
+
+          it "returns the custom value" do
+            expect(subject.partial_display).to eq("other")
+          end
+        end
+      end
+
       describe "child_partial_form" do
         context "default" do
           it "returns the default value" do
@@ -115,6 +131,22 @@ describe Krudmin::Fields::HasMany do
 
           it "returns the custom value" do
             expect(subject.child_partial_form).to eq("other")
+          end
+        end
+      end
+
+      describe "child_partial_display" do
+        context "default" do
+          it "returns the default value" do
+            expect(subject.child_partial_display).to eq("has_many_fields_display")
+          end
+        end
+
+        context "with custom option" do
+          subject { described_class.new(:rangers, model, {child_partial_display: "other"}) }
+
+          it "returns the custom value" do
+            expect(subject.child_partial_display).to eq("other")
           end
         end
       end

@@ -9,6 +9,10 @@ module Krudmin
         value
       end
 
+      def selected_association
+        model.send(association_name)
+      end
+
       def collection_label_field
         @collection_label_field ||= options.fetch(:collection_label_field, :label)
       end

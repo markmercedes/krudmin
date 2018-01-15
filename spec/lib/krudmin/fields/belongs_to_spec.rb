@@ -5,8 +5,8 @@ require "#{Dir.pwd}/lib/krudmin/fields/associated"
 require "#{Dir.pwd}/lib/krudmin/fields/belongs_to"
 
 describe Krudmin::Fields::BelongsTo do
-  let(:model) { double(ranger: 1) }
-  subject { described_class.new(:ranger, model) }
+  let(:model) { double(ranger_id: 1, ranger: Ranger.main) }
+  subject { described_class.new(:ranger_id, model) }
 
   module Ranger
     class << self
@@ -16,6 +16,10 @@ describe Krudmin::Fields::BelongsTo do
           OpenStruct.new(name: "Chuck Norris", id: 2),
           OpenStruct.new(name: "Arnold", id: 3)
         ]
+      end
+
+      def main
+        all.first
       end
     end
   end
@@ -28,7 +32,7 @@ describe Krudmin::Fields::BelongsTo do
     end
 
     context "with custom option" do
-      subject { described_class.new(:ranger, model, collection_label_field: :slug) }
+      subject { described_class.new(:ranger_id, model, collection_label_field: :slug) }
 
       it "returns the value provided to the :collection_label_field option" do
         expect(subject.collection_label_field).to eq(:slug)
@@ -44,6 +48,13 @@ describe Krudmin::Fields::BelongsTo do
       end
     end
 
+    describe "selected_association" do
+      it "returns the associated model from value" do
+        expect(subject.selected_association).not_to be(nil)
+        expect(subject.selected_association).to eq(Ranger.main)
+      end
+    end
+
     describe "associated_options" do
       it "returns all the records by default" do
         expect(subject.associated_options).to eq(Ranger.all)
@@ -51,7 +62,7 @@ describe Krudmin::Fields::BelongsTo do
     end
 
     describe "associated_options" do
-      subject { described_class.new(:ranger, model, {association_predicate: -> (source) { source.main }}) }
+      subject { described_class.new(:ranger_id, model, {association_predicate: -> (source) { source.main }}) }
 
       it "executes the main method as the given scope" do
         expect(subject.associated_options).to eq(Ranger.main)

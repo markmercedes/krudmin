@@ -5,7 +5,7 @@ module Krudmin
     class HasMany < Associated
       PRESENTER = Krudmin::Presenters::HasManyFieldPresenter
 
-      delegate :partial_form, :child_partial_form, to: :presenter_instance
+      delegate :partial_form, :child_partial_form, :partial_display, :child_partial_display, to: :presenter_instance
 
       def associated_collection
         @associated_collection ||= association_predicate.call(associated_resource_manager_class.new.items)
