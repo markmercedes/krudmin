@@ -5,10 +5,10 @@ module Krudmin
     class HasMany < Associated
       PRESENTER = Krudmin::Presenters::HasManyFieldPresenter
 
-      delegate :partial_form, :child_partial_form, to: :presenter_instance
+      delegate :partial_form, :child_partial_form, :partial_display, :child_partial_display, to: :presenter_instance
 
       def associated_collection
-        @associated_collection ||= association_predicate.call(associated_class)
+        @associated_collection ||= association_predicate.call(associated_resource_manager_class.new.items)
       end
 
       def associated_class
@@ -16,23 +16,31 @@ module Krudmin
       end
 
       def associated_class_name
-        @associated_class_name ||= options.fetch(:class_name) { association_name.to_s.camelcase }
+        @associated_class_name ||= options.fetch(:class_name) { singularize_class_name.camelcase }
       end
 
       def association_name
         @association_name ||= options.fetch(:association_name) { attribute.to_sym }
       end
 
-      def foreign_key
-        @foreign_key ||= options.fetch(:foreign_key, "#{association_name.to_s.singularize}_id".to_sym)
+      def singularize_class_name
+        association_name.to_s.singularize
       end
 
       def primary_key
-        @primary_key ||= options.fetch(:primary_key, :id)
+        @primary_key ||= options.fetch(:model_key, :id)
+      end
+
+      def foreign_key
+        @foreign_key ||= options.fetch(:foreign_key, "#{model.class.table_name.singularize}_id".to_sym)
+      end
+
+      def primary_key_value
+        model.send(primary_key)
       end
 
       def association_predicate
-        @association_predicate ||=  options.fetch(:association_predicate, -> (source) { source.where(foreign_key => primary_key) })
+        @association_predicate ||=  options.fetch(:association_predicate, -> (source) { source.where( foreign_key => primary_key_value) })
       end
 
       def associated_resource_manager_class_name

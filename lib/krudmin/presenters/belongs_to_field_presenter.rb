@@ -1,12 +1,16 @@
 module Krudmin
   module Presenters
     class BelongsToFieldPresenter < BaseFieldPresenter
-      delegate :associated_options, :collection_label_field, :association_name, to: :field
+      delegate :associated_options, :collection_label_field, :association_name, :selected_association, to: :field
 
       def render_form
         form = options.fetch(:form)
 
         form.association association_name, collection: associated_options, label_method: collection_label_field, value_method: :id, input_html: {class: 'form-control select2', include_blank: true}
+      end
+
+      def render_list
+        selected_association[collection_label_field]
       end
 
       def render_search
