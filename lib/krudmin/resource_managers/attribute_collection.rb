@@ -1,12 +1,13 @@
 module Krudmin
   module ResourceManagers
     class AttributeCollection
-      attr_reader :model, :attributes_metadata, :attributes, :searchable_attributes, :presentation_metadata, :listable_attributes
-      def initialize(model, attributes_metadata, attributes, listable_attributes, searchable_attributes, presentation_metadata)
+      attr_reader :model, :attributes_metadata, :attributes, :searchable_attributes, :presentation_metadata, :listable_attributes, :displayable_attributes
+      def initialize(model, attributes_metadata, attributes, listable_attributes, searchable_attributes, displayable_attributes, presentation_metadata)
         @model = model
         @attributes_metadata = attributes_metadata
         @presentation_metadata = presentation_metadata
         @listable_attributes = collection_or_default(listable_attributes)
+        @displayable_attributes = collection_or_default(displayable_attributes)
         @searchable_attributes = collection_or_default(searchable_attributes)
         @attributes = collection_or_default(attributes)
       end

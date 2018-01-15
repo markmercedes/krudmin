@@ -6,7 +6,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     activation: [:model, :year, :car_brand_id, :transmission],
     passengers: [:passengers]
   }
-
+  DISPLAYABLE_ATTRIBUTES = [:model, :year, :description, :transmission, :passengers, :created_at]
   SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id, :transmission, :created_at]
   LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
   LISTABLE_ATTRIBUTES = [:model, :year, :active, :description, :created_at]
