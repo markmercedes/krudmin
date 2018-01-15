@@ -10,10 +10,6 @@ describe Krudmin::Fields::HasMany do
 
   module Ranger
     class << self
-      def where(*)
-        rangers
-      end
-
       def rangers
         [
           OpenStruct.new(name: "Rambo", id: 1, ranger_id: 1),

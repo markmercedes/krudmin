@@ -74,11 +74,10 @@ describe Krudmin::Fields::HasManyIds do
     describe "associated resource manager" do
       let(:resource_double) { double }
 
-        module ResourceDouble
+      module ResourceDouble
         def self.new
           OpenStruct.new(items: Ranger.rangers)
         end
-
       end
 
       subject {
