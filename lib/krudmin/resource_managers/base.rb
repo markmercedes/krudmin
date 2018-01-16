@@ -38,6 +38,10 @@ module Krudmin
         new.editable_attributes
       end
 
+      def self.displayable_attributes
+        new.displayable_attributes
+      end
+
       def label_for(given_model)
         given_model.send(resource_instance_label_attribute)
       end
