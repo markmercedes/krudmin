@@ -1,5 +1,5 @@
 %tr.nested-fields
-  - @field.associated_resource_manager_class.editable_attributes.each do |attribute|
+  - @field.associated_resource_manager_class.displayable_attributes.each do |attribute|
     %td
       = field_for(attribute, f.object, root: @field.association_name).render(:form, self, {form: f, input: {label: false}})
   %td
