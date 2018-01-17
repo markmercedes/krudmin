@@ -86,7 +86,7 @@ describe Krudmin::Fields::HasMany do
       describe "partial_form" do
         context "default" do
           it "returns the default value" do
-            expect(subject.partial_form).to eq("has_many_form")
+            expect(subject.partial_form).to eq(:form)
           end
         end
 
@@ -102,7 +102,7 @@ describe Krudmin::Fields::HasMany do
       describe "partial_display" do
         context "default" do
           it "returns the default value" do
-            expect(subject.partial_display).to eq("has_many_display")
+            expect(subject.partial_display).to eq(:show)
           end
         end
 
@@ -118,7 +118,7 @@ describe Krudmin::Fields::HasMany do
       describe "child_partial_form" do
         context "default" do
           it "returns the default value" do
-            expect(subject.child_partial_form).to eq("has_many_fields")
+            expect(subject.child_partial_form).to eq(:form_fields)
           end
         end
 
@@ -134,7 +134,7 @@ describe Krudmin::Fields::HasMany do
       describe "child_partial_display" do
         context "default" do
           it "returns the default value" do
-            expect(subject.child_partial_display).to eq("has_many_fields_display")
+            expect(subject.child_partial_display).to eq(:show_fields)
           end
         end
 

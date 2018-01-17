@@ -54,19 +54,24 @@ module Krudmin
       end
 
       def render_partial(partial_name, locals = {})
-        view_context.render(partial: "krudmin/#{self.class::VIEW_PATH}/fields/#{partial_path}/#{partial_name}", locals: default_locals.merge(locals))
+        view_context.render(partial: "#{partial_path}/#{partial_name}", locals: default_locals.merge(locals))
       end
 
       def partial_path
-        @partial_path ||= self.class.name.demodulize.split('Field').first.underscore
+        "krudmin/#{self.class::VIEW_PATH}/fields/#{partial_scope}"
+      end
+
+      def partial_scope
+        @partial_scope ||= self.class.name.demodulize.split('Field').first.underscore
       end
 
       def default_locals
-        {field: self, form: form, input_options: input_options, attribute: attribute}
+        {field: field, form: form, input_options: input_options, attribute: attribute}
       end
 
       def form
-        @form ||= options.fetch(:form)
+        # @form ||= options.fetch(:form)
+        @form ||= options[:form]
       end
 
       def search_form
