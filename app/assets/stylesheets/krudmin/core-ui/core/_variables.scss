@@ -46,7 +46,7 @@ $navbar-border: (
     color:                            $border-color
   )
 )  !default;
-$navbar-brand-width:                  155px !default;
+$navbar-brand-width:                  200px !default;
 $navbar-brand-bg:                     #fff !default;
 $navbar-brand-logo:                   asset-url('krudmin/logo.png') !default;
 $navbar-brand-logo-size:              70px auto !default;
@@ -74,7 +74,7 @@ $navbar-toggler-icon-hover:           str-replace(url("data:image/svg+xml;charse
 
 // Sidebar
 
-$sidebar-width:                       200px !default;
+$sidebar-width:                       250px !default;
 $sidebar-padding:                     0 !default;
 $sidebar-minimized-width:             50px !default;
 $sidebar-minimized-height:            $sidebar-minimized-width !default;

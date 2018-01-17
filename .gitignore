@@ -10,3 +10,4 @@ rerun.txt
 *.orig
 public/assets/
 tmp/caching-dev.txt
+tmp/rspec_guard_result
