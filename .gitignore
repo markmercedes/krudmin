@@ -9,3 +9,4 @@ spec/test_app/tmp/
 rerun.txt
 *.orig
 public/assets/
+tmp/caching-dev.txt
