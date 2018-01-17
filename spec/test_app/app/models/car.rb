@@ -15,6 +15,8 @@ class Car < ApplicationRecord
 
   enum transmission: {automatic: 0, manual: 1}
 
+  delegate :description, to: :car_brand, prefix: true, allow_nil: true
+
   def activate!
     update_attribute(:active, true) unless cant_be_touched?
   end

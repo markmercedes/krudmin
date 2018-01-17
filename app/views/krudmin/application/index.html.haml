@@ -13,7 +13,6 @@
     .card.items-list
       .card-header
         %h4.pull-left
-          %i.fa.fa-align-justify
           = t('krudmin.actions.manage_resources', label: resources_label)
         .pull-right
           = link_to(new_resource_path, class: 'btn btn-success') do
@@ -24,30 +23,26 @@
             %i.fa.fa-search
             = t('krudmin.actions.search')
       .card-body
-        %table.table.table-striped.table-sm
+        %table.table.table-hover
           %thead
-            %tr.search-filters-description
-              %td{colspan: listable_attributes.count + 1}
-                = search_form.filters.join(", ")
+            - if search_form.filters.any?
+              %tr.search-filters-description
+                %td{colspan: listable_attributes.count + 1}
+                  = search_form.filters.join(", ")
             %tr
               - listable_attributes.each_with_index do |column_label, column_index|
-                - if column_index.zero?
-                  %th{class: "#{krudmin_manager.field_for(column_label).html_class}", width: "35%"}
-                    = sort_link items, column_label, model_class.human_attribute_name(column_label)
-                - else
-                  %th{class: "#{krudmin_manager.field_for(column_label).html_class}"}
-                    = sort_link items, column_label, model_class.human_attribute_name(column_label)
+                %th{class: "#{krudmin_manager.field_for(column_label).html_class}"}
+                  = sort_link items, column_label, model_class.human_attribute_name(column_label)
               - if listable_actions.any?
                 %th{width: "20%"}= t('krudmin.actions.label')
           %tbody
             - items.result.each do |item|
               %tr{class: "item-model-#{item.id}"}
                 - listable_attributes.each_with_index do |column_label, column_index|
-                  - if column_index.zero?
-                    %td{width: "35%", class: "#{krudmin_manager.field_for(column_label).html_class}"}
+                  %td{class: "#{krudmin_manager.field_for(column_label).html_class}"}
+                    - if column_index.zero?
                       = link_to(field_for(column_label, item).render(:list, self), edit_resource_path(item.id))
-                  - else
-                    %td{class: "#{krudmin_manager.field_for(column_label).html_class}"}
+                    - else
                       = field_for(column_label, item).render(:list, self)
                 - if listable_actions.any?
                   %td{width: "20%"}
