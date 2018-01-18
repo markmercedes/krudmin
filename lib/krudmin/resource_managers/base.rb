@@ -54,10 +54,6 @@ module Krudmin
         model_class.all
       end
 
-      def list_scope
-        scope.includes(listable_includes).order(order_by)
-      end
-
       def model_class
         @model_class ||= model_classname.constantize
       end
@@ -67,6 +63,10 @@ module Krudmin
       end
 
       private
+
+      def list_scope
+        scope.includes(listable_includes).order(order_by)
+      end
 
       delegate :attribute_types, :permitted_attributes, :editable_attributes, :listable_attributes, :searchable_attributes, :grouped_attributes, :displayable_attributes, to: :resource_attributes
 
