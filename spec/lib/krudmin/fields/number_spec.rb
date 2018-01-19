@@ -34,7 +34,7 @@ describe Krudmin::Fields::Number do
 
       it "truncates size to given decimal number" do
         expect(subject.to_s).to eq("7.12")
-        expect(subject.value).to eq(7.12)
+        expect(subject.value).to eq(7.123456)
       end
     end
   end
