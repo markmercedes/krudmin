@@ -4,6 +4,7 @@ module Krudmin
     include Krudmin::ModelStatusToggler
     include Krudmin::CrudMessages
     include Krudmin::Searchable
+    include Krudmin::ToolbarSupport
 
     before_action :set_model, only: [:new, :edit, :create]
 
