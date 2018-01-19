@@ -22,14 +22,12 @@
     .app-body
       = render partial: 'layouts/krudmin/sidebar_menu'
       %main.main
-        = render partial: 'layouts/krudmin/breadcrumbs'
-        .container-fluid
-          #ui-view
-            .row
-              .col-lg-12
-                = render 'layouts/krudmin/messages'
+        = render partial: 'layouts/krudmin/toolbar'
 
-            = yield
+        #ui-view.container-fluid
+          = render 'layouts/krudmin/messages'
+
+          = yield
       = render partial: '/layouts/krudmin/aside_menu'
     %footer.app-footer
       %span
