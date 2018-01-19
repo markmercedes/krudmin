@@ -17,3 +17,5 @@
 
       - grouped_attributes.drop(1).each do |key, metadata|
         = render partial: "general_fields", locals: {metadata: metadata, f: f}
+
+    = render partial: "form_action_buttons", locals: {f: f}

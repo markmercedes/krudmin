@@ -6,8 +6,13 @@
     = link_to(edit_resource_path(model)) do
       = crud_title
 
+- toolbar_block(self) do
+  = link_to edit_resource_path(model), class: "btn btn-success" do
+    %i.fa.fa-pencil
+    = crud_title
+
 .row
-  .col-lg-10.offset-lg-1.col-md-12
+  .col-lg-12
     .card
       .card-body
         .reading-mode
@@ -21,7 +26,3 @@
                   = model_class.human_attribute_name(attribute)
                 %td
                   = field_for(attribute, model).render(:list, self)
-          .form-group
-            = link_to edit_resource_path(model), class: "btn btn-success" do
-              %i.fa.fa-pencil
-              = crud_title
