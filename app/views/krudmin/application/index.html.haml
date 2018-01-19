@@ -8,6 +8,16 @@
 
 = render "search_form", locals: {search_form: search_form}
 
+- toolbar_block(self) do
+  = link_to(new_resource_path, class: 'btn btn-success') do
+    %i.fa.fa-plus
+    = t('krudmin.actions.add_new')
+
+- toolbar_block(self) do
+  = link_to("#", class: "btn btn-warning aside-menu-toggler") do
+    %i.fa.fa-search
+    = t('krudmin.actions.search')
+
 .row
   .col-lg-12.no-padding
     .card.items-list
@@ -15,13 +25,7 @@
         %h4.pull-left
           = t('krudmin.actions.manage_resources', label: resources_label)
         .pull-right
-          = link_to(new_resource_path, class: 'btn btn-success') do
-            %i.fa.fa-plus
-            = t('krudmin.actions.add_new')
-          &nbsp;
-          = link_to("#", class: "btn btn-warning aside-menu-toggler") do
-            %i.fa.fa-search
-            = t('krudmin.actions.search')
+          = paginate items.result
       .card-body
         %table.table.table-hover
           %thead
@@ -47,6 +51,3 @@
                 - if listable_actions.any?
                   %td{width: "20%"}
                     = render partial: "list_action_buttons", locals: {item: item}
-
-        %nav
-          = paginate items.result

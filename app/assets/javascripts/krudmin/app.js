@@ -25,7 +25,6 @@ function initScripts() {
 }
 
 document.addEventListener("turbofroms:updated", function(e) {
-  initControls();
 });
 
 document.addEventListener('turbolinks:load', function(event) {

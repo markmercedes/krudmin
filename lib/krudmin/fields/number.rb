@@ -24,7 +24,7 @@ module Krudmin
       end
 
       def format_string
-        (prefix + "%.#{decimals}f" + suffix).rjust(padding, pad_with)
+        prefix + ("%.#{decimals}f" + suffix).rjust(padding, pad_with)
       end
 
       def prefix

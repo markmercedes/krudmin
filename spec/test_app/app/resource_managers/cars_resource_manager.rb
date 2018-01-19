@@ -9,7 +9,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   DISPLAYABLE_ATTRIBUTES = [:model, :year, :description, :transmission, :passengers, :created_at]
   SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id, :transmission, :created_at]
   LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
-  LISTABLE_ATTRIBUTES = [:model, :car_brand_description, :year, :active, :description, :created_at]
+  LISTABLE_ATTRIBUTES = [:model, :id, :car_brand_description, :year, :active, :description, :created_at]
   LISTABLE_INCLUDES = [:car_brand]
   
   ORDER_BY = [:year]
@@ -25,7 +25,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   }
 
   ATTRIBUTE_TYPES = {
-    id: Krudmin::Fields::Number,
+    id: {type: Krudmin::Fields::Number, padding: 10, prefix: 'CK'},
     model: {type: Krudmin::Fields::Text, input: {rows: 2}},
     description: {type: Krudmin::Fields::RichText, show_length: 20},
     year: Krudmin::Fields::Number,
@@ -34,6 +34,5 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     car_brand_id: {type: Krudmin::Fields::BelongsTo, collection_label_field: :description},
     created_at: {type: Krudmin::Fields::DateTime, format: :short},
     transmission: {type: Krudmin::Fields::EnumType, associated_options: -> { Car.transmissions }}
-    # {type: Krudmin::Fields::DateTime, format: :short}
   }
 end
