@@ -9,7 +9,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   DISPLAYABLE_ATTRIBUTES = [:model, :year, :description, :transmission, :passengers, :created_at]
   SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id, :transmission, :created_at]
   LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
-  LISTABLE_ATTRIBUTES = [:model, :car_brand_description, :year, :active, :description, :created_at]
+  LISTABLE_ATTRIBUTES = [:model, :id, :car_brand_description, :year, :active, :description, :created_at]
   ORDER_BY = [:year]
   LISTABLE_INCLUDES = [:car_brand]
   RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :model
@@ -23,7 +23,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   }
 
   ATTRIBUTE_TYPES = {
-    id: Krudmin::Fields::Number,
+    id: {type: Krudmin::Fields::Number, padding: 10},
     model: {type: Krudmin::Fields::Text, input: {rows: 2}},
     description: {type: Krudmin::Fields::RichText, show_length: 20},
     year: Krudmin::Fields::Number,
