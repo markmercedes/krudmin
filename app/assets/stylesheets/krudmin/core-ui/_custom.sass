@@ -23,3 +23,60 @@ span.help-block.help-block-error
     color: $red
   input
     border: 1px solid $red
+
+body
+  color: #343c49
+  background-color: #EDF1F5
+  font-size: 15px
+
+.btn
+  border-radius: 3px
+
+#body-overlay
+  position: fixed
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: rgba(0,0,0,0.5)
+  z-index: 2
+  cursor: pointer
+
+.aside-menu-hidden
+  #body-overlay
+    display: none
+
+.card
+  padding: 15px 0px 5px
+  border: 0px
+  box-shadow: 0 1px 3px rgba(33,33,33,.2)
+  .card-header
+    background: none
+    border: none
+  .card-body
+    padding-top: 0px
+    table
+      thead
+        th
+          border: none
+      tbody
+        td
+          padding: 25px 10px
+        tr.nested-fields
+          td
+            padding: 10px 10px
+            border: 0px
+      tfoot
+        td
+          border: 0px
+  .card-footer
+    background: none
+    border: 0px
+
+.sidebar
+  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08)
+  a.nav-link
+    padding: 15px 35px 15px 20px
+    line-height: 21px

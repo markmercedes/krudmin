@@ -6,18 +6,20 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     activation: [:model, :year, :car_brand_id, :transmission],
     passengers: [:passengers]
   }
-
+  DISPLAYABLE_ATTRIBUTES = [:model, :year, :description, :transmission, :passengers, :created_at]
   SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id, :transmission, :created_at]
   LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
-  LISTABLE_ATTRIBUTES = [:model, :year, :active, :description, :created_at]
+  LISTABLE_ATTRIBUTES = [:model, :car_brand_description, :year, :active, :description, :created_at]
   LISTABLE_INCLUDES = [:car_brand]
+  
   ORDER_BY = [:year]
+  
   RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :model
   RESOURCE_LABEL = "Car"
   RESOURCES_LABEL = "Cars"
 
   PRESENTATION_METADATA = {
-    general: { label: "GENERALISIMO", class: "col-lg-6 col-md-12" },
+    general: { label: "General Info", class: "col-lg-6 col-md-12" },
     activation: { label: "Activation", class: "col-lg-6 col-md-12" },
     passengers: { label: "Passengers", class: "col-md-12" }
   }

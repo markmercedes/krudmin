@@ -26,6 +26,10 @@ module Krudmin
       def scope
         policy_scope(super)
       end
+
+      def item_list
+        policy_scope(super)
+      end
     end
   end
 end

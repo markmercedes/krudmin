@@ -1,7 +1,6 @@
-- form = options.fetch(:form)
 - @field = field
 
-%table.table
+%table.table.table-hover
   %thead
     %tr
       - field.associated_resource_manager_class.editable_attributes.each do |attribute|
@@ -10,10 +9,10 @@
       %th
   %tbody{id: "krudmin-nested-fields-#{field.association_name}"}
     = form.simple_fields_for field.association_name do |builder|
-      = render field.child_partial_form, f: builder, locals: {field: field}
+      = render_partial.call(field.child_partial_form, f: builder, field: field)
   %tfoot
     %tr
       %td{colspan: (field.associated_resource_manager_class.editable_attributes.count + 1)}
-        = link_to_add_association(form, field.association_name, class: "btn btn-warning", partial: field.child_partial_form, data: {association_insertion_node: "#krudmin-nested-fields-#{field.association_name}", association_insertion_method: :append}) do
+        = link_to_add_association(form, field.association_name, class: "btn btn-warning", partial: form_fields_partial, data: {association_insertion_node: "#krudmin-nested-fields-#{field.association_name}", association_insertion_method: :append}) do
           %i.fa.fa-plus
           = t('krudmin.actions.add_new')

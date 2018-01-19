@@ -1,6 +1,8 @@
 module Krudmin
   module Presenters
     class BaseFieldPresenter
+      VIEW_PATH = :application
+
       module Renderer
         def render(page, view_context = nil, options = {})
           presenter_contexts.fetch(page) { presenter.new(self, page, view_context, options).render }
@@ -11,7 +13,7 @@ module Krudmin
         end
       end
 
-      delegate :attribute, :options, :value, :to_s, to: :field
+      delegate :attribute, :value, :to_s, to: :field
 
       attr_reader :field, :page, :view_context, :options
       def initialize(field, page, view_context = nil, options = {})
@@ -21,33 +23,59 @@ module Krudmin
         @options = options
       end
 
+      def input_options
+        field.options.fetch(:input, {}).merge(options.fetch(:input, {}))
+      end
+
       def render
         respond_to?("render_#{page}") ? send("render_#{page}") : to_s
       end
 
       def render_form
-        options.fetch(:form).input(attribute, options.fetch(:input, {}))
+        render_partial(:form, input_options: input_options)
       end
 
       def render_search
-        form = options.fetch(:form)
-        search_form = options.fetch(:search_form)
-        _attribute = attribute
-        _view_context = view_context
+        render_partial(:search, search_form: search_form, options_attribute: options_attribute)
+      end
 
-        Arbre::Context.new do
-          div(class: "col-sm-5") do
-            ul(class: "list-unstyled") do
-              li form.select "#{_attribute}_options", _view_context.options_for_select(search_form.search_predicates_for(_attribute), search_form.send("#{_attribute}_options")), {}, {class: "form-control"}
-            end
-          end
+      private
 
-          div(class: "col-sm-7") do
-            ul(class: "list-unstyled") do
-              li form.text_field(_attribute, class: "form-control", required: false)
-            end
-          end
-        end
+      def options_attribute
+        "#{attribute}_options"
+      end
+
+      def search_value
+        search_form.send(attribute)
+      end
+
+      def options_value
+        search_form.send(options_attribute)
+      end
+
+      def render_partial(partial_name, locals = {})
+        view_context.render(partial: "#{partial_path}/#{partial_name}", locals: default_locals.merge(locals))
+      end
+
+      def partial_path
+        "krudmin/#{self.class::VIEW_PATH}/fields/#{partial_scope}"
+      end
+
+      def partial_scope
+        @partial_scope ||= self.class.name.demodulize.split('Field').first.underscore
+      end
+
+      def default_locals
+        {field: field, form: form, input_options: input_options, attribute: attribute}
+      end
+
+      def form
+        # @form ||= options.fetch(:form)
+        @form ||= options[:form]
+      end
+
+      def search_form
+        @search_form ||= options[:search_form]
       end
     end
   end

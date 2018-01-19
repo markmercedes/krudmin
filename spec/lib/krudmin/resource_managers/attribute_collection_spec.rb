@@ -11,10 +11,11 @@ describe Krudmin::ResourceManagers::AttributeCollection do
   let(:editable_attributes) { [] }
   let(:attributes_metadata) { [] }
   let(:listable_attributes) { [] }
+  let(:displayable_attributes) { [] }
   let(:searchable_attributes) { [] }
   let(:model) { double(primary_key: "pk_id", column_names: ["pk_id", "name", "age", "created_at", "updated_at"]) }
 
-  subject{ described_class.new(model, attribute_types, editable_attributes, listable_attributes, searchable_attributes, attributes_metadata) }
+  subject{ described_class.new(model, attribute_types, editable_attributes, listable_attributes, searchable_attributes, displayable_attributes, attributes_metadata) }
 
   let(:default_columns) { [:name, :age] }
 
@@ -76,7 +77,7 @@ describe Krudmin::ResourceManagers::AttributeCollection do
     context "with custom values" do
       let(:listable_attributes) { [:name] }
 
-      it "returns the model columns if no editable_attributes are provided" do
+      it "returns the specified model columns" do
         expect(subject.listable_attributes).to eq([:name])
       end
     end
@@ -92,8 +93,24 @@ describe Krudmin::ResourceManagers::AttributeCollection do
     context "with custom values" do
       let(:searchable_attributes) { [:name] }
 
-      it "returns the model columns if no editable_attributes are provided" do
+      it "returns the specified model columns" do
         expect(subject.searchable_attributes).to eq([:name])
+      end
+    end
+  end
+
+  describe "displayable_attributes" do
+    context "default" do
+      it "returns the model columns if no displayable_attributes are provided" do
+        expect(subject.displayable_attributes).to eq(default_columns)
+      end
+    end
+
+    context "with custom values" do
+      let(:displayable_attributes) { [:name] }
+
+      it "returns the specified model columns" do
+        expect(subject.displayable_attributes).to eq([:name])
       end
     end
   end

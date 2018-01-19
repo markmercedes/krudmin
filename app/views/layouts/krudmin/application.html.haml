@@ -17,6 +17,7 @@
     = stylesheet_link_tag    'https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'
 
   %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden
+    #body-overlay
     = render partial: 'layouts/krudmin/header'
     .app-body
       = render partial: 'layouts/krudmin/sidebar_menu'
