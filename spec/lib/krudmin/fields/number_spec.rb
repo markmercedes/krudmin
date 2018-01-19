@@ -70,6 +70,14 @@ describe Krudmin::Fields::Number do
           expect(subject.to_s).to eq("***9001")
         end
       end
+
+      context "with prefix and padding" do
+        let(:options) { {padding: 7, prefix: "CK-"} }
+
+        it "shows an string representation of the number" do
+          expect(subject.to_s).to eq("CK-0009001")
+        end
+      end
     end
 
     context "with nil data" do
