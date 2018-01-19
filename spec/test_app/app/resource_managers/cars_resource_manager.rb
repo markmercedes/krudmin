@@ -23,7 +23,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   }
 
   ATTRIBUTE_TYPES = {
-    id: {type: Krudmin::Fields::Number, padding: 10},
+    id: {type: Krudmin::Fields::Number, padding: 10, prefix: 'CK'},
     model: {type: Krudmin::Fields::Text, input: {rows: 2}},
     description: {type: Krudmin::Fields::RichText, show_length: 20},
     year: Krudmin::Fields::Number,
@@ -32,6 +32,5 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     car_brand_id: {type: Krudmin::Fields::BelongsTo, collection_label_field: :description},
     created_at: {type: Krudmin::Fields::DateTime, format: :short},
     transmission: {type: Krudmin::Fields::EnumType, associated_options: -> { Car.transmissions }}
-    # {type: Krudmin::Fields::DateTime, format: :short}
   }
 end
