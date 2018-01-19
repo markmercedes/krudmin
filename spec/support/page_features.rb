@@ -22,7 +22,7 @@ module PageFeatures
   end
 
   def click_add_link
-    within('.card-header') do
+    within('.toolbar') do
       click_link("Add")
     end
   end
