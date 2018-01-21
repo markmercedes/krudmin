@@ -8,9 +8,9 @@
 
 = render "search_form", locals: {search_form: search_form}
 
-- configure_toolbar(self) do |b|
-  - b.button :new, :list, new_resource_path
-  - b.button :search, :list
+- configure_toolbar(:list, self) do |b|
+  - b.button :new, new_resource_path
+  - b.button :search
 
 .row
   .col-lg-12.no-padding

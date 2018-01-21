@@ -1,15 +1,16 @@
 module Krudmin
   class Toolbar
-    attr_reader :view_context
+    attr_reader :page, :view_context
 
     TOOLBAR_SEPARATOR = "&nbsp;&nbsp;&nbsp;".html_safe
 
-    def initialize(view_context)
+    def initialize(page, view_context)
+      @page = page
       @view_context = view_context
     end
 
-    def self.configure(view_context, &block)
-      new(view_context).setup_with(&block)
+    def self.configure(page, view_context, &block)
+      new(page, view_context).setup_with(&block)
     end
 
     def setup_with(&block)
@@ -32,7 +33,7 @@ module Krudmin
       separator
     end
 
-    def action_button(button_type, page, *args)
+    def action_button(button_type,*args)
       "Krudmin::ActionButtons::#{button_type.to_s.classify}Button".constantize.new(page, view_context, *args)
     end
   end

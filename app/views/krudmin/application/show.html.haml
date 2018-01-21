@@ -5,8 +5,8 @@
   %li.breadcrumb-item.active
     = crud_title
 
-- configure_toolbar(self) do |b|
-  - b.button :edit, :form, model
+- configure_toolbar(:form, self) do |b|
+  - b.button :edit, model
 
 .row
   .col-lg-12

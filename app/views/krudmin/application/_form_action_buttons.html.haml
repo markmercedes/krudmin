@@ -1,4 +1,4 @@
-- configure_toolbar(self) do |b|
-  - b.button :save, :form, resource_root, form_id: f.options.fetch(:html).fetch(:id)
-  - b.button :cancel, :form, resource_root
-  - b.button :show, :form, model
+- configure_toolbar(:form, self) do |b|
+  - b.button :save, resource_root, form_id: f.options.fetch(:html).fetch(:id)
+  - b.button :cancel, resource_root
+  - b.button :show, model
