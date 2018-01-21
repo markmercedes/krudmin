@@ -1,15 +1,4 @@
-- toolbar_block(self) do
-  = button_tag(type: :submit, class: "btn btn-primary", form: f.options.fetch(:html).fetch(:id)) do
-    %i.fa.fa-save
-    = t('krudmin.actions.save')
-
-- toolbar_block(self) do
-  = link_to(resource_root, class: "btn btn-danger") do
-    %i.fa.fa-close
-    = t('krudmin.actions.cancel')
-
-- unless model.new_record?
-  - toolbar_block(self) do
-    = link_to(resource_path(model_id), class: "btn btn-secondary") do
-      %i.fa.fa-eye
-      = t('krudmin.actions.show')
+- configure_toolbar(self) do |b|
+  - b.button :save, :form, resource_root, form_id: f.options.fetch(:html).fetch(:id)
+  - b.button :cancel, :form, resource_root
+  - b.button :show, :form, model

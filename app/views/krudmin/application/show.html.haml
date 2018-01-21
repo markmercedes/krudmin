@@ -1,15 +1,12 @@
 - content_for :breadcrumb do
-  %li.breadcrumb-item.active
+  %li.breadcrumb-item
     = link_to(resource_root) do
       = "#{resources_label}"
   %li.breadcrumb-item.active
-    = link_to(edit_resource_path(model)) do
-      = crud_title
-
-- toolbar_block(self) do
-  = link_to edit_resource_path(model), class: "btn btn-success" do
-    %i.fa.fa-pencil
     = crud_title
+
+- configure_toolbar(self) do |b|
+  - b.button :edit, :form, model
 
 .row
   .col-lg-12
