@@ -13,7 +13,7 @@ module Krudmin
       new(page, view_context).setup_with(&block)
     end
 
-    def setup_with(&block)
+    def setup_with
       yield(self)
     end
 
@@ -29,15 +29,15 @@ module Krudmin
       view_context.content_for(:toolbar, TOOLBAR_SEPARATOR)
     end
 
-    def toolbar_block(&block)
+    def toolbar_block
       view_context.content_for(:toolbar) do
-        block.call.to_s
+        yield.to_s
       end
 
       separator
     end
 
-    def action_button(button_type,*args, &block)
+    def action_button(button_type, *args, &block)
       "Krudmin::ActionButtons::#{button_type.to_s.classify}Button".constantize.new(page, view_context, *args, &block)
     end
   end

@@ -11,8 +11,12 @@ module Krudmin
 
       private
 
+      def id_from_form
+        html_options.delete(:form).options.fetch(:html).fetch(:id)
+      end
+
       def extract_form_id
-        html_options[:form_id] ? html_options[:form_id] : html_options.delete(:form).options.fetch(:html).fetch(:id)
+        html_options.fetch(:form_id, id_from_form)
       end
     end
   end
