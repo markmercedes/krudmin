@@ -6,8 +6,7 @@ module Krudmin
 
       attr_reader :page, :view_context, :action_path, :html_options, :button_body
       def initialize(page, view_context, action_path = '#', html_options = {}, &block)
-        @page, @view_context, @action_path, @html_options = page, view_context, action_path, html_options
-        @button_body = block
+        @page, @view_context, @action_path, @html_options, @button_body = page, view_context, action_path, html_options, block
       end
 
       def to_s
@@ -15,7 +14,11 @@ module Krudmin
       end
 
       def render_partial(partial_name, locals = {})
-        view_context.render(partial: "#{partial_path}/#{partial_name}", locals: default_locals.merge(locals))
+        if button_body
+          view_context.render(layout: "#{partial_path}/#{partial_name}", locals: default_locals.merge(locals), &button_body)
+        else
+          view_context.render(partial: "#{partial_path}/#{partial_name}", locals: default_locals.merge(locals))
+        end
       end
 
       def partial_path

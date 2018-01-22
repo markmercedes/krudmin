@@ -17,8 +17,12 @@ module Krudmin
       yield(self)
     end
 
-    def button(button_type, *args)
-      toolbar_block { action_button(button_type, *args) }
+    def button(button_type, *args, &block)
+      toolbar_block { action_button(button_type, *args, &block) }
+    end
+
+    def link(path, *args, &block)
+      toolbar_block { action_button("link", path, *args, &block) }
     end
 
     def separator
@@ -33,8 +37,8 @@ module Krudmin
       separator
     end
 
-    def action_button(button_type,*args)
-      "Krudmin::ActionButtons::#{button_type.to_s.classify}Button".constantize.new(page, view_context, *args)
+    def action_button(button_type,*args, &block)
+      "Krudmin::ActionButtons::#{button_type.to_s.classify}Button".constantize.new(page, view_context, *args, &block)
     end
   end
 end

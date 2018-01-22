@@ -11,6 +11,12 @@
 - configure_toolbar(:list, self) do |b|
   - b.button :new, new_resource_path
   - b.button :search
+  - b.link admin_cars_path, class: 'btn btn-danger' do
+    %i.fa.fa-car
+  - b.link 'https://google.com', class: 'btn btn-primary', target: :_blank, data: {confirm: "?"} do
+    %i.fa.fa-google
+    %i.fa.fa-plus
+    Google
 
 .row
   .col-lg-12.no-padding
