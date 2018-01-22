@@ -18,18 +18,18 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 5.1.3"
 
-  s.add_dependency 'simple_form'
-  s.add_dependency 'haml'
-  s.add_dependency 'bootstrap', '~> 4.0.0.beta2.1'
-  s.add_dependency 'sass-rails'
-  s.add_dependency 'font-awesome-rails'
-  s.add_dependency 'jquery-rails'
-  s.add_dependency 'kaminari'
-  s.add_dependency "momentjs-rails"
-  s.add_dependency "turbolinks"
-  s.add_dependency "pundit"
   s.add_dependency "arbre"
-  s.add_dependency "ransack"
+  s.add_dependency "bootstrap", "~> 4.0.0.beta2.1"
   s.add_dependency "cocoon"
+  s.add_dependency "font-awesome-rails"
+  s.add_dependency "haml"
+  s.add_dependency "jquery-rails"
+  s.add_dependency "kaminari"
+  s.add_dependency "momentjs-rails"
+  s.add_dependency "pundit"
+  s.add_dependency "ransack"
+  s.add_dependency "sass-rails"
+  s.add_dependency "simple_form"
   s.add_dependency "trix"
+  s.add_dependency "turbolinks"
 end

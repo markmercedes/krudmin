@@ -1,5 +1,5 @@
-require_relative '../constants_to_methods_exposer'
-require_relative '../presenters/base_field_presenter'
+require_relative "../constants_to_methods_exposer"
+require_relative "../presenters/base_field_presenter"
 
 module Krudmin
   module Fields
@@ -7,14 +7,14 @@ module Krudmin
       extend Krudmin::ConstantsToMethodsExposer
       include Krudmin::Presenters::BaseFieldPresenter::Renderer
 
-      HTML_CLASS = ''
-      HTML_FORMAT = ''
+      HTML_CLASS = ""
+      HTML_FORMAT = ""
       HTML_ATTRS = {}
       PRESENTER = Krudmin::Presenters::BaseFieldPresenter
 
       constantized_methods :html_class, :html_format, :html_attrs
 
-      attr_reader :attribute, :model, :resource, :options, :model, :presenter, :presenter_contexts
+      attr_reader :attribute, :model, :resource, :options, :presenter, :presenter_contexts
       def initialize(attribute, model = nil, options = {})
         @attribute = attribute
         @model = model
@@ -25,7 +25,7 @@ module Krudmin
       end
 
       def data
-        @data ||= model and model.send(attribute)
+        @data ||= model&.send(attribute)
       end
 
       def value
@@ -61,7 +61,7 @@ module Krudmin
       end
 
       def self.type_as_hash(attribute, options)
-        {attribute => options}
+        { attribute => options }
       end
     end
   end

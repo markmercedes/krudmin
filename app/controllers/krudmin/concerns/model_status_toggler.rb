@@ -12,8 +12,8 @@ module Krudmin
 
     def model_status_messages
       @model_status_messages ||= {
-        activate!: {on_success: activated_message, on_error: cant_be_activated_message},
-        deactivate!: {on_success: deactivated_message, on_error: cant_be_deactivated_message}
+        activate!: { on_success: activated_message, on_error: cant_be_activated_message },
+        deactivate!: { on_success: deactivated_message, on_error: cant_be_deactivated_message },
       }
     end
 

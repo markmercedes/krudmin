@@ -6,7 +6,7 @@ module Krudmin
       end
 
       def render_list
-        value.html_safe if value
+        value&.html_safe
       end
 
       alias_method :render_show, :render_list

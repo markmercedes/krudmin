@@ -1,4 +1,4 @@
-require_relative '../presenters/belongs_to_field_presenter'
+require_relative "../presenters/belongs_to_field_presenter"
 
 module Krudmin
   module Fields

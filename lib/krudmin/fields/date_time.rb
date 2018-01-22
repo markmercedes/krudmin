@@ -1,25 +1,29 @@
-require_relative '../presenters/date_time_field_presenter'
+require_relative "../presenters/date_time_field_presenter"
 
 module Krudmin
   module Fields
     class DateTime < Base
       SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
-      DEFAULT_VALUE = '-'
+      DEFAULT_VALUE = "-"
       PRESENTER = Krudmin::Presenters::DateTimeFieldPresenter
 
       def date
-        I18n.localize(
-          data.in_time_zone(timezone).to_date,
-          format: format,
-        ) if data
+        if data
+          I18n.localize(
+            data.in_time_zone(timezone).to_date,
+            format: format,
+          )
+        end
       end
 
       def datetime
-        I18n.localize(
-          data.in_time_zone(timezone),
-          format: format,
-          default: data,
-        ) if data
+        if data
+          I18n.localize(
+            data.in_time_zone(timezone),
+            format: format,
+            default: data,
+          )
+        end
       end
 
       def to_s

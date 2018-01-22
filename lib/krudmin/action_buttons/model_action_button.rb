@@ -5,7 +5,7 @@ module Krudmin
       def initialize(page, view_context, model, html_options = {}, &block)
         @model = model
 
-        super(page, view_context, '#', html_options, &block)
+        super(page, view_context, "#", html_options, &block)
       end
 
       def default_locals

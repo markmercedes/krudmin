@@ -1,5 +1,5 @@
-require_relative 'number'
-require_relative '../presenters/decimal_field_presenter'
+require_relative "number"
+require_relative "../presenters/decimal_field_presenter"
 
 module Krudmin
   module Fields
@@ -18,6 +18,5 @@ module Krudmin
         options.fetch(:decimals, 2)
       end
     end
-
   end
 end

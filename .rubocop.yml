@@ -1,6 +1,11 @@
 AllCops:
+  TargetRubyVersion: 2.4
   Exclude:
+    - bin/**/*
     - spec/**/*
+    - config/initializers/**/*
+    - Rakefile
+    - Guardfile
 
 Naming/AccessorMethodName:
   Description: Check the naming of accessor methods for get_/set_.
@@ -205,8 +210,8 @@ Style/LineEndConcatenation:
   Enabled: false
 
 Metrics/LineLength:
-  Description: 'Limit lines to 140 characters.'
-  Max: 140
+  Description: 'Limit lines to 200 characters.'
+  Max: 200
 
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 10 lines of code.'

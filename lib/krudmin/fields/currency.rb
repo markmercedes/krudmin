@@ -1,5 +1,5 @@
-require_relative 'number'
-require_relative '../presenters/currency_field_presenter'
+require_relative "number"
+require_relative "../presenters/currency_field_presenter"
 
 module Krudmin
   module Fields

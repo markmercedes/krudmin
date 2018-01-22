@@ -3,9 +3,11 @@ module Krudmin
     extend ActiveSupport::Concern
 
     included do
-      delegate :permitted_attributes, :resource_label, :resources_label, :scope, :listable_actions, :listable_attributes, :model_class, :editable_attributes, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :displayable_attributes, :field_for, to: :krudmin_manager
+      delegate :permitted_attributes, :resource_label, :resources_label, :scope, :listable_actions, :listable_attributes, :model_class, :editable_attributes, to: :krudmin_manager
+      delegate :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :displayable_attributes, :field_for, to: :krudmin_manager
 
-      helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :listable_actions, :listable_attributes, :model_class, :model, :editable_attributes, :model_id, :krudmin_manager, :field_for, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :displayable_attributes
+      helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :listable_actions, :listable_attributes, :model_class, :model, :editable_attributes
+      helper_method :model_id, :krudmin_manager, :field_for, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :displayable_attributes
 
       delegate :resource_root, :activate_path, :deactivate_path, :new_resource_path, :resource_path, :edit_resource_path, to: :krudmin_router
 

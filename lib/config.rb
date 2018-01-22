@@ -1,7 +1,7 @@
 module Krudmin
   module Config
     class << self
-      def with(&block)
+      def with
         yield(self)
 
         after_config_received
@@ -14,9 +14,11 @@ module Krudmin
       end
 
       def configure_pundit
-        Krudmin::ApplicationController.class_eval do
-          include Krudmin::PunditAuthorizable
-        end if Krudmin::Config.pundit_enabled?
+        if Krudmin::Config.pundit_enabled?
+          Krudmin::ApplicationController.class_eval do
+            include Krudmin::PunditAuthorizable
+          end
+        end
       end
 
       attr_writer :menu_items, :parent_controller, :krudmin_root_path, :pundit_enabled
@@ -25,9 +27,9 @@ module Krudmin
 
       DEFAULT_CURRENT_USER = proc {}
 
-      DEFAULT_PARENT_CONTROLLER_CLASS = 'ActionController::Base'
+      DEFAULT_PARENT_CONTROLLER_CLASS = "ActionController::Base"
 
-      DEFAULT_ROOT_PATH = '#'
+      DEFAULT_ROOT_PATH = "#"
 
       def krudmin_root_path
         @krudmin_root_path || DEFAULT_ROOT_PATH
