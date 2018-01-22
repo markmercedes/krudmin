@@ -1,6 +1,6 @@
-require_relative 'attribute'
-require_relative 'attribute_collection'
-require_relative '../constants_to_methods_exposer'
+require_relative "attribute"
+require_relative "attribute_collection"
+require_relative "../constants_to_methods_exposer"
 
 module Krudmin
   module ResourceManagers
@@ -24,7 +24,8 @@ module Krudmin
       ATTRIBUTE_TYPES = {}
       PRESENTATION_METADATA = {}
 
-      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_actions, :order_by, :listable_includes, :resource_instance_label_attribute, :presentation_metadata, :displayable_attributes
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_actions, :order_by
+      constantized_methods :listable_includes, :resource_instance_label_attribute, :presentation_metadata, :displayable_attributes
 
       def field_for(field, model = nil, root: nil)
         resource_attributes.attribute_for(field, root).new_field(model)
@@ -68,17 +69,17 @@ module Krudmin
         scope.includes(listable_includes).order(order_by)
       end
 
-      delegate :attribute_types, :permitted_attributes, :editable_attributes, :listable_attributes, :searchable_attributes, :grouped_attributes, :displayable_attributes, to: :resource_attributes
+      delegate :attribute_types, :permitted_attributes, :editable_attributes, :listable_attributes, to: :resource_attributes
+      delegate :grouped_attributes, :displayable_attributes, :searchable_attributes, to: :resource_attributes
 
       def resource_attributes
-        @resource_attributes ||= Krudmin::ResourceManagers::AttributeCollection.new(
-                                                model_class,
-                                                self.class::ATTRIBUTE_TYPES,
-                                                self.class::EDITABLE_ATTRIBUTES,
-                                                self.class::LISTABLE_ATTRIBUTES,
-                                                self.class::SEARCHABLE_ATTRIBUTES,
-                                                self.class::DISPLAYABLE_ATTRIBUTES,
-                                                self.class::PRESENTATION_METADATA)
+        @resource_attributes ||= Krudmin::ResourceManagers::AttributeCollection.new(model_class,
+                                                                                   self.class::ATTRIBUTE_TYPES,
+                                                                                   self.class::EDITABLE_ATTRIBUTES,
+                                                                                   self.class::LISTABLE_ATTRIBUTES,
+                                                                                   self.class::SEARCHABLE_ATTRIBUTES,
+                                                                                   self.class::DISPLAYABLE_ATTRIBUTES,
+                                                                                   self.class::PRESENTATION_METADATA)
       end
     end
   end

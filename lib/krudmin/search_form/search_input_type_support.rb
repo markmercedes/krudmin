@@ -2,7 +2,7 @@ module Krudmin
   class SearchForm
     module SearchInputTypeSupport
       def real_field_for(field)
-        field.to_s.gsub('__from', '').gsub('__to', '')
+        field.to_s.gsub("__from", "").gsub("__to", "")
       end
 
       def search_criteria_for(key, value)

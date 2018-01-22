@@ -8,7 +8,7 @@ module Krudmin
       @view_context = view_context
     end
 
-    def self.for(model, actions, view_context, &block)
+    def self.for(model, actions, view_context)
       new(model, actions, view_context)
     end
 

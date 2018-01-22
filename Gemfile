@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 # Declare your gem's dependencies in krudmin.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -22,13 +22,13 @@ group :development, :test do
 end
 
 group :test do
+  gem "capybara-screenshot"
   gem "database_cleaner"
   gem "guard-rspec"
   gem "poltergeist"
-  gem 'capybara-screenshot'
   gem "pundit"
-  gem "rspec_junit_formatter"
   gem "rspec-rails"
+  gem "rspec_junit_formatter"
   gem "simplecov"
   gem "timecop"
   gem "webmock"

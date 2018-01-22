@@ -6,12 +6,12 @@ module Krudmin
       helper_method :configure_toolbar, :list_action_panel
     end
 
-    def configure_toolbar(page, h, &block)
-      Toolbar.configure(page, h, &block)
+    def configure_toolbar(page, view_context, &block)
+      Toolbar.configure(page, view_context, &block)
     end
 
-    def list_action_panel(model, actions, h, &block)
-      ListActionPanel.for(model, actions, h, &block)
+    def list_action_panel(model, actions, view_context, &block)
+      ListActionPanel.for(model, actions, view_context, &block)
     end
   end
 end

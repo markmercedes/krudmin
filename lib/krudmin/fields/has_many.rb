@@ -1,4 +1,4 @@
-require_relative '../presenters/has_many_field_presenter'
+require_relative "../presenters/has_many_field_presenter"
 
 module Krudmin
   module Fields
@@ -40,7 +40,7 @@ module Krudmin
       end
 
       def association_predicate
-        @association_predicate ||=  options.fetch(:association_predicate, -> (source) { source.where( foreign_key => primary_key_value) })
+        @association_predicate ||= options.fetch(:association_predicate, ->(source) { source.where(foreign_key => primary_key_value) })
       end
 
       def associated_resource_manager_class_name
@@ -56,13 +56,13 @@ module Krudmin
       end
 
       def editable_attribute
-        {"#{attribute}_attributes".to_sym => [:id, *associated_resource_manager_class.editable_attributes, :_destroy]}
+        { "#{attribute}_attributes".to_sym => [:id, *associated_resource_manager_class.editable_attributes, :_destroy] }
       end
 
       def self.type_as_hash(attribute, options)
         {
           attribute => options,
-          __attributes: Krudmin::ResourceManagers::Attribute.from_list(new(attribute).associated_resource_manager_class::ATTRIBUTE_TYPES)
+          __attributes: Krudmin::ResourceManagers::Attribute.from_list(new(attribute).associated_resource_manager_class::ATTRIBUTE_TYPES),
         }
       end
 

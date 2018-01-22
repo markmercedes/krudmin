@@ -1,7 +1,6 @@
 module Krudmin
   module ResourceManagers
     class Routing
-
       attr_reader :routes, :resource_name, :namespace
       def initialize(routes, resource_name, namespace = nil)
         @routes = routes
@@ -42,9 +41,9 @@ module Krudmin
       end
 
       def self.from(routes, controller_path)
-        path_parts = controller_path.split('/')
+        path_parts = controller_path.split("/")
 
-        new(routes, path_parts.last, path_parts[0..-2].join('/'))
+        new(routes, path_parts.last, path_parts[0..-2].join("/"))
       end
 
       private

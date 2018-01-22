@@ -1,12 +1,12 @@
-require_relative '../presenters/number_field_presenter'
+require_relative "../presenters/number_field_presenter"
 
 module Krudmin
   module Fields
     class Number < Base
-      HTML_CLASS = 'text-right'
+      HTML_CLASS = "text-right"
       SEARCH_PREDICATES = [:eq, :not_eq, :lt, :lteq, :gt, :gteq]
-      DEFAULT_VALUE = '-'
-      DEFAULT_PADDING_VALUE = '0'
+      DEFAULT_VALUE = "-"
+      DEFAULT_PADDING_VALUE = "0"
       PRESENTER = Krudmin::Presenters::NumberFieldPresenter
 
       def to_s
@@ -23,7 +23,7 @@ module Krudmin
         [
           prefix,
           (format_string % value).rjust(padding, pad_with),
-          suffix
+          suffix,
         ].join
       end
 

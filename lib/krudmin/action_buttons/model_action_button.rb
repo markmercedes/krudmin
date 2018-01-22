@@ -9,7 +9,7 @@ module Krudmin
       end
 
       def default_locals
-        {model: model}.merge(super)
+        { model: model }.merge(super)
       end
     end
   end

@@ -10,7 +10,9 @@ module Krudmin
 
       attr_reader :field, :search_criteria, :model_class
       def initialize(field, search_criteria, model_class)
-        @field, @search_criteria, @model_class = field, search_criteria, model_class
+        @field = field
+        @search_criteria = search_criteria
+        @model_class = model_class
       end
 
       def filters
@@ -42,16 +44,16 @@ module Krudmin
       def boolean_filter_for(field)
         [
           search_phrase_for(field),
-          "`#{model_class.human_attribute_name(field)}`"
-        ].join(' ')
+          "`#{model_class.human_attribute_name(field)}`",
+        ].join(" ")
       end
 
       def regular_filter_for(field)
         [
           "`#{model_class.human_attribute_name(real_field_for(field))}`",
           search_phrase_for(field),
-          "< #{search_criteria[field.to_s]} >"
-        ].join(' ')
+          "< #{search_criteria[field.to_s]} >",
+        ].join(" ")
       end
     end
   end

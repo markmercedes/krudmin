@@ -1,6 +1,6 @@
 AllCops:
   Exclude:
-    - spec/test_app/**/*
+    - spec/**/*
 
 Naming/AccessorMethodName:
   Description: Check the naming of accessor methods for get_/set_.
@@ -67,7 +67,6 @@ Style/ClassVars:
 Style/CollectionMethods:
   Enabled: true
   PreferredMethods:
-    find: detect
     inject: reduce
     collect: map
     find_all: select
@@ -283,6 +282,9 @@ Style/PercentLiteralDelimiters:
 Style/PerlBackrefs:
   Description: 'Avoid Perl-style regex back references.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-perl-regexp-last-matchers'
+  Enabled: false
+
+Style/BlockDelimiters:
   Enabled: false
 
 Naming/PredicateName:
@@ -540,6 +542,9 @@ Lint/UnneededDisable:
 
 Lint/Void:
   Description: 'Possible use of operator/literal/variable in void context.'
+  Enabled: false
+
+Lint/BlockAlignment:
   Enabled: false
 
 # Performance
