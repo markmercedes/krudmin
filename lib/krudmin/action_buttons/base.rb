@@ -1,12 +1,15 @@
 module Krudmin
   module ActionButtons
     class Base
-
       VIEW_PATH = :application
 
       attr_reader :page, :view_context, :action_path, :html_options, :button_body
-      def initialize(page, view_context, action_path = '#', html_options = {}, &block)
-        @page, @view_context, @action_path, @html_options, @button_body = page, view_context, action_path, html_options, block
+      def initialize(page, view_context, action_path = "#", html_options = {}, &block)
+        @page = page
+        @view_context = view_context
+        @action_path = action_path
+        @html_options = html_options
+        @button_body = block
       end
 
       def to_s
@@ -26,11 +29,11 @@ module Krudmin
       end
 
       def partial_scope
-        @partial_scope ||= self.class.name.demodulize.split('Field').first.underscore
+        @partial_scope ||= self.class.name.demodulize.split("Field").first.underscore
       end
 
       def default_locals
-        {html_options: html_options, action_path: action_path}
+        { html_options: html_options, action_path: action_path }
       end
 
       def render_list
