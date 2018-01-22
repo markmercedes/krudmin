@@ -5,8 +5,7 @@
   %li.breadcrumb-item.active
     = crud_title
 
-- configure_toolbar(:form, self) do |b|
-  - b.button :edit, model
+= render "show_action_buttons"
 
 .row
   .col-lg-12
