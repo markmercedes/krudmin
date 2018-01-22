@@ -6,7 +6,8 @@ module Krudmin
 
       attr_reader :page, :view_context, :action_path, :html_options, :button_body
       def initialize(page, view_context, action_path = '#', html_options = {}, &block)
-        @page, @view_context, @action_path, @html_options, @button_body = page, view_context, action_path, html_options, block
+        @page, @view_context, @action_path, @html_options = page, view_context, action_path, html_options
+        @button_body = block
       end
 
       def to_s
@@ -27,6 +28,14 @@ module Krudmin
 
       def default_locals
         {html_options: html_options, action_path: action_path}
+      end
+
+      def render_list
+        render_partial(:list)
+      end
+
+      def render_form
+        render_partial(:form)
       end
     end
   end

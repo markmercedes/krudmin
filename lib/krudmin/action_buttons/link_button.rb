@@ -1,6 +1,6 @@
 module Krudmin
   module ActionButtons
-    class ActiveButton < ModelActionButton
+    class LinkButton < Base
     end
   end
 end
