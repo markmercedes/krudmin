@@ -34,6 +34,7 @@ module Krudmin
       end
 
       private
+
       def inferred_resource_manager
         "#{associated_class_name.pluralize}ResourceManager"
       end

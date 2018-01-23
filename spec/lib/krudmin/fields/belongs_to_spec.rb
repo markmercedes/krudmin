@@ -3,26 +3,25 @@ require "#{Dir.pwd}/lib/krudmin/activable_labeler"
 require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/associated"
 require "#{Dir.pwd}/lib/krudmin/fields/belongs_to"
+module Ranger
+  class << self
+    def all
+      [
+        OpenStruct.new(name: "Rambo", id: 1),
+        OpenStruct.new(name: "Chuck Norris", id: 2),
+        OpenStruct.new(name: "Arnold", id: 3)
+      ]
+    end
 
-describe Krudmin::Fields::BelongsTo do
-  let(:model) { double(ranger_id: 1, ranger: Ranger.main) }
-  subject { described_class.new(:ranger_id, model) }
-
-  module Ranger
-    class << self
-      def all
-        [
-          OpenStruct.new(name: "Rambo", id: 1),
-          OpenStruct.new(name: "Chuck Norris", id: 2),
-          OpenStruct.new(name: "Arnold", id: 3)
-        ]
-      end
-
-      def main
-        all.first
-      end
+    def main
+      all.first
     end
   end
+end
+
+describe Krudmin::Fields::BelongsTo do
+  let(:model) { double(ranger_id: 1, ranger: Ranger.all.first) }
+  subject { described_class.new(:ranger_id, model) }
 
   describe "collection_label_field" do
     context "default" do
@@ -53,14 +52,14 @@ describe Krudmin::Fields::BelongsTo do
 
       it "returns the humanized string from value" do
         expect(subject.humanized_value).not_to be(nil)
-        expect(subject.humanized_value).to eq(Ranger.main.name)
+        expect(subject.humanized_value).to eq("Rambo")
       end
     end
 
     describe "selected_association" do
       it "returns the associated model from value" do
         expect(subject.selected_association).not_to be(nil)
-        expect(subject.selected_association).to eq(Ranger.main)
+        expect(subject.selected_association).to eq(Ranger.all.first)
       end
     end
 
@@ -92,7 +91,7 @@ describe Krudmin::Fields::BelongsTo do
 
       it "returns the path of the associated selected model" do
         allow(view_context).to receive(:test_path) do |model|
-          expect(model).to eq(Ranger.main)
+          expect(model).to eq(Ranger.all.first)
           "/test/show/#{model.id}"
         end
 
