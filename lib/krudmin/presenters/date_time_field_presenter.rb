@@ -6,12 +6,12 @@ module Krudmin
           {
             options: "#{attribute}__from_options",
             field: "#{attribute}__from",
-            filter: :gteq
+            filter: :gteq,
           },
           {
             options: "#{attribute}__to_options",
             field: "#{attribute}__to",
-            filter: :lteq
+            filter: :lteq,
           },
         ]
 

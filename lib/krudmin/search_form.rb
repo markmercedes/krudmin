@@ -21,27 +21,29 @@ module Krudmin
     end
 
     def enhanced_fields
-      @enhanced_fields ||= fields.map{|field|
+      @enhanced_fields ||= fields.map { |field|
         input_type_for(field).search_config_for(field)
       }.flatten
     end
 
     def filters
-      fields.map{|field|
+      fields.map { |field|
         Krudmin::SearchForm::SearchFilter.for(field, search_criteria, model_class)
       }.compact.flatten
     end
 
     def form_attributes
-      @form_attributes ||= fields_with_values.inject(HashWithIndifferentAccess.new) {|hash, key|
-                    hash.merge(key => search_criteria_for(key, search_criteria[key]),
-                              "#{key}_options" => search_criteria["#{key}_options"])
-                 }
+      @form_attributes ||= fields_with_values.reduce(HashWithIndifferentAccess.new) { |hash, key|
+                             hash.merge(
+                               key => search_criteria_for(key, search_criteria[key]),
+                               "#{key}_options" => search_criteria["#{key}_options"],
+                             )
+                           }
     end
 
     def params
       @params ||= begin
-        _params = fields_with_values.inject(HashWithIndifferentAccess.new) do |hash, key|
+        _params = fields_with_values.reduce(HashWithIndifferentAccess.new) do |hash, key|
           criteria = search_criteria["#{key}_options"]
 
           hash["#{real_field_for(key)}_#{criteria}"] = form_attributes[key] unless criteria.blank?
@@ -58,7 +60,11 @@ module Krudmin
     def method_missing(method, *args, &block)
       return "" if method == :""
 
-      all_fields.include?(method) ? form_attributes[method] : super
+      respond_to_missing?(method) ? form_attributes[method] : super
+    end
+
+    def respond_to_missing?(method, _ = false)
+      all_fields.include?(method)
     end
 
     def apply_sorting_on(params)
@@ -72,11 +78,11 @@ module Krudmin
     end
 
     def fields_options
-      @fields_options ||= enhanced_fields.map{|field| "#{field}_options".to_sym}
+      @fields_options ||= enhanced_fields.map { |field| "#{field}_options".to_sym }
     end
 
     def fields_with_values
-      search_criteria.keys.reject{|key| key.end_with?("_options")}
+      search_criteria.keys.reject { |key| key.end_with?("_options") }
     end
   end
 end

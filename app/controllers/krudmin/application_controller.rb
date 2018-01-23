@@ -4,22 +4,19 @@ module Krudmin
     include Krudmin::ModelStatusToggler
     include Krudmin::CrudMessages
     include Krudmin::Searchable
-    include Krudmin::ToolbarSupport
+    include Krudmin::ActionButtonsSupport
 
     before_action :set_model, only: [:new, :edit, :create]
 
-    def index
-    end
+    def index; end
 
     def edit
       model.destroy if params.fetch(:failed_destroy, false)
     end
 
-    def show
-    end
+    def show; end
 
-    def new
-    end
+    def new; end
 
     def create
       model.attributes = model_params

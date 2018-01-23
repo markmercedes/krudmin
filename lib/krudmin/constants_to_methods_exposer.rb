@@ -6,7 +6,7 @@ module Krudmin
           self.class.const_get(attr.upcase)
         end
 
-        self.define_singleton_method(attr) do
+        define_singleton_method(attr) do
           const_get(attr.upcase)
         end
       end

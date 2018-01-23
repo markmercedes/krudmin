@@ -1,4 +1,4 @@
-require_relative '../presenters/enum_type_field_presenter'
+require_relative "../presenters/enum_type_field_presenter"
 
 module Krudmin
   module Fields
@@ -6,7 +6,7 @@ module Krudmin
       PRESENTER = Krudmin::Presenters::EnumTypeFieldPresenter
 
       def enum_value
-        @enum_value ||= model and model.send("#{attribute}_before_type_cast")
+        @enum_value ||= model.send("#{attribute}_before_type_cast") if model
       end
 
       # TODO: Refactor, infer associated options

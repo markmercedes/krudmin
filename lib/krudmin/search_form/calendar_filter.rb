@@ -9,32 +9,38 @@ module Krudmin
 
       attr_reader :field, :search_criteria, :model_class
       def initialize(field, search_criteria, model_class)
-        @field, @search_criteria, @model_class = field, search_criteria, model_class
+        @field = field
+        @search_criteria = search_criteria
+        @model_class = model_class
       end
 
       def filters
         [
           from_filter_phrase,
-          to_filter_phrase
+          to_filter_phrase,
         ].compact
       end
 
       private
 
       def from_filter_phrase
-        [
-          "`#{attribute_name}`",
-          search_phrase_for(from_date_key),
-          "< #{from_date} >"
-        ].join(' ') if from_date.present?
+        if from_date.present?
+          [
+            "`#{attribute_name}`",
+            search_phrase_for(from_date_key),
+            "< #{from_date} >",
+          ].join(" ")
+        end
       end
 
       def to_filter_phrase
-        [
-          "`#{attribute_name}`",
-          search_phrase_for(to_date_key),
-          "< #{to_date} >"
-        ].join(' ') if to_date.present?
+        if to_date.present?
+          [
+            "`#{attribute_name}`",
+            search_phrase_for(to_date_key),
+            "< #{to_date} >",
+          ].join(" ")
+        end
       end
 
       def attribute_name

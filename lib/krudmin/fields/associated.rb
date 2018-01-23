@@ -10,7 +10,7 @@ module Krudmin
       end
 
       def association_name
-        @association_name ||= options.fetch(:association_name) { attribute.to_s.gsub('_id', '').to_sym }
+        @association_name ||= options.fetch(:association_name) { attribute.to_s.gsub("_id", "").to_sym }
       end
 
       def foreign_key
@@ -22,7 +22,7 @@ module Krudmin
       end
 
       def association_predicate
-        @association_predicate ||=  options.fetch(:association_predicate, -> (source) { source.all })
+        @association_predicate ||= options.fetch(:association_predicate, ->(source) { source.all })
       end
     end
   end

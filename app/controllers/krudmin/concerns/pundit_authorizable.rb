@@ -3,7 +3,7 @@ module Krudmin
     extend ActiveSupport::Concern
     include Pundit
 
-    included do |base|
+    included do |_|
       before_action :authorize_model, only: [:new, :edit, :show, :update, :activate, :deactivate, :destroy]
       before_action :authorize_scope, only: [:index]
 

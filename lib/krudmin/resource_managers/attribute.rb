@@ -19,7 +19,7 @@ module Krudmin
       end
 
       def self.from_list(attribute_types)
-        attribute_types.inject({}) {|hash, metadata|
+        attribute_types.reduce({}) { |hash, metadata|
           attribute = metadata.first
           options = metadata.last
           hash[attribute] = from(attribute, options)

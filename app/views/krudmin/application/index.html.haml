@@ -7,16 +7,7 @@
       = resources_label
 
 = render "search_form", locals: {search_form: search_form}
-
-- toolbar_block(self) do
-  = link_to(new_resource_path, class: 'btn btn-success') do
-    %i.fa.fa-plus
-    = t('krudmin.actions.add_new')
-
-- toolbar_block(self) do
-  = link_to("#", class: "btn btn-warning aside-menu-toggler") do
-    %i.fa.fa-search
-    = t('krudmin.actions.search')
+= render "list_action_buttons"
 
 .row
   .col-lg-12.no-padding
@@ -50,4 +41,4 @@
                       = field_for(column_label, item).render(:list, self)
                 - if listable_actions.any?
                   %td{width: "20%"}
-                    = render partial: "list_action_buttons", locals: {item: item}
+                    = render partial: "list_item_action_buttons", locals: {item: item}
