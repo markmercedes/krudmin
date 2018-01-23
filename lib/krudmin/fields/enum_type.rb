@@ -9,7 +9,7 @@ module Krudmin
         @enum_value ||= model.send("#{attribute}_before_type_cast") if model
       end
 
-      def enum_text
+      def humanize_value
         @enum_text ||= associated_options.key(enum_value) if associated_options.any?
       end
 
