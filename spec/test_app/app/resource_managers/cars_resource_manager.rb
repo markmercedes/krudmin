@@ -6,7 +6,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     activation: [:model, :year, :car_brand_id, :transmission],
     passengers: [:passengers],
   }
-  DISPLAYABLE_ATTRIBUTES = [:id, :model, :year, :description, :transmission, :passengers, :created_at]
+  DISPLAYABLE_ATTRIBUTES = [:id, :model, :year, :description, :transmission, :car_brand_id, :passengers, :created_at]
   SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id, :transmission, :created_at]
   LISTABLE_ACTIONS = [:show, :edit, :active, :destroy]
   LISTABLE_ATTRIBUTES = [:model, :id, :car_brand_description, :year, :active, :description, :created_at]
@@ -31,7 +31,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     year: Krudmin::Fields::Number,
     active: Krudmin::Fields::Boolean,
     passengers: Krudmin::Fields::HasMany,
-    car_brand_id: { type: Krudmin::Fields::BelongsTo, collection_label_field: :description },
+    car_brand_id: { type: Krudmin::Fields::BelongsTo, collection_label_field: :description, association_path: :admin_car_brand_path },
     created_at: { type: Krudmin::Fields::DateTime, format: :short },
     transmission: { type: Krudmin::Fields::EnumType, associated_options: -> { Car.transmissions } },
   }

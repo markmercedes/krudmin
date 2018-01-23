@@ -24,6 +24,20 @@ module Krudmin
       def association_predicate
         @association_predicate ||= options.fetch(:association_predicate, ->(source) { source.all })
       end
+
+      def associated_resource_manager_class_name
+        @associated_resource_manager_class_name ||= options.fetch(:resource_manager, inferred_resource_manager).to_s
+      end
+
+      def associated_resource_manager_class
+        @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize
+      end
+
+      private
+
+      def inferred_resource_manager
+        "#{associated_class_name.pluralize}ResourceManager"
+      end
     end
   end
 end

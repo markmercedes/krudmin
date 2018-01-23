@@ -43,14 +43,6 @@ module Krudmin
         @association_predicate ||= options.fetch(:association_predicate, ->(source) { source.where(foreign_key => primary_key_value) })
       end
 
-      def associated_resource_manager_class_name
-        @associated_resource_manager_class_name ||= options.fetch(:resource_manager, inferred_resource_manager).to_s
-      end
-
-      def associated_resource_manager_class
-        @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize
-      end
-
       def self.editable_attribute(attribute)
         new(attribute).editable_attribute
       end
@@ -64,12 +56,6 @@ module Krudmin
           attribute => options,
           __attributes: Krudmin::ResourceManagers::Attribute.from_list(new(attribute).associated_resource_manager_class::ATTRIBUTE_TYPES),
         }
-      end
-
-      private
-
-      def inferred_resource_manager
-        "#{associated_class_name.pluralize}ResourceManager"
       end
     end
   end

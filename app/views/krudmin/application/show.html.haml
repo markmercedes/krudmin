@@ -21,4 +21,4 @@
                 %th
                   = model_class.human_attribute_name(attribute)
                 %td
-                  = field_for(attribute, model).render(:list, self)
+                  = field_for(attribute, model).render(:show, self)
