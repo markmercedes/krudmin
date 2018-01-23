@@ -5,11 +5,9 @@ module Krudmin
         render_partial(:form)
       end
 
-      def render_list
+      def render_show
         value&.html_safe
       end
-
-      alias_method :render_show, :render_list
     end
   end
 end

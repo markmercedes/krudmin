@@ -1,0 +1,5 @@
+//= form.association association_name, collection: associated_options, label_method: collection_label_field, value_method: :id, input_html: {class: 'form-control select2', include_blank: true}
+- if linkable
+  = link_to humanized_value, link_to_association.call(self)
+- else
+  = humanized_value

@@ -17,7 +17,7 @@ module Krudmin
         "#{partial_path}/#{child_partial_form}"
       end
 
-      def render_list
+      def render_show
         render_partial(partial_display, options: options, field: field, render_partial: method(:render_partial))
       end
 

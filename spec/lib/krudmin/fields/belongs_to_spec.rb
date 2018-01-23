@@ -48,6 +48,15 @@ describe Krudmin::Fields::BelongsTo do
       end
     end
 
+    describe "humanized_value" do
+      subject { described_class.new(:ranger_id, model, collection_label_field: :name) }
+
+      it "returns the humanized string from value" do
+        expect(subject.humanized_value).not_to be(nil)
+        expect(subject.humanized_value).to eq(Ranger.main.name)
+      end
+    end
+
     describe "selected_association" do
       it "returns the associated model from value" do
         expect(subject.selected_association).not_to be(nil)
@@ -62,10 +71,32 @@ describe Krudmin::Fields::BelongsTo do
     end
 
     describe "associated_options" do
-      subject { described_class.new(:ranger_id, model, {association_predicate: -> (source) { source.main }}) }
+      subject { described_class.new(:ranger_id, model, association_predicate: ->(source) { source.main }) }
 
       it "executes the main method as the given scope" do
         expect(subject.associated_options).to eq(Ranger.main)
+      end
+    end
+
+    describe "association_path" do
+      subject { described_class.new(:ranger_id, model, association_path: :test_path) }
+
+      it "is extracted from options" do
+        expect(subject.association_path).to eq(:test_path)
+      end
+    end
+
+    describe "link_to_path" do
+      subject { described_class.new(:ranger_id, model, association_path: :test_path) }
+      let(:view_context) { double }
+
+      it "returns the path of the associated selected model" do
+        allow(view_context).to receive(:test_path) do |model|
+          expect(model).to eq(Ranger.main)
+          "/test/show/#{model.id}"
+        end
+
+        expect(subject.link_to_path(view_context)).to eq("/test/show/1")
       end
     end
   end
