@@ -1,8 +1,6 @@
 module Krudmin
   module Presenters
     class BaseFieldPresenter
-      VIEW_PATH = :application
-
       module Renderer
         def render(page, view_context = nil, options = {})
           presenter_contexts.fetch(page) { presenter.new(self, page, view_context, options).render }
@@ -58,7 +56,7 @@ module Krudmin
       end
 
       def partial_path
-        "krudmin/#{self.class::VIEW_PATH}/fields/#{partial_scope}"
+        "#{Krudmin::Config.theme}/fields/#{partial_scope}"
       end
 
       def partial_scope
