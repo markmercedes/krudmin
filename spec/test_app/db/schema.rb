@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180114224530) do
+ActiveRecord::Schema.define(version: 20180124014910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20180114224530) do
     t.integer "age"
     t.integer "gender"
     t.bigint "car_id"
+    t.string "email"
     t.index ["car_id"], name: "index_passengers_on_car_id"
   end
 
