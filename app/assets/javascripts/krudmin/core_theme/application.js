@@ -17,6 +17,6 @@
 //= require turbolinks
 //= require cocoon
 //= require trix
-//= require krudmin/turbo-forms
-//= require krudmin/app
+//= require krudmin/core_theme/turbo-forms
+//= require krudmin/core_theme/app
 //= require krudmin_scripts

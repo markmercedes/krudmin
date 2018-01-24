@@ -1,0 +1,9 @@
+%table.table.table-hover.table-bordered
+  %thead
+    %tr
+      - field.associated_resource_manager_class.editable_attributes.each do |attribute|
+        %th
+          = field.associated_resource_manager_class.model_class.human_attribute_name(attribute)
+  %tbody
+    - field.associated_collection.each do |object|
+      = render_partial.call(field.child_partial_display, field: field, object: object)

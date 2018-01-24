@@ -1,0 +1,4 @@
+%tr
+  - field.associated_resource_manager_class.editable_attributes.each do |attribute|
+    %td
+      = field_for(attribute, object, root: field.association_name ).render(:list, self, { input: {label: false}})

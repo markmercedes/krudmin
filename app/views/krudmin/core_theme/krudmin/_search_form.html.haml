@@ -1,0 +1,27 @@
+- content_for(:aside) do
+  = simple_form_for(search_form, as: :q, method: :get, url: resource_root, html: { class: 'turbo-form' }) do |f|
+    = f.hidden_field :s
+    - search_form.fields.each_slice(2) do |field_slice|
+      .row
+        - field_slice.each do |field|
+          .col-lg-12
+            .form-group.row
+              .col-sm-12
+                %label
+                  %strong
+                    = model_class.human_attribute_name(field)
+              = field_for(field).render(:search, self, {form: f, search_form: search_form})
+    .row
+      .col-sm-12
+        %br
+        = button_tag(type: :submit, class: "btn btn-warning aside-menu-toggler") do
+          %i.fa.fa-search
+          = t('krudmin.actions.search')
+        &nbsp;
+        = link_to("#", class: "btn btn-danger aside-menu-toggler") do
+          %i.fa.fa-close
+          = t('krudmin.actions.cancel')
+        &nbsp;
+        = link_to(resource_root, class: "btn btn-light aside-menu-toggler") do
+          %i.fa.fa-close
+          = t('krudmin.actions.reset')

@@ -1,0 +1,5 @@
+%ul.list-unstyled.col-sm-12
+  %li
+    = form.hidden_field(options_attribute, required: false, class: "form-control", value: :eq)
+  %li
+    = form.select(attribute, options_from_collection_for_select(associated_options, :id, collection_label_field, search_value), {include_blank: true}, {class: "form-control select2"})

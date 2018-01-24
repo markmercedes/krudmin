@@ -1,0 +1,4 @@
+- if input_options[:label] == false
+  = form.select(attribute, options_for_select(associated_options, enum_value), {}, class: "form-control select2")
+- else
+  = form.input attribute, collection: associated_options, selected: enum_value, input_html: {class: "form-control select2"}

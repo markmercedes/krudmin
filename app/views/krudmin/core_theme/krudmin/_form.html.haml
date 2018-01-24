@@ -1,0 +1,21 @@
+- content_for :breadcrumb do
+  %li.breadcrumb-item.active
+    = link_to(resource_root) do
+      = resources_label
+  %li.breadcrumb-item.active
+    = crud_title
+
+.turbo-form-container
+  - if model.errors.any?
+    - model.errors.full_messages.each do |msg|
+      = content_tag :div, msg, class: "alert alert-danger"
+
+  = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
+    .row
+      - grouped_attributes.take(1).each do |key, metadata|
+        = render partial: "general_fields", locals: {metadata: metadata, f: f}
+
+      - grouped_attributes.drop(1).each do |key, metadata|
+        = render partial: "general_fields", locals: {metadata: metadata, f: f}
+
+    = render partial: "form_action_buttons", locals: {f: f}

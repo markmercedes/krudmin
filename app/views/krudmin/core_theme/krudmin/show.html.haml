@@ -1,0 +1,24 @@
+- content_for :breadcrumb do
+  %li.breadcrumb-item
+    = link_to(resource_root) do
+      = "#{resources_label}"
+  %li.breadcrumb-item.active
+    = crud_title
+
+= render "show_action_buttons"
+
+.row
+  .col-lg-12
+    .card
+      .card-body
+        .reading-mode
+          .message
+            %h3.text-center
+              = model_label
+          %table.table
+            - displayable_attributes.each do |attribute|
+              %tr
+                %th
+                  = model_class.human_attribute_name(attribute)
+                %td
+                  = field_for(attribute, model).render(:show, self)
