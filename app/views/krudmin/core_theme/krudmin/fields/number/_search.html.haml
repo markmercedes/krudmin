@@ -1,8 +1,0 @@
-.col-sm-5
-  %ul.list-unstyled
-    %li
-      = form.select options_attribute, options_for_select(search_form.search_predicates_for(attribute), search_form.send(options_attribute)), {}, {class: "form-control"}
-.col-sm-7
-  %ul.list-unstyled
-    %li
-      = form.text_field(attribute, class: "form-control", required: false)

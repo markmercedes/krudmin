@@ -1,7 +1,0 @@
-%li.list-inline-item
-  - if model.active?
-    = link_to(deactivate_path(model), method: :post, remote: true, data: {confirm: confirm_deactivation_message(model)}, class: "btn btn-outline-warning btn-disable btn-deactivate-item") do
-      %i.fa.fa-times
-  - else
-    = link_to(activate_path(model), method: :post, remote: true, data: {confirm: confirm_activation_message(model) }, class: "btn btn-outline-success btn-enable btn-activate-item") do
-      %i.fa.fa-check
