@@ -14,6 +14,18 @@ describe Krudmin::Fields::Currency do
     expect(subject.value).to eq 9001
   end
 
+  describe "rendering" do
+    let(:fake_view_context) { double }
+
+    context "list" do
+      it "renders a number in currency format with a configurable unit" do
+        expect(fake_view_context).to receive(:number_to_currency).with(9001.0, precision: 2, unit: "$") { :mocked }
+
+        expect(subject.render(:list, fake_view_context)).to eq :mocked
+      end
+    end
+  end
+
   describe "options" do
     context "with multiplier" do
       let(:options) { {multiplier: 10} }
