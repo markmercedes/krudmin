@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 5.1.3"
 
   s.add_dependency "arbre"
-  s.add_dependency "bootstrap", "~> 4.0.0.beta2.1"
+  s.add_dependency "bootstrap", "~> 4.0.0"
   s.add_dependency "cocoon"
   s.add_dependency "font-awesome-rails"
   s.add_dependency "haml"
