@@ -1,6 +1,5 @@
 module Krudmin
   class ParamsParser
-
     attr_reader :params, :model_klass
     def initialize(params, model_klass)
       @params = params
@@ -8,7 +7,7 @@ module Krudmin
     end
 
     def to_h
-      params.to_h.inject(params.class.new) do |hash, item|
+      params.to_h.reduce(params.class.new) do |hash, item|
         field = item.first
         value = item.last
         column = model_klass.columns_hash[field]
