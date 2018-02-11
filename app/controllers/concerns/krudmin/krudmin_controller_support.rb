@@ -29,7 +29,11 @@ module Krudmin
     end
 
     def model_params
-      @model_params ||= params.require(model_class.name.underscore.downcase.to_sym).permit(permitted_attributes)
+      @model_params ||= Krudmin::ParamsParser.new(permitted_params, model.class).to_h.permit!
+    end
+
+    def permitted_params
+      params.require(model_class.name.underscore.downcase.to_sym).permit(permitted_attributes)
     end
 
     def form_submit_path

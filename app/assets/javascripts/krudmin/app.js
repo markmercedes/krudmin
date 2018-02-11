@@ -28,6 +28,32 @@ document.addEventListener("turbofroms:updated", function(e) {
 });
 
 document.addEventListener('turbolinks:load', function(event) {
+  var inputDefaults = {
+    singleDatePicker: true,
+    showDropdowns: true,
+    autoApply: true,
+    cancelClass: "btn-danger",
+    autoUpdateInput: false,
+  };
+
+  $('.datetimepicker').daterangepicker(
+    $.extend({
+      timePicker: true,
+      locale: {
+        format: "MM/DD/YYYY hh:mm A",
+      }}, inputDefaults)
+  );
+
+  $('.datepicker').daterangepicker(
+    $.extend({
+      locale: {
+        format: "MM/DD/YYYY",
+      }
+    }, inputDefaults)
+  );
+});
+
+document.addEventListener('turbolinks:load', function(event) {
   $('.alert-story-chk').prop('disabled', true);
 
   $('.business-category-checker').each(function(el) {
