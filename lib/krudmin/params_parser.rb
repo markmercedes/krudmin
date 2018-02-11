@@ -13,16 +13,16 @@ module Krudmin
         value = item.last
         column = model_klass.columns_hash[field]
 
-        if column && value.present?
-          hash[field] = case column.type
+        hash[field] = if column && value.present?
+          case column.type
             when :datetime
               DateTime.strptime(value, I18n.t("krudmin.datetime.input_format"))
             when :date
-              DateTime.strptime(value, I18n.t("krudmin.date.input_format"))
+              Date.strptime(value, I18n.t("krudmin.date.input_format"))
             else value
           end
         else
-          hash[field]
+          value
         end
 
         hash
