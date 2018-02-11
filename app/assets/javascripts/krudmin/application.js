@@ -17,6 +17,8 @@
 //= require turbolinks
 //= require cocoon
 //= require trix
+//= require moment
+//= require krudmin/vendor/daterangepicker
 //= require krudmin/turbo-forms
 //= require krudmin/app
 //= require krudmin_scripts
