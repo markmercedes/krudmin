@@ -9,22 +9,36 @@ module Krudmin
     def to_h
       params.to_h.reduce(params.class.new) do |hash, item|
         field = item.first
-        value = item.last
-        column = model_klass.columns_hash[field]
 
-        hash[field] = if column && value.present?
-          case column.type
-          when :datetime
-            DateTime.strptime(value, I18n.t("krudmin.datetime.input_format"))
-          when :date
-            Date.strptime(value, I18n.t("krudmin.date.input_format"))
-          else value
-          end
-        else
-          value
-        end
+        hash[field] = FieldValueParser.value_for(model_klass.columns_hash[field], item.last)
 
         hash
+      end
+    end
+
+    class FieldValueParser
+      attr_reader :metadata, :raw_value
+      def initialize(metadata, raw_value)
+        @metadata = metadata
+        @raw_value = raw_value
+      end
+
+      def value
+        if metadata && raw_value.present?
+          case metadata.type
+          when :datetime
+            DateTime.strptime(raw_value, I18n.t("krudmin.datetime.input_format"))
+          when :date
+            Date.strptime(raw_value, I18n.t("krudmin.date.input_format"))
+          else raw_value
+          end
+        else
+          raw_value
+        end
+      end
+
+      def self.value_for(metadata, raw_value)
+        new(metadata, raw_value).value
       end
     end
   end
