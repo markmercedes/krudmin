@@ -1,10 +1,9 @@
 require "spec_helper"
 require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/date"
-require "#{Dir.pwd}/lib/krudmin/fields/date_time"
 
-describe Krudmin::Fields::DateTime do
-  let(:date) { DateTime.new(1989, 12, 14, 15, 01, 32) }
+describe Krudmin::Fields::Date do
+  let(:date) { Date.new(1989, 12, 14) }
   let(:model) { double(birthday: date) }
   let(:options) { {} }
 
@@ -12,15 +11,11 @@ describe Krudmin::Fields::DateTime do
 
   it "hash a value" do
     expect(subject.attribute).to eq :birthday
-    expect(subject.data).to eq(date)
+    expect(subject.value.to_date).to eq(date)
   end
 
-  context "datetime" do
-    let(:options) { {format: "%H %d %p"} }
-
-    it "can be displayed as datetime" do
-      expect(subject.to_s).to eq("15 14 PM")
-    end
+  it "can be displayed as date" do
+    expect(subject.to_s).to eq("1989-12-14")
   end
 
   context "date" do
@@ -29,7 +24,7 @@ describe Krudmin::Fields::DateTime do
       let(:date) { Date.new(1989, 12, 14) }
 
       it do
-        expect(subject.to_s).to eq("14 Dec 00:00")
+        expect(subject.to_s).to eq("Dec 14")
       end
     end
   end
@@ -40,7 +35,7 @@ describe Krudmin::Fields::DateTime do
       let(:date) { Time.new(1989, 12, 14, 4, 0).utc }
 
       it do
-        expect(subject.to_s).to eq(date.to_s(:short))
+        expect(subject.to_s).to eq("Dec 14")
       end
     end
   end
