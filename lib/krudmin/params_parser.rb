@@ -15,11 +15,11 @@ module Krudmin
 
         hash[field] = if column && value.present?
           case column.type
-            when :datetime
-              DateTime.strptime(value, I18n.t("krudmin.datetime.input_format"))
-            when :date
-              Date.strptime(value, I18n.t("krudmin.date.input_format"))
-            else value
+          when :datetime
+            DateTime.strptime(value, I18n.t("krudmin.datetime.input_format"))
+          when :date
+            Date.strptime(value, I18n.t("krudmin.date.input_format"))
+          else value
           end
         else
           value
