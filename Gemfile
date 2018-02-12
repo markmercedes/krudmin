@@ -13,11 +13,12 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+gem "pg"
+
 group :development, :test do
   gem "factory_bot_rails"
   gem "ffaker"
   gem "haml-rails"
-  gem "pg"
   gem "pry"
 end
 
@@ -32,4 +33,8 @@ group :test do
   gem "simplecov"
   gem "timecop"
   gem "webmock"
+end
+
+group :staging, :production do
+  gem "uglifier"
 end
