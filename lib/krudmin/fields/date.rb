@@ -26,7 +26,7 @@ module Krudmin
       end
 
       def timezone
-        options.fetch(:timezone, "UTC")
+        options.fetch(:timezone) { Time.zone.name }
       end
 
       def format
