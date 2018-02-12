@@ -9,3 +9,7 @@ development: &default
 test:
   <<: *default
   database: krudmin_test
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
