@@ -39,13 +39,20 @@ document.addEventListener('turbolinks:load', function(event) {
   $('.datetimepicker').daterangepicker(
     $.extend({
       timePicker: true,
-      }, inputDefaults)
+      locale: {
+        format: "MM/DD/YYYY hh:mm A"
+      }
+    }, inputDefaults)
   , function(inputValue) {
     this.element.val(inputValue.format("MM/DD/YYYY hh:mm A"));
   });
 
   $('.datepicker').daterangepicker(
-    $.extend({}, inputDefaults),
+    $.extend({
+      locale: {
+        format: "MM/DD/YYYY"
+      }
+    }, inputDefaults),
     function(inputValue) {
       this.element.val(inputValue.format("MM/DD/YYYY"));
     }
