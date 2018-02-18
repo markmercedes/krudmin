@@ -53,8 +53,7 @@ module Krudmin
 
       def attribute_types
         @attribute_types ||= attributes_metadata.reduce({}) do |hash, item|
-
-          attribute = item.first 
+          attribute = item.first
 
           hash[attribute] = Attribute.from(attribute, item.last)
           hash
