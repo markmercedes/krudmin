@@ -3,9 +3,9 @@ class PassengersResourceManager < Krudmin::ResourceManagers::Base
   MODEL_CLASSNAME = "Passenger"
 
   ATTRIBUTE_TYPES = {
-    name: Krudmin::Fields::String,
-    age: Krudmin::Fields::Number,
-    email: Krudmin::Fields::Email,
-    gender: {type: Krudmin::Fields::EnumType, associated_options: -> { Passenger.genders }}
+    name: "String",
+    age: "Number",
+    email: :Email,
+    gender: {type: :EnumType, associated_options: -> { Passenger.genders }}
   }
 end

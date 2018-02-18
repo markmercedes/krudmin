@@ -6,7 +6,7 @@ module Krudmin
       attr_reader :attribute, :type, :options
       def initialize(attribute, type = Krudmin::Fields::String, options = {})
         @attribute = attribute
-        @type = type
+        @type = find_field_klass(type)
         @options = options
       end
 
@@ -18,22 +18,36 @@ module Krudmin
         @type_as_hash ||= type.type_as_hash(attribute, options)
       end
 
-      def self.from_list(attribute_types)
-        attribute_types.reduce({}) { |hash, metadata|
-          attribute = metadata.first
-          options = metadata.last
-          hash[attribute] = from(attribute, options)
-          hash
-        }
+      private
+
+      def find_field_klass(source)
+        case source
+        when Symbol, String
+          "Krudmin::Fields::#{source}".constantize
+        when Hash
+          {type: find_field_klass(source[:type])}.reverse_merge(source)
+        else
+          source
+        end
       end
 
-      def self.from(attribute, field_metadata)
-        return new(attribute) unless field_metadata
+      class << self
+        def from_list(attribute_types)
+          attribute_types.reduce({}) { |hash, metadata|
+            attribute = metadata.first
+            hash[attribute] = from(attribute, metadata.last)
+            hash
+          }
+        end
 
-        if field_metadata.is_a?(Hash)
-          new(attribute, field_metadata.fetch(:type), field_metadata.except(:type))
-        else
-          new(attribute, field_metadata)
+        def from(attribute, field_metadata)
+          return new(attribute) unless field_metadata
+
+          if field_metadata.is_a?(Hash)
+            new(attribute, field_metadata.fetch(:type), field_metadata.except(:type))
+          else
+            new(attribute, field_metadata)
+          end
         end
       end
     end

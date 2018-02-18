@@ -22,15 +22,15 @@ module Krudmin
 
       def grouped_attributes
         @grouped_attributes ||= if attributes.is_a?(Hash)
-                                  attributes.reduce({}) do |hash, value|
-                                    key = value.first
-                                    attributes = value.last
-                                    hash[key] = { attributes: attributes }.merge(presentation_metadata.fetch(key))
-                                    hash
-                                  end
-                                else
-                                  { general: { attributes: attributes, label: "General" } }
-                                end
+          attributes.reduce({}) do |hash, value|
+            key = value.first
+            attributes = value.last
+            hash[key] = { attributes: attributes }.merge(presentation_metadata.fetch(key))
+            hash
+          end
+        else
+          { general: { attributes: attributes, label: "General" } }
+        end
       end
 
       def editable_attributes
@@ -53,10 +53,10 @@ module Krudmin
 
       def attribute_types
         @attribute_types ||= attributes_metadata.reduce({}) do |hash, item|
-          attribute = item.first
-          options = item.last
 
-          hash[attribute] = Attribute.from(attribute, options)
+          attribute = item.first 
+
+          hash[attribute] = Attribute.from(attribute, item.last)
           hash
         end
       end
