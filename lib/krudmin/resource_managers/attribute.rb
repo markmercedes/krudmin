@@ -25,7 +25,7 @@ module Krudmin
         when Symbol, String
           "Krudmin::Fields::#{source}".constantize
         when Hash
-          {type: find_field_klass(source[:type])}.reverse_merge(source)
+          { type: find_field_klass(source[:type]) }.reverse_merge(source)
         else
           source
         end
