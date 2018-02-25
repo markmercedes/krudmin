@@ -20,7 +20,7 @@ module Krudmin
 
     module ModelAuthorizer
       def authorize_model(given_model = model)
-        authorize given_model
+        authorize super(given_model)
       end
 
       def scope

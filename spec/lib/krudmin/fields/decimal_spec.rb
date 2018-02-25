@@ -14,6 +14,18 @@ describe Krudmin::Fields::Decimal do
     expect(subject.value).to eq 9001
   end
 
+  describe "rendering" do
+    let(:fake_view_context) { double }
+
+    context "list" do
+      it "renders a decimal with a configurable delimiter" do
+        expect(fake_view_context).to receive(:number_with_delimiter).with(9001.0, precision: 2, delimiter: ",", separator: ".") { :mocked }
+
+        expect(subject.render(:list, fake_view_context)).to eq :mocked
+      end
+    end
+  end
+
   describe "options" do
 
     context "without delimiter specified" do

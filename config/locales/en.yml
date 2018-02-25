@@ -1,6 +1,10 @@
 en:
   hello: "Hello world"
   krudmin:
+    datetime:
+      input_format: "%m/%d/%Y %I:%M %p"
+    date:
+      input_format: "%m/%d/%Y"
     labels:
       active: Active
       inactive: Inactive

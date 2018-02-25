@@ -2,3 +2,7 @@ ruby:
   config_file: .rubocop.yml
 haml:
   enabled: false
+scss:
+  enabled: false
+jshint:
+  enabled: false

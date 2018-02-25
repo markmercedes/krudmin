@@ -3,6 +3,7 @@ require 'spec_helper'
 require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/string"
 require "#{Dir.pwd}/lib/krudmin/fields/number"
+require "#{Dir.pwd}/lib/krudmin/fields/text"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute_collection"
 
@@ -32,13 +33,14 @@ describe Krudmin::ResourceManagers::AttributeCollection do
       let(:attribute_types) do
         {
           name: Krudmin::Fields::String,
-          age: Krudmin::Fields::Number
+          age: :Number,
+          description: "Text",
         }
       end
 
       it "returns an empty hash if no values are provided" do
         expect(subject.attribute_types.values.map(&:class).uniq).to eq([Krudmin::ResourceManagers::Attribute])
-        expect(subject.attribute_types.values.map(&:type)).to eq([Krudmin::Fields::String, Krudmin::Fields::Number])
+        expect(subject.attribute_types.values.map(&:type)).to eq([Krudmin::Fields::String, Krudmin::Fields::Number, Krudmin::Fields::Text])
       end
     end
   end

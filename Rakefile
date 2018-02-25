@@ -20,7 +20,14 @@ load 'rails/tasks/engine.rake'
 
 load 'rails/tasks/statistics.rake'
 
-
-
 require 'bundler/gem_tasks'
+
+namespace :assets do
+  desc 'Precompile assets within test app'
+  task :precompile do
+    Dir.chdir('spec/test_app') do
+      system('bundle exec rails assets:precompile')
+    end
+  end
+end
 
