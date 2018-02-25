@@ -20,5 +20,5 @@
 //= require moment
 //= require krudmin/vendor/daterangepicker
 //= require krudmin/turbo-forms
-//= require krudmin/app
+//= require krudmin/core_theme/app
 //= require krudmin_scripts

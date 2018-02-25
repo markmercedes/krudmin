@@ -1,8 +1,6 @@
 module Krudmin
   module ActionButtons
     class Base
-      VIEW_PATH = :application
-
       attr_reader :page, :view_context, :action_path, :html_options, :button_body
       def initialize(page, view_context, action_path = "#", html_options = {}, &block)
         @page = page
@@ -25,7 +23,7 @@ module Krudmin
       end
 
       def partial_path
-        "krudmin/#{self.class::VIEW_PATH}/action_buttons/#{partial_scope}"
+        "#{Krudmin::Config.theme}/action_buttons/#{partial_scope}"
       end
 
       def partial_scope

@@ -7,8 +7,8 @@
     %meta{content: "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
     %title
       = content_for?(:page_title) ? yield(:page_title) : try(:crud_title)
-    = stylesheet_link_tag    'krudmin/application', media: 'all', 'data-turbolinks-track' => 'reload'
-    = javascript_include_tag 'krudmin/application', 'data-turbolinks-track' => 'reload'
+    = stylesheet_link_tag    'krudmin/core_theme/application', media: 'all', 'data-turbolinks-track' => 'reload'
+    = javascript_include_tag 'krudmin/core_theme/application', 'data-turbolinks-track' => 'reload'
 
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/en.js'
@@ -18,17 +18,17 @@
 
   %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden
     #body-overlay
-    = render partial: 'layouts/krudmin/header'
+    = render partial: 'layouts/krudmin/core_theme/header'
     .app-body
-      = render partial: 'layouts/krudmin/sidebar_menu'
+      = render partial: 'layouts/krudmin/core_theme/sidebar_menu'
       %main.main
-        = render partial: 'layouts/krudmin/toolbar'
+        = render partial: 'layouts/krudmin/core_theme/toolbar'
 
         #ui-view.container-fluid
-          = render 'layouts/krudmin/messages'
+          = render 'layouts/krudmin/core_theme/messages'
 
           = yield
-      = render partial: '/layouts/krudmin/aside_menu'
+      = render partial: '/layouts/krudmin/core_theme/aside_menu'
     %footer.app-footer
       %span
-        = render 'layouts/krudmin/copyright'
+        = render 'layouts/krudmin/core_theme/copyright'
