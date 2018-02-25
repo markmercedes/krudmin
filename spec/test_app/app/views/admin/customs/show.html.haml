@@ -1,0 +1,20 @@
+- content_for(:page_title) do
+  Custom Stand Alone Controller
+
+- content_for :breadcrumb do
+  %li.breadcrumb-item.active
+    = link_to(admin_customs_path) do
+      = "Customized View"
+
+= render "list_action_buttons"
+
+.row
+  .col-lg-12.no-padding
+    .card.items-list
+      .card-header
+        %h4.pull-left
+          This view is generated from an Stand Alone Controller `Krudmin::CustomController` which doesn't depend on a resource manager.
+      .card-body
+        %h1
+          ID:
+          = params[:id]
