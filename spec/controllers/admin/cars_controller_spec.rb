@@ -50,6 +50,7 @@ describe Admin::CarsController, type: :controller do
         new_car = Car.first
 
         expect(response).to redirect_to([:edit, :admin, new_car])
+        expect(assigns(:model)).to eq new_car
       end
     end
 
@@ -62,6 +63,7 @@ describe Admin::CarsController, type: :controller do
         }.to change(Car, :count).by(0)
 
         expect(response).to be_success
+        expect(assigns(:model)).to be_a_new(Car)
       end
     end
   end
@@ -76,6 +78,7 @@ describe Admin::CarsController, type: :controller do
 
         car.reload
         expect(car.model).to eq new_model
+        expect(assigns(:model)).to eq car
       end
 
       it "redirects to the car" do
@@ -94,8 +97,8 @@ describe Admin::CarsController, type: :controller do
 
         put :update, params: {id: car.to_param, car: invalid_attributes}
 
-        car.reload
         expect(car.model).to eq original_model
+        expect(assigns(:model)).to eq car
       end
     end
   end
