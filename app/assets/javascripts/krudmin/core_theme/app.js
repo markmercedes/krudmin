@@ -36,27 +36,38 @@ document.addEventListener('turbolinks:load', function(event) {
     autoUpdateInput: false,
   };
 
-  $('.datetimepicker').daterangepicker(
-    $.extend({
-      timePicker: true,
-      locale: {
-        format: "MM/DD/YYYY hh:mm A"
-      }
-    }, inputDefaults)
-  , function(inputValue) {
-    this.element.val(inputValue.format("MM/DD/YYYY hh:mm A"));
+  var DEFAULT_DATETIME_FORMAT = "MM/DD/YYYY hh:mm A";
+  var DEFAULT_DATE_FORMAT = "MM/DD/YYYY";
+
+  $('.datetimepicker').each(function (_, inputControl) {
+    var inputFormat = $(this).data('date-format') || DEFAULT_DATETIME_FORMAT;
+
+    $(inputControl).daterangepicker(
+      $.extend({
+        timePicker: true,
+        locale: {
+          format: inputFormat
+        }
+      }, inputDefaults)
+    , function(inputValue) {
+      this.element.val(inputValue.format(inputFormat));
+    });
   });
 
-  $('.datepicker').daterangepicker(
-    $.extend({
-      locale: {
-        format: "MM/DD/YYYY"
+  $('.datepicker').each(function(_, inputControl) {
+    var inputFormat = $(this).data('date-format') || DEFAULT_DATE_FORMAT;
+
+    $(inputControl).daterangepicker(
+      $.extend({
+        locale: {
+          format: inputFormat
+        }
+      }, inputDefaults),
+      function (inputValue) {
+        this.element.val(inputValue.format(inputFormat));
       }
-    }, inputDefaults),
-    function(inputValue) {
-      this.element.val(inputValue.format("MM/DD/YYYY"));
-    }
-  );
+    );
+  });
 });
 
 document.addEventListener('turbolinks:load', function(event) {
