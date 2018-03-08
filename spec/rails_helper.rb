@@ -17,8 +17,8 @@ ActiveRecord::Migration.maintain_test_schema!
 Dir[Rails.root.join("../../spec/support/**/*.rb")].each { |file| require file }
 
 def in_ci?
-  # ENV["CIRCLECI"].present?
-  true
+  ENV["CIRCLECI"].present?
+  # true
 end
 
 RSpec.configure do |config|

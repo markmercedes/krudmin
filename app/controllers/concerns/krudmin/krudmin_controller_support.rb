@@ -45,7 +45,11 @@ module Krudmin
     end
 
     def krudmin_router
-      @krudmin_router ||= Krudmin::ResourceManagers::Routing.from(Rails.application.routes.url_helpers, controller_path)
+      @krudmin_router ||= Krudmin::ResourceManagers::Routing.from(Rails.application.routes.url_helpers, krudmin_routing_path)
+    end
+
+    def krudmin_routing_path
+      controller_path
     end
 
     def items
