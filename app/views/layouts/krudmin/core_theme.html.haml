@@ -16,7 +16,7 @@
     = stylesheet_link_tag    'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css'
     = stylesheet_link_tag    'https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'
 
-  %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden
+  %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden{class: body_classes}
     #body-overlay
     = render partial: 'layouts/krudmin/core_theme/header'
     .app-body

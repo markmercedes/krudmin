@@ -143,11 +143,13 @@ document.addEventListener('turbolinks:load', function(event) {
 
   $('.sidebar-minimizer').click(function(){
     $('body').toggleClass('sidebar-minimized');
+    Cookies.set('sidebar-minimized', $('body').hasClass('sidebar-minimized'));
     resizeBroadcast();
   });
 
   $('.brand-minimizer').click(function(){
     $('body').toggleClass('brand-minimized');
+    Cookies.set('brand-minimized', $('body').hasClass('brand-minimized'));
   });
 
   $('.aside-menu-toggler').click(function(){
