@@ -12,12 +12,12 @@ module Krudmin
         routes.send(new_route_path)
       end
 
-      def activate_path(given_model)
-        routes.send(activate_route_path, given_model)
+      def activate_path(given_model, *params)
+        routes.send(activate_route_path, given_model, *params)
       end
 
-      def deactivate_path(given_model)
-        routes.send(deactivate_route_path, given_model)
+      def deactivate_path(given_model, *params)
+        routes.send(deactivate_route_path, given_model, *params)
       end
 
       def resource_path(given_model)

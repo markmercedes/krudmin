@@ -21,10 +21,14 @@ module Krudmin
       message_node = model_status_messages[status_method]
 
       if model.send(status_method)
-        redirect_to resource_root, notice: message_node[:on_success]
+        action_message = message_node[:on_success]
+        action_path = params[:context] == "form" ? edit_resource_path(model) : resource_root
       else
-        redirect_to edit_resource_path(model), notice: message_node[:on_error]
+        action_message = message_node[:on_error]
+        action_path = edit_resource_path(model)
       end
+
+      redirect_to action_path, notice: action_message
     end
   end
 end
