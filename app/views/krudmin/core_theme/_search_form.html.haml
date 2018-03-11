@@ -22,6 +22,6 @@
           %i.fa.fa-close
           = t('krudmin.actions.cancel')
         &nbsp;
-        = link_to(resource_root, class: "btn btn-light aside-menu-toggler") do
+        = link_to(resource_root(reset_search: 1), class: "btn btn-light aside-menu-toggler") do
           %i.fa.fa-close
           = t('krudmin.actions.reset')

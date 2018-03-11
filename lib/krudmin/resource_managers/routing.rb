@@ -28,8 +28,8 @@ module Krudmin
         routes.send(edit_route_path, given_model, params)
       end
 
-      def resource_root
-        routes.send("#{path}#{resources}_path")
+      def resource_root(*params)
+        routes.send("#{path}#{resources}_path", *params)
       end
 
       def resource
