@@ -7,7 +7,11 @@ module Krudmin
     end
 
     def search_form_params
-      @search_form_params ||=  PersistedSearchResults.new(params.fetch(:q, {}).permit!, default_search_params, controller_path, cookies).to_h
+      @search_form_params ||= PersistedSearchResults.new(params.fetch(:q, {}).permit!,
+                                                         default_search_params,
+                                                         controller_path,
+                                                         cookies,
+                                                         params[:reset_search].present?).to_h
     end
 
     def default_search_params
@@ -41,16 +45,15 @@ module Krudmin
 
       delegate :[], :include?, to: :to_h
 
-      attr_reader :params, :default_params, :cache_path, :cache_adapter
-      def initialize(params, default_params, cache_path, cache_adapter)
+      attr_reader :params, :default_params, :cache_path, :cache_adapter, :reset_cache
+      alias reset_cache? reset_cache
+
+      def initialize(params, default_params, cache_path, cache_adapter, reset_cache)
         @params = params
         @default_params = default_params
         @cache_path = cache_path
         @cache_adapter = cache_adapter
-      end
-
-      def reset_cache?
-        params[:reset_search].present?
+        @reset_cache = reset_cache
       end
 
       def to_h
@@ -64,7 +67,7 @@ module Krudmin
       end
 
       def cached_params
-        @cached_params ||= global_search[cache_path]
+        @cached_params ||= reset_cache ? {} : global_search[cache_path]
       end
 
       def values
