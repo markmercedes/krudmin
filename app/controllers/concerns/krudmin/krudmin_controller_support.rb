@@ -13,7 +13,7 @@ module Krudmin
 
       helper_method :resource_root, :activate_path, :deactivate_path, :new_resource_path, :resource_path, :edit_resource_path
 
-      helper_method :form_submit_path, :menu_items, :_current_user, :krudmin_root_path
+      helper_method :form_submit_path, :navigation_menu, :_current_user, :krudmin_root_path
     end
 
     def model_id
@@ -68,8 +68,8 @@ module Krudmin
       @krudmin_root_path ||= Rails.application.routes.url_helpers.send(Krudmin::Config.krudmin_root_path)
     end
 
-    def menu_items
-      @menu_items ||= Krudmin::NavigationItems.new(user: _current_user)
+    def navigation_menu
+      @navigation_menu ||= Krudmin::Config.navigation_menu.for(_current_user)
     end
 
     def resource_manager

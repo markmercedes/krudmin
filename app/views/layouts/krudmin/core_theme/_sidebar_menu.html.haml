@@ -3,7 +3,7 @@
     %ul.nav
       %li.nav-title
         Menu
-      - menu_items.each do |item|
+      - navigation_menu.each do |item|
         - if item.items.any?
           %li.nav-item.nav-dropdown{class: item.label_class}
             = link_to(item.link, class: "nav-link nav-dropdown-toggle") do

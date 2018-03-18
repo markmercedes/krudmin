@@ -1,31 +1,5 @@
 module Krudmin
-  class NavigationItems
-    include Enumerable
-
-    def initialize(items: nil)
-      @items = items
-    end
-
-    def each(&block)
-      visible_items.each(&block)
-    end
-
-    private
-
-    def visible_items
-      @visible_items ||= items.select(&:visible?)
-    end
-
-    def routes
-      Rails.application.routes.url_helpers
-    end
-
-    def items
-      @items ||= [
-        Krudmin::NavigationItems::Node.new(:dashboard, Krudmin::Config.krudmin_root_path, icon: :tachometer),
-      ].concat(Krudmin::Config.menu_items.call).compact
-    end
-
+  class NavigationMenu
     class Node
       include Enumerable
 
@@ -52,7 +26,7 @@ module Krudmin
       end
 
       def each(&block)
-        items.select{ |item| item.visible_if.call }.each(&block)
+        visible_items.each(&block)
       end
 
       class << self
