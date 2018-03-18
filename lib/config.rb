@@ -21,7 +21,7 @@ module Krudmin
         end
       end
 
-      attr_writer :menu_items, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme
+      attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme
 
       attr_accessor :edit_profile_path, :logout_path
 
@@ -50,8 +50,8 @@ module Krudmin
         @pundit_enabled
       end
 
-      def menu_items
-        @menu_items ||= proc { [] }
+      def navigation_menu
+        @_nav_menu = (@navigation_menu || -> { Krudmin::NavigationMenu.new }).call
       end
 
       def theme
