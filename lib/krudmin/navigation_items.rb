@@ -13,7 +13,7 @@ module Krudmin
     private
 
     def visible_items
-      items.select(&:visible)
+      @visible_items ||= items.select(&:visible?)
     end
 
     def routes
@@ -29,11 +29,11 @@ module Krudmin
     class Node
       include Enumerable
 
-      attr_reader :label, :link, :label_class, :visible, :items, :icon, :module_path
+      attr_reader :label, :link, :label_class, :visible_if, :items, :icon, :module_path
 
-      def initialize(label, link, visible: true, items: [], icon: :file, module_path: nil)
+      def initialize(label, link, visible_if: -> { true }, items: [], icon: :file, module_path: nil)
         @label = label
-        @visible = visible
+        @visible_if = visible_if
         @items = items
         @icon = icon
         @module_path = module_path
@@ -43,8 +43,16 @@ module Krudmin
         @link = link.is_a?(Symbol) ? routes.send(link) : link
       end
 
+      def visible?
+        if items.any?
+          visible_if.call && visible_items.any?
+        else
+          visible_if.call
+        end
+      end
+
       def each(&block)
-        items.select(&:visible).each(&block)
+        items.select{ |item| item.visible_if.call }.each(&block)
       end
 
       class << self
@@ -52,16 +60,16 @@ module Krudmin
           Rails.application.routes.url_helpers
         end
 
-        def node_for(label, resource, visible: true, icon: :file, module_path: nil, manage: true, add: true)
-          new(label, "#", items: links_for(resource, module_path, manage: manage, add: add), icon: icon, visible: visible, module_path: module_path) if manage || add
+        def node_for(label, resource, visible_if: -> { true }, icon: :file, module_path: nil, manage_if: -> { true }, add_if: -> { true })
+          new(label, "#", visible_if: visible_if, items: links_for(resource, module_path, manage_if: manage_if, add_if: add_if), icon: icon, module_path: module_path)
         end
 
-        def links_for(resource, module_path = "", manage: true, add: true)
+        def links_for(resource, module_path = "", manage_if: -> { true }, add_if: -> { true })
           module_path = "#{module_path}_" if module_path.present?
 
           [
-            new(I18n.t("krudmin.actions.manage"), routes.send("#{module_path}#{resource.pluralize}_path"), icon: :list, visible: manage),
-            new(I18n.t("krudmin.actions.add_new"), routes.send("new_#{module_path}#{resource}_path"), icon: :plus, visible: add),
+            new(I18n.t("krudmin.actions.manage"), routes.send("#{module_path}#{resource.pluralize}_path"), icon: :list, visible_if: manage_if),
+            new(I18n.t("krudmin.actions.add_new"), routes.send("new_#{module_path}#{resource}_path"), icon: :plus, visible_if: add_if),
           ]
         end
       end
@@ -69,7 +77,7 @@ module Krudmin
       private
 
       def visible_items
-        items.select(&:visible)
+        @visible_items ||= items.select(&:visible?)
       end
 
       def routes
