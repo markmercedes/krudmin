@@ -2,9 +2,7 @@ module Krudmin
   class NavigationItems
     include Enumerable
 
-    attr_reader :user
-    def initialize(user:, items: nil)
-      @user = user
+    def initialize(items: nil)
       @items = items
     end
 
