@@ -9,10 +9,18 @@ module PageFeatures
     end
   end
 
+  def click_form_activation_link_for(model)
+    click_link("Activate")
+  end
+
   def click_deactivation_link_for(model)
     within(row_css_for(model)) do
       all(".btn-deactivate-item").first.click
     end
+  end
+
+  def click_form_deactivation_link_for(model)
+    click_link("Deactivate")
   end
 
   def click_destroy_link_for(model)

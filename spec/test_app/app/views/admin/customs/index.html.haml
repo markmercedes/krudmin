@@ -1,0 +1,23 @@
+- content_for(:page_title) do
+  Custom Stand Alone Controller
+
+- content_for :breadcrumb do
+  %li.breadcrumb-item.active
+    = link_to(admin_customs_path) do
+      = "Customized View"
+
+= render "list_action_buttons"
+
+.row
+  .col-lg-12.no-padding
+    .card.items-list
+      .card-header
+        %h4.pull-left
+          This view is generated from an Stand Alone Controller `Krudmin::CustomController` which doesn't depend on a resource manager.
+      .card-body
+        This is the best way to create custom non CRUD interfaces reusing all of krudmin layout awesomeness.
+
+        %br
+        %br
+
+        = link_to('View Lone Ranger', admin_custom_path(1), class: "btn btn-primary")

@@ -2,7 +2,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   MODEL_CLASSNAME = "Car"
 
   EDITABLE_ATTRIBUTES = {
-    general: [:active, :description],
+    general: [:active, :description, :created_at, :release_date],
     activation: [:model, :year, :car_brand_id, :transmission],
     passengers: [:passengers],
   }
@@ -25,14 +25,15 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   }
 
   ATTRIBUTE_TYPES = {
-    id: { type: Krudmin::Fields::Number, padding: 10, prefix: :CK },
-    model: { type: Krudmin::Fields::Text, input: { rows: 2 } },
-    description: { type: Krudmin::Fields::RichText, show_length: 20 },
-    year: Krudmin::Fields::Number,
-    active: Krudmin::Fields::Boolean,
-    passengers: Krudmin::Fields::HasMany,
-    car_brand_id: { type: Krudmin::Fields::BelongsTo, collection_label_field: :description, association_path: :admin_car_brand_path },
-    created_at: { type: Krudmin::Fields::DateTime, format: :short },
-    transmission: { type: Krudmin::Fields::EnumType, associated_options: -> { Car.transmissions } },
+    id: { type: :Number, padding: 10, prefix: :CK },
+    model: { type: :Text, input: { rows: 2 } },
+    description: { type: :RichText, show_length: 20 },
+    year: :Number,
+    active: :Boolean,
+    passengers: :HasMany,
+    car_brand_id: { type: :BelongsTo, collection_label_field: :description, association_path: :admin_car_brand_path },
+    created_at: { type: :DateTime, format: :short },
+    release_date: { type: :Date, format: :short },
+    transmission: { type: :EnumType, associated_options: -> { Car.transmissions } },
   }
 end

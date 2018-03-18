@@ -1,0 +1,7 @@
+- search_options.each do |search_option|
+  .col-sm-6
+    %ul.list-unstyled
+      %li
+        = form.hidden_field search_option[:options], value: search_option[:filter]
+      %li
+        = form.date_field search_option[:field], required: false, class: "form-control"

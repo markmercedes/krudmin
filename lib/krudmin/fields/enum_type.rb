@@ -22,7 +22,7 @@ module Krudmin
         options.fetch(:associated_options).call
       end
 
-      def linkable
+      def linkable?
         false
       end
     end

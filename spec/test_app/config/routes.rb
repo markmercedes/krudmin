@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  mount Krudmin::Engine => "/krudmin"
+  root to: "admin/cars#index"
 
   namespace :admin do
     resources :car_brands
+
+    resources :customs, only: [:index, :show]
+    resources :dog_breeds, only: [:index, :show]
 
     resources :cars do
       member do

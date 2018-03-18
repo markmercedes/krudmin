@@ -1,6 +1,10 @@
 en:
   hello: "Hello world"
   krudmin:
+    datetime:
+      input_format: "%m/%d/%Y %I:%M %p"
+    date:
+      input_format: "%m/%d/%Y"
     labels:
       active: Active
       inactive: Inactive
@@ -67,4 +71,6 @@ en:
       show: "Show"
       search: "Search"
       reset: "Reset"
+      activate: Activate
+      deactivate: Deactivate
       manage_resources: "Manage %{label}"

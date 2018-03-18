@@ -47,12 +47,20 @@ class CarPage
     click_destroy_link_for(model)
   end
 
-  def click_activate_model_link
-    click_activation_link_for(model)
+  def click_activate_model_link(context = nil)
+    if context == :form
+      click_form_activation_link_for(model)
+    else
+      click_activation_link_for(model)
+    end
   end
 
-  def click_deactivate_model_link
-    click_deactivation_link_for(model)
+  def click_deactivate_model_link(context = nil)
+    if context == :form
+      click_form_deactivation_link_for(model)
+    else
+      click_deactivation_link_for(model)
+    end
   end
 
   def has_model_unable_to_be_destroyed?

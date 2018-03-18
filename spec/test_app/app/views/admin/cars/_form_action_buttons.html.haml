@@ -1,0 +1,6 @@
+- configure_toolbar(:form, self) do |b|
+  - b.button :save, form_submit_path, form: f
+  - b.button :cancel, resource_root
+  - b.button :show, model
+  - unless model.new_record?
+    - b.button :active, model

@@ -2,10 +2,13 @@
 
 Krudmin::Config.with do |config|
   # config.current_user_method(&:current_user)
-  config.menu_items = -> { [
-      Krudmin::NavigationItems::Node.node_for("Admin Cars", 'car', module_path: :admin, icon: :car),
-      Krudmin::NavigationItems::Node.node_for("Car Brands", 'car_brand', module_path: :admin, icon: :car)
-    ]
+  config.navigation_menu = -> {
+    Krudmin::NavigationMenu.configure do |menu, user|
+      menu.node "Cars", 'car', module_path: :admin, icon: :car, visible_if: -> { CarPolicy.new(nil, nil).index? }
+      menu.node "Car Brands", 'car_brand', module_path: :admin, icon: :car
+      menu.link "Customs", :admin_customs_path, module_path: :admin, icon: :gear
+      menu.link "Dog Breeds", :admin_dog_breeds_path, module_path: :admin, icon: :paw
+    end
   }
 end
 

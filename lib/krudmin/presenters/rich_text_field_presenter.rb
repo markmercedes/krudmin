@@ -8,6 +8,10 @@ module Krudmin
       def render_show
         value&.html_safe
       end
+
+      def render_list
+        value&.html_safe
+      end
     end
   end
 end

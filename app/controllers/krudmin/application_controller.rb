@@ -6,6 +6,9 @@ module Krudmin
     include Krudmin::Searchable
     include Krudmin::ActionButtonsSupport
 
+    layout Krudmin::Config.theme
+
+    before_action :set_view_path
     before_action :set_model, only: [:new, :edit, :create]
 
     def index; end
@@ -64,6 +67,10 @@ module Krudmin
 
     def authorize_model(model)
       model
+    end
+
+    def set_view_path
+      lookup_context.prefixes.append Krudmin::Config.theme
     end
   end
 end

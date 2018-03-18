@@ -11,11 +11,6 @@ require "arbre"
 require "ransack"
 require "cocoon"
 require "trix"
-require_relative "../../config/initializers/simple_form_bootstrap"
-require_relative "../../app/controllers/krudmin/concerns/pundit_authorizable"
-require_relative "../../app/controllers/krudmin/concerns/model_status_toggler"
-require_relative "../../app/controllers/krudmin/concerns/searchable"
-require_relative "../../app/controllers/krudmin/concerns/krudmin_controller_support"
 require_relative "../config"
 
 module Krudmin

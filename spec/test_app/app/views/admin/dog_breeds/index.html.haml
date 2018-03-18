@@ -1,0 +1,50 @@
+- content_for(:page_title) do
+  Dog Breeds
+
+- content_for :breadcrumb do
+  %li.breadcrumb-item.active
+    = link_to(admin_dog_breeds_path) do
+      = "Dog Breeds"
+
+= render "list_action_buttons"
+
+.row
+  .col-lg-12.no-padding
+    .card
+      .card-body
+        .input-group
+          = text_field_tag :breed_name_search, "", :placeholder => "Search for...", class: 'form-control'
+          %span.input-group-btn
+            %button.btn.btn-secondary{:type => "button"}
+              %i.fa.fa-search
+
+  .col-lg-12.no-padding
+    .card.items-list
+      .card-header
+        %h4.pull-left
+          This view is generated from an Stand Alone Controller `Krudmin::CustomController` which doesn't depend on a resource manager.
+      .card-body
+        %i
+          Data extracted from
+          %a{href: "https://dog.ceo/dog-api/"} https://dog.ceo/dog-api/
+
+        %br
+        %br
+
+        %table.table.table-hover
+          %thead
+            %tr
+              %th{width: "30%"}
+                Breed
+              %th
+                Sub Breeds
+              %th{width: "20%"}= t('krudmin.actions.label')
+          %tbody.dog-breeds-list
+            - @dog_breeds.each do |breed|
+              %tr{class: "item-model-#{breed.name}"}
+                %td{width: "30%"}
+                  = breed.name
+                %td
+                  = breed.sub_breeds_list
+                %td
+                  = render partial: "list_item_action_buttons", locals: {breed: breed}
