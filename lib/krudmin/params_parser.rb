@@ -27,7 +27,7 @@ module Krudmin
         if metadata && raw_value.present?
           case metadata.type
           when :datetime
-            DateTime.strptime(raw_value, I18n.t("krudmin.datetime.input_format"))
+            Time.strptime(raw_value, I18n.t("krudmin.datetime.input_format"))
           when :date
             Date.strptime(raw_value, I18n.t("krudmin.date.input_format"))
           else raw_value

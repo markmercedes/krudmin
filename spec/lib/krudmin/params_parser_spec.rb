@@ -34,7 +34,7 @@ describe Krudmin::ParamsParser do
       expect(subject.to_h).to eq({
         "string_type" => "Hello",
         "int_type" => "9001",
-        "datetime_field" => DateTime.new(2018, 01, 21, 18, 49),
+        "datetime_field" => Time.new(2018, 01, 21, 18, 49),
         "date_field" => Date.new(2012, 02, 01)
       })
     end
