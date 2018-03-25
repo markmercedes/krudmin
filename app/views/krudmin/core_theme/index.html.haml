@@ -27,7 +27,7 @@
             %tr
               - listable_attributes.each_with_index do |column_label, column_index|
                 %th{class: "#{krudmin_manager.field_for(column_label).html_class}"}
-                  = sort_link items, column_label, model_class.human_attribute_name(column_label)
+                  = sort_link items, column_label, model_class.human_attribute_name(column_label), o: search_form.search_criteria
               - if listable_actions.any?
                 %th{width: "20%"}= t('krudmin.actions.label')
           %tbody

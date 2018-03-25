@@ -1,6 +1,25 @@
 require "rails_helper"
 
 describe Krudmin::Searchable do
+  describe "input_params", focus: true do
+
+    subject { Krudmin::ApplicationController.new }
+
+    before do
+      allow(subject).to receive(:params) { params }
+    end
+
+    let(:params) do
+      ActionController::Parameters.new({
+        q: { "key" => "one" },
+        o: { "key" => "two" },
+      })
+    end
+
+    it "merges the contents of the previous params with new params" do
+      expect(subject.input_params.to_h).to eq({ "key"=>"one" })
+    end
+  end
 
   describe described_class::PersistedSearchResults do
     let(:params) { ActionController::Parameters.new }
