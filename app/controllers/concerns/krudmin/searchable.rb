@@ -7,7 +7,7 @@ module Krudmin
     end
 
     def search_form_params
-      @search_form_params ||= PersistedSearchResults.new(params.fetch(:q, {}).permit!,
+      @search_form_params ||= PersistedSearchResults.new(input_params,
                                                          default_search_params,
                                                          controller_path,
                                                          cookies,
@@ -16,6 +16,13 @@ module Krudmin
 
     def default_search_params
       {}
+    end
+
+    def input_params
+      previous_params = params.fetch(:o, {}).permit!
+      new_params = params.fetch(:q, {}).permit!
+
+      previous_params.merge(new_params)
     end
 
     def search_form
