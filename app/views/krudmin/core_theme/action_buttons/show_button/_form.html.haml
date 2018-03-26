@@ -1,4 +1,4 @@
-- if show_route? && !model.new_record?
+- if show_access? && !model.new_record?
   = link_to(resource_path(model), class: "btn btn-secondary") do
     %i.fa.fa-eye
     = t('krudmin.actions.show')

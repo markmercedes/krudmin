@@ -1,4 +1,4 @@
-- if destroy_route?
+- if destroy_access?
   .list-inline-item
     = link_to(resource_path(model), method: :delete, remote: true, data: {confirm: confirm_destroy_message(model)}, class: "btn btn-outline-danger delete-btn btn-destroy-item") do
       %i.fa.fa-trash

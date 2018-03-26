@@ -1,8 +1,8 @@
-- if model.active? && deactivate_route?
+- if model.active? && deactivate_access?
   = link_to(deactivate_path(model, context: :form), method: :post, remote: true, data: {confirm: confirm_deactivation_message(model)}, class: "btn btn-warning btn-disable btn-deactivate-item") do
     %i.fa.fa-times
     = t('krudmin.actions.deactivate')
-- elsif !model.active? && activate_route?
+- elsif !model.active? && activate_access?
   = link_to(activate_path(model, context: :form), method: :post, remote: true, data: {confirm: confirm_activation_message(model) }, class: "btn btn-success btn-enable btn-activate-item") do
     %i.fa.fa-check
     = t('krudmin.actions.activate')
