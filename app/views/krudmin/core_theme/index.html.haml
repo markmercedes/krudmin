@@ -35,8 +35,8 @@
               %tr{class: "item-model-#{item.id}"}
                 - listable_attributes.each_with_index do |column_label, column_index|
                   %td{class: "#{krudmin_manager.field_for(column_label).html_class}"}
-                    - if column_index.zero?
-                      = link_to(field_for(column_label, item).render(:list, self), edit_resource_path(item.id))
+                    - if column_index.zero? && (edit_route? || show_route?)
+                      = link_to(field_for(column_label, item).render(:list, self), edit_route? ? edit_resource_path(item.id) : resource_path(item.id))
                     - else
                       = field_for(column_label, item).render(:list, self)
                 - if listable_actions.any?
