@@ -1,3 +1,4 @@
-%li.list-inline-item
-  = link_to(resource_path(model), class: "btn btn-outline-secondary btn-show-item") do
-    %i.fa.fa-eye
+- if show_route?
+  %li.list-inline-item
+    = link_to(resource_path(model), class: "btn btn-outline-secondary btn-show-item") do
+      %i.fa.fa-eye

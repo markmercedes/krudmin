@@ -10,10 +10,6 @@ describe Krudmin::ResourceManagers::Routing do
 
   subject { described_class.new(predefined_routes, resource) }
 
-  before do
-    # allow(subject).to receive(:routes) { predefined_routes }
-  end
-
   def test_routes(generator)
     expect(generator.new_resource_path).to eq("new_path")
     expect(generator.activate_path(model_id)).to eq("activate_path")
@@ -47,12 +43,12 @@ describe Krudmin::ResourceManagers::Routing do
 
   context "without a prepended namespace" do
     it "generates routes methods withoud a namespace prepended" do
-      expect(predefined_routes).to receive(:new_item_path) { "new_path" }
-      expect(predefined_routes).to receive(:activate_item_path).with(1) { "activate_path" }
-      expect(predefined_routes).to receive(:deactivate_item_path).with(1) { "deactivate_path" }
-      expect(predefined_routes).to receive(:item_path).with(1) { "resource_path" }
-      expect(predefined_routes).to receive(:edit_item_path).with(1, {}) { "edit_resource_path" }
-      expect(predefined_routes).to receive(:items_path) { "resource_root" }
+      expect(predefined_routes).to receive(:build).with("new_item_path") { "new_path" }
+      expect(predefined_routes).to receive(:build).with("activate_item_path", 1) { "activate_path" }
+      expect(predefined_routes).to receive(:build).with("deactivate_item_path", 1) { "deactivate_path" }
+      expect(predefined_routes).to receive(:build).with("item_path", 1) { "resource_path" }
+      expect(predefined_routes).to receive(:build).with("edit_item_path", 1, {}) { "edit_resource_path" }
+      expect(predefined_routes).to receive(:build).with("items_path") { "resource_root" }
 
       test_routes(subject)
     end
@@ -67,12 +63,12 @@ describe Krudmin::ResourceManagers::Routing do
     subject { described_class.new(predefined_routes, resource, prepended_path) }
 
     it "generates routes methods with a namespace prepended" do
-      expect(predefined_routes).to receive(:new_namespace_item_path) { "new_path" }
-      expect(predefined_routes).to receive(:activate_namespace_item_path).with(1) { "activate_path" }
-      expect(predefined_routes).to receive(:deactivate_namespace_item_path).with(1) { "deactivate_path" }
-      expect(predefined_routes).to receive(:namespace_item_path).with(1) { "resource_path" }
-      expect(predefined_routes).to receive(:edit_namespace_item_path).with(1, {}) { "edit_resource_path" }
-      expect(predefined_routes).to receive(:namespace_items_path) { "resource_root" }
+      expect(predefined_routes).to receive(:build).with("new_namespace_item_path") { "new_path" }
+      expect(predefined_routes).to receive(:build).with("activate_namespace_item_path", 1) { "activate_path" }
+      expect(predefined_routes).to receive(:build).with("deactivate_namespace_item_path", 1) { "deactivate_path" }
+      expect(predefined_routes).to receive(:build).with("namespace_item_path", 1) { "resource_path" }
+      expect(predefined_routes).to receive(:build).with("edit_namespace_item_path", 1, {}) { "edit_resource_path" }
+      expect(predefined_routes).to receive(:build).with("namespace_items_path") { "resource_root" }
 
       test_routes(subject)
     end
