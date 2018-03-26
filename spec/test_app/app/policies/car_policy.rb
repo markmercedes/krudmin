@@ -17,11 +17,11 @@ class CarPolicy
   end
 
   def show?
-    true
+    record.year.to_i <= 9000
   end
 
   def edit?
-    true
+    record.year.to_i <= 9000
   end
 
   def new?

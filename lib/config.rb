@@ -10,15 +10,6 @@ module Krudmin
       end
 
       def after_config_received
-        configure_pundit
-      end
-
-      def configure_pundit
-        if Krudmin::Config.pundit_enabled?
-          Krudmin::ApplicationController.class_eval do
-            include Krudmin::PunditAuthorizable
-          end
-        end
       end
 
       attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme
