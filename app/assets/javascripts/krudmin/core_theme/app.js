@@ -138,6 +138,7 @@ document.addEventListener('turbolinks:load', function(event) {
   /* ---------- Main Menu Open/Close, Min/Full ---------- */
   $('.sidebar-toggler').click(function(){
     $('body').toggleClass('sidebar-hidden');
+    Cookies.set('sidebar-hidden', $('body').hasClass('sidebar-hidden'));
     resizeBroadcast();
   });
 
