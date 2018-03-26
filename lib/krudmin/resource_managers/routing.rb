@@ -1,7 +1,7 @@
 module Krudmin
   module ResourceManagers
     class Routing
-      DEFINED_ACTION_METHODS = [:edit, :show, :destroy, :new, :activate, :deactivate].freeze
+      DEFINED_ACTION_METHODS = [:index, :edit, :show, :destroy, :new, :activate, :deactivate].freeze
 
       DEFINED_ACTION_METHODS.each do |action_name|
         define_method("#{action_name}_route?") do

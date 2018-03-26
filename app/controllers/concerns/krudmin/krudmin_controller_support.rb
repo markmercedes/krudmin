@@ -20,6 +20,14 @@ module Krudmin
 
         delegate defined_method, to: :krudmin_router
         helper_method defined_method
+
+        defined_access_method = "#{action_name}_access?"
+
+        helper_method defined_access_method
+
+        define_method(defined_access_method) do |*args|
+          defined?(super(*args)) ? super(*args) && method(defined_method).call : method(defined_method).call
+        end
       end
     end
 
