@@ -1,10 +1,12 @@
 module Krudmin
   class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::KrudminControllerSupport
+    include Krudmin::Authorizable
     include Krudmin::ModelStatusToggler
     include Krudmin::CrudMessages
     include Krudmin::Searchable
     include Krudmin::ActionButtonsSupport
+    include Krudmin::HelperIncluder
 
     layout Krudmin::Config.theme
 
@@ -65,7 +67,7 @@ module Krudmin
       @model = model
     end
 
-    def authorize_model(model)
+    def authorize_model(model = nil)
       model
     end
 

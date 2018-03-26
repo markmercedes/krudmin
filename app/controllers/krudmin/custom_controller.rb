@@ -2,7 +2,8 @@ module Krudmin
   class CustomController < Krudmin::Config.parent_controller.constantize
     include Krudmin::KrudminControllerSupport
     include Krudmin::ActionButtonsSupport
-    include Krudmin::ApplicationHelper
+    extend Krudmin::HelperIncluder
+    include_helper Krudmin::ApplicationHelper
 
     layout Krudmin::Config.theme
 

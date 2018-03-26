@@ -1,4 +1,4 @@
-- if edit_access?
+- if edit_access?(model)
   %li.list-inline-item
     = link_to edit_resource_path(model), class: "btn btn-outline-primary btn-edit-item" do
       %i.fa.fa-pencil
