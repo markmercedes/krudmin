@@ -1,3 +1,4 @@
-= link_to(action_path, {class: "btn btn-danger"}.merge(html_options)) do
-  %i.fa.fa-close
-  = t('krudmin.actions.cancel')
+- if index_access?
+  = link_to(action_path || resource_root, {class: "btn btn-danger"}.merge(html_options)) do
+    %i.fa.fa-close
+    = t('krudmin.actions.cancel')
