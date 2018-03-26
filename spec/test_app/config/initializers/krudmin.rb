@@ -10,6 +10,8 @@ Krudmin::Config.with do |config|
       menu.link "Dog Breeds", :admin_dog_breeds_path, module_path: :admin, icon: :paw
     end
   }
+
+  config.parent_controller = 'ApplicationController'
 end
 
 Krudmin::config do |cfg|
