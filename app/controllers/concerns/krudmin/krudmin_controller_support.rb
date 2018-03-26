@@ -14,6 +14,13 @@ module Krudmin
       helper_method :resource_root, :activate_path, :deactivate_path, :new_resource_path, :resource_path, :edit_resource_path
 
       helper_method :form_submit_path, :navigation_menu, :_current_user, :krudmin_root_path
+
+      Krudmin::ResourceManagers::Routing::DEFINED_ACTION_METHODS.each do |action_name|
+        defined_method = "#{action_name}_route?".to_sym
+
+        delegate defined_method, to: :krudmin_router
+        helper_method defined_method
+      end
     end
 
     def model_id
@@ -45,7 +52,7 @@ module Krudmin
     end
 
     def krudmin_router
-      @krudmin_router ||= Krudmin::ResourceManagers::Routing.from(Rails.application.routes.url_helpers, krudmin_routing_path)
+      @krudmin_router ||= Krudmin::ResourceManagers::Routing.from(AppRouter.new(Rails.application.routes), krudmin_routing_path)
     end
 
     def krudmin_routing_path
