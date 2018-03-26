@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Krudmin::Searchable do
-  describe "input_params", focus: true do
+  describe "input_params" do
 
     subject { Krudmin::ApplicationController.new }
 
