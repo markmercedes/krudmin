@@ -38,7 +38,7 @@ module Krudmin
       end
 
       def self.search_criteria_for(key, raw_value)
-        value = ::Date.parse(raw_value)
+        value = ::Date.strptime(raw_value, I18n.t("krudmin.date.input_format"))
 
         if key.to_s.end_with?("__to")
           value.end_of_day
