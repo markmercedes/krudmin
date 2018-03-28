@@ -23,4 +23,3 @@
 //= require krudmin/turbo-forms
 //= require krudmin/core_theme/constants
 //= require krudmin/core_theme/app
-//= require krudmin_scripts
