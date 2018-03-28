@@ -36,11 +36,8 @@ document.addEventListener('turbolinks:load', function(event) {
     autoUpdateInput: false,
   };
 
-  var DEFAULT_DATETIME_FORMAT = "MM/DD/YYYY hh:mm A";
-  var DEFAULT_DATE_FORMAT = "MM/DD/YYYY";
-
   $('.datetimepicker').each(function (_, inputControl) {
-    var inputFormat = $(this).data('date-format') || DEFAULT_DATETIME_FORMAT;
+    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATETIME_FORMAT;
 
     $(inputControl).daterangepicker(
       $.extend({
@@ -55,7 +52,7 @@ document.addEventListener('turbolinks:load', function(event) {
   });
 
   $('.datepicker').each(function(_, inputControl) {
-    var inputFormat = $(this).data('date-format') || DEFAULT_DATE_FORMAT;
+    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATE_FORMAT;
 
     $(inputControl).daterangepicker(
       $.extend({
