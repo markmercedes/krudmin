@@ -5,7 +5,7 @@ module Krudmin
     extend Krudmin::HelperIncluder
     include_helper Krudmin::ApplicationHelper
 
-    layout Krudmin::Config.theme
+    layout Krudmin::Config.layout
 
     before_action :set_view_path
 
