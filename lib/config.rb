@@ -12,7 +12,7 @@ module Krudmin
       def after_config_received
       end
 
-      attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme
+      attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme, :layout
 
       attr_accessor :edit_profile_path, :logout_path
 
@@ -47,6 +47,10 @@ module Krudmin
 
       def theme
         @theme || DEFAULT_THEME
+      end
+
+      def layout
+        @layout || theme
       end
     end
   end
