@@ -17,6 +17,7 @@ end
 Krudmin::config do |cfg|
   cfg.krudmin_root_path = :admin_cars_path
   cfg.pundit_enabled = true
+  cfg.layout = "krudmin/core_theme_top_navbar"
 end
 
 config = Krudmin::config
