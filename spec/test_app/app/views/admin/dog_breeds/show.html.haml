@@ -10,6 +10,9 @@
 
 = render "list_action_buttons"
 
+- content_for(:head_content) do
+  = javascript_include_tag "krudmin_scripts"
+
 .row
   .col-lg-12.no-padding
     .card.items-list
