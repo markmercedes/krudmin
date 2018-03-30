@@ -8,7 +8,7 @@ module Krudmin
     include Krudmin::ActionButtonsSupport
     include Krudmin::HelperIncluder
 
-    layout Krudmin::Config.theme
+    layout Krudmin::Config.layout
 
     before_action :set_view_path
     before_action :set_model, only: [:new, :edit, :create]

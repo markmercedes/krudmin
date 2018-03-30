@@ -1,0 +1,9 @@
+.top-menu
+  = render partial: 'layouts/krudmin/core_theme/top_menu'
+
+  .container-fluid
+    .row
+      .col-lg-6.col-md-12
+        = yield :toolbar
+      .col-lg-6.col-md-12
+        = render partial: 'layouts/krudmin/core_theme/breadcrumbs'

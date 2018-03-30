@@ -6,6 +6,7 @@ en:
     date:
       input_format: "%m/%d/%Y"
     labels:
+      dashboard: Dashboard
       active: Active
       inactive: Inactive
       'yes': "Yes"

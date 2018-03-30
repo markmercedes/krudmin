@@ -5,6 +5,7 @@ require "krudmin/search_form"
 require "krudmin/fields/base"
 require "krudmin/fields/string"
 require "krudmin/fields/number"
+require "krudmin/fields/date"
 require "krudmin/fields/date_time"
 require "krudmin/fields/boolean"
 require "krudmin/fields/associated"
@@ -34,17 +35,17 @@ describe Krudmin::SearchForm do
   subject { described_class.new(fields, MockedModel) }
 
   describe "Dynamic attribute assignment" do
-    subject { described_class.new(fields, MockedModel, search_by: {"arrival_date__from" => "2017-11-10", "arrival_date__from_options" => "gteq", "arrival_date__to" => "2017-11-15", "arrival_date__to_options" => "lteq"}) }
+    subject { described_class.new(fields, MockedModel, search_by: {"arrival_date__from" => "10/11/2017", "arrival_date__from_options" => "gteq", "arrival_date__to" => "11/15/2017", "arrival_date__to_options" => "lteq"}) }
 
     it do
       expect(subject.fields).to eq([:name, :age, :active, :arrival_date])
       expect(subject.enhanced_fields).to eq([:name, :age, :active, :arrival_date__from, :arrival_date__to])
 
-      expect(subject.params).to eq({"arrival_date_gteq"=>Date.parse("2017-11-10").beginning_of_day, "arrival_date_lteq"=>Date.parse("2017-11-15").end_of_day})
+      expect(subject.params).to eq({"arrival_date_gteq"=>::Date.strptime("10/11/2017", I18n.t("krudmin.date.input_format")).beginning_of_day, "arrival_date_lteq"=>::Date.strptime("11/15/2017", I18n.t("krudmin.date.input_format")).end_of_day})
 
-      expect(subject.form_attributes).to eq({"arrival_date__from"=>Date.parse("2017-11-10").beginning_of_day, "arrival_date__from_options" => "gteq", "arrival_date__to"=>Date.parse("2017-11-15").end_of_day, "arrival_date__to_options"=>"lteq"})
+      expect(subject.form_attributes).to eq({"arrival_date__from"=>::Date.strptime("10/11/2017", I18n.t("krudmin.date.input_format")).beginning_of_day, "arrival_date__from_options" => "gteq", "arrival_date__to"=>::Date.strptime("11/15/2017", I18n.t("krudmin.date.input_format")).end_of_day, "arrival_date__to_options"=>"lteq"})
 
-      expect(subject.filters).to eq(["`arrival_date` Is greater than or equal to < 2017-11-10 >", "`arrival_date` Is less than or equal to < 2017-11-15 >"])
+      expect(subject.filters).to eq(["`arrival_date` Is greater than or equal to < 10/11/2017 >", "`arrival_date` Is less than or equal to < 11/15/2017 >"])
     end
   end
 

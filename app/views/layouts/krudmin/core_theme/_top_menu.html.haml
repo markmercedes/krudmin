@@ -1,0 +1,53 @@
+:css
+  .sidebar-fixed .main, .sidebar-fixed .app-footer {
+    margin-left: 0px !important;
+  }
+
+  .header-fixed .app-body {
+    margin-top: 0px !important;
+  }
+
+  #ui-view {
+    margin-top: 150px;
+  }
+
+  @media (max-width: 991.98px) {
+    #ui-view {
+      margin-top: 200px;
+    }
+  }
+
+%nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.top-navbar
+  .container-fluid
+    %a.navbar-brand{href: krudmin_root_path}
+    %button.navbar-toggler.collapsed{"aria-controls" => "navbar-items", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbar-items", "data-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbar-items.navbar-collapse.collapse
+      %ul.navbar-nav.nav.mr-auto
+        %li.divider
+        - navigation_menu.each do |item|
+          - if item.items.any?
+            %li.nav-item.dropdown{class: item.label_class}
+              = link_to(item.link, class: "nav-link dropdown-toggle", data: {toggle: :dropdown}) do
+                %i{class: "fa fa-#{item.icon}"}
+                = t(item.label)
+              .dropdown-menu
+                - item.each do |child_item|
+                  = link_to(child_item.link, class: "dropdown-item") do
+                    %i{class: "fa fa-#{child_item.icon}"}
+                    = child_item.label
+          - else
+            %li.pull-right.nav-item{class: item.label_class}
+              = link_to(item.link, class: "nav-link") do
+                %i{class: "fa fa-#{item.icon}"}
+                = t(item.label)
+      %ul.navbar-nav.nav.navbar-right.ml-auto
+        %li.nav-item.dropdown
+          = link_to("#", class: "nav-link dropdown-toggle", data: {toggle: :dropdown}) do
+            %i.fa.fa-user
+            &nbsp;
+            Marcos
+            &nbsp;
+          .dropdown-menu.dropdown-menu-right
+            %a.dropdown-item{href: '#'}
+              Mercedes

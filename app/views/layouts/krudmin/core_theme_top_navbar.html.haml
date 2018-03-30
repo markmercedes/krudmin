@@ -1,0 +1,38 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{charset: "utf-8"}/
+    %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{content: "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    = csrf_meta_tag
+
+    %title
+      = content_for?(:page_title) ? yield(:page_title) : try(:crud_title)
+    = stylesheet_link_tag    'krudmin/core_theme/application', media: 'all', 'data-turbolinks-track' => 'reload'
+    = javascript_include_tag 'krudmin/core_theme/application', 'data-turbolinks-track' => 'reload'
+
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js'
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/en.js'
+
+    = stylesheet_link_tag    'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css'
+    = stylesheet_link_tag    'https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'
+
+    = render partial: 'layouts/krudmin/core_theme/head_content'
+
+    = yield(:head_content)
+
+  %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden{class: body_classes}
+    #body-overlay
+    .app-body
+      %main.main
+        = render partial: 'layouts/krudmin/core_theme/top_menu_with_toolbar'
+
+        #ui-view.container-fluid
+          = render 'layouts/krudmin/core_theme/messages'
+
+          = yield
+      = render partial: '/layouts/krudmin/core_theme/aside_menu'
+    %footer.app-footer
+      %span
+        = render 'layouts/krudmin/core_theme/copyright'
