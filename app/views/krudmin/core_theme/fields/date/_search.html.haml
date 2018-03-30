@@ -4,4 +4,4 @@
       %li
         = form.hidden_field search_option[:options], value: search_option[:filter]
       %li
-        = form.input(search_option[:field], { as: :string, input_html: { value: form.object.search_criteria[search_option[:field]], class: "datepicker form-control" } })
+        = form.input(search_option[:field], { as: :string, label: false, input_html: { value: form.object.search_criteria[search_option[:field]], class: "datepicker form-control" } })
