@@ -6,7 +6,8 @@
     %span.navbar-toggler-icon
   %ul.nav.navbar-nav.d-md-down-none
     %li.nav-item.px-3
-      %a.nav-link{href: krudmin_root_path} Dashboard
+      %a.nav-link{href: krudmin_root_path}
+        = t('krudmin.labels.dashboard')
   %ul.nav.navbar-nav.ml-auto#main-user-menu
     - if _current_user
       %li.nav-item.dropdown
