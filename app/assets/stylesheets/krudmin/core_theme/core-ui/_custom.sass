@@ -94,6 +94,101 @@ body
   width: 100%
   box-shadow: 0 1px 3px rgba(33, 33, 33, 0.2)
 
+.top-menu
+  background-color: #fff
+  margin-bottom: 20px
+  position: fixed
+  z-index: 20
+  width: 100%
+  box-shadow: 0 1px 3px rgba(33, 33, 33, 0.2)
+
+  a.nav-link
+    padding-left: 15px !important
+    padding-right: 15px !important
+
+  .navbar .navbar-brand
+    display: inline-block
+    width: 200px
+    height: 55px
+    padding: 0.5rem 1rem
+    margin-right: 0
+    background-color: #fff
+    background-image: $navbar-brand-logo
+    background-repeat: no-repeat
+    background-position: center center
+    background-size: 70px auto
+    border-bottom: 1px solid #dee2e6
+
+  .sidebar-fixed
+    .main, .app-footer
+      margin-left: 0px !important
+
+  .sidebar-minimized.sidebar-fixed
+    .main, .app-footer
+      margin-left: 0px !important
+
+  .header-fixed .app-body
+    margin-top: 0px !important
+
+  .navbar-nav
+    .nav-link, .navbar .dropdown-toggle
+      color: #dbe8ef
+
+  .navbar .navbar-nav .dropdown-toggle
+    color: #dbe8ef
+
+  .navbar-nav
+    .nav-link:hover, .navbar .dropdown-toggle:hover
+      background-color: black !important
+      color: #fff
+
+  .navbar .navbar-nav .dropdown-toggle:hover
+    background-color: black !important
+    color: #fff
+
+  .navbar-nav
+    .nav-link:focus, .navbar .dropdown-toggle:focus
+      background-color: black !important
+      color: #fff
+
+  .navbar .navbar-nav .dropdown-toggle:focus
+    background-color: black !important
+    color: #fff
+
+  .navbar-dark .navbar-nav
+    .nav-link, .navbar .dropdown-toggle
+      color: #dbe8ef
+
+  .navbar .navbar-dark .navbar-nav .dropdown-toggle
+    color: #dbe8ef
+
+  .toolbar
+    padding-top: 0px
+    padding-bottom: 15px
+
+  .top-navbar
+    margin-bottom: 25px
+    box-shadow: 0 1px 3px rgba(33, 33, 33, 0.2)
+    padding: 0px
+
+  .navbar.top-navbar .navbar-brand
+    background-color: transparent
+    border: none
+
+  .dropdown-menu
+    background-color: #29363D
+    color: white !important
+    border-radius: 0px !important
+    margin-top: 0px
+
+  .dropdown-item
+    color: #fff !important
+    &:hover, &:focus
+      color: #000 !important
+
+  .dropdown:hover > .dropdown-menu
+    display: block
+
 #ui-view
   margin-top: 100px
 
