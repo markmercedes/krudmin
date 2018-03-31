@@ -17,3 +17,5 @@ document.addEventListener('turbolinks:load', function (event) {
     });
   });
 });
+
+Turbolinks.dispatch("turbolinks:load");
