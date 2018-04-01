@@ -25,13 +25,14 @@ function initScripts() {
 }
 
 function controllerPath() {
-  return `${$('body').data('controller')}-${$('body').data('action')}`;
+  return [$('body').data('controller'), $('body').data('action')].join("-");
 }
 
 function panelNameFor(cardEl) {
   var cPath = controllerPath();
   var panelName = cardEl.data("card-panel");
-  return `${cPath}-${panelName}`;
+
+  return [cPath, panelName].join("-");
 }
 
 document.addEventListener("turbofroms:updated", function(e) {
@@ -161,7 +162,7 @@ document.addEventListener('turbolinks:load', function(event) {
     var iconEl = $(this).find('i').get(0);
     var cardEl = $(this).closest('.card');
     var panelName = cardEl.data("card-panel");
-    var panelPath = `${cPath}-${panelName}`;
+    var panelPath = [cPath, panelName].join('-');
     var cardBody = cardEl.find('.card-body');
     var goesUp = iconEl.classList.contains("fa-chevron-up");
 
