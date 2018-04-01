@@ -1,8 +1,11 @@
 %div{class: metadata.fetch(:class, 'col-lg-6 col-md-12')}
-  .card
+  .card{data: {card_panel: key}}
     .card-header
-      %h5
+      %h5.pull-left
         = metadata.fetch(:label)
+      .card-actions.pull-right
+        %a.btn.card-collapser{href: '#'}
+          %i.fa.fa-chevron-up.fa-lg
     .card-body
       .row
         - metadata.fetch(:attributes).each do |attribute|

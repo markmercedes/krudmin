@@ -28,6 +28,12 @@ function controllerPath() {
   return `${$('body').data('controller')}-${$('body').data('action')}`;
 }
 
+function panelNameFor(cardEl) {
+  var cPath = controllerPath();
+  var panelName = cardEl.data("card-panel");
+  return `${cPath}-${panelName}`;
+}
+
 document.addEventListener("turbofroms:updated", function(e) {
 });
 
@@ -94,6 +100,17 @@ document.addEventListener('turbolinks:load', function(event) {
     }
   });
 
+  $('.card-collapser').each(function(_, collapser) {
+    var cardEl = $(collapser).closest('.card');
+    var iconEl = $(collapser).find('i').get(0);
+    var panelName = panelNameFor(cardEl);
+
+    if (sessionStorage.getItem(panelName)) {
+      $(cardEl).find('.card-body').hide();
+      iconEl.className = iconEl.className.replace('fa-chevron-up', 'fa-chevron-down');
+    }
+  });
+
   initScripts();
   //Main navigation
   $.navigation = $('nav > ul.nav');
@@ -135,6 +152,31 @@ document.addEventListener('turbolinks:load', function(event) {
       window.dispatchEvent(new Event('resize'));
     }, 62.5);
   }
+  // console.warn();
+
+  $('.card-collapser').click(function (e) {
+    e.preventDefault();
+
+    var cPath = controllerPath();
+    var iconEl = $(this).find('i').get(0);
+    var cardEl = $(this).closest('.card');
+    var panelName = cardEl.data("card-panel");
+    var panelPath = `${cPath}-${panelName}`;
+    var cardBody = cardEl.find('.card-body');
+    var goesUp = iconEl.classList.contains("fa-chevron-up");
+
+    if (goesUp) {
+      cardBody.slideUp();
+      iconEl.className = iconEl.className.replace('fa-chevron-up', 'fa-chevron-down');
+      sessionStorage.setItem(panelPath, 'true');
+    } else {
+      cardBody.slideDown();
+      iconEl.className = iconEl.className.replace('fa-chevron-down', 'fa-chevron-up');
+      sessionStorage.removeItem(panelPath);
+    }
+
+    console.log(panelPath);
+  });
 
   /* ---------- Main Menu Open/Close, Min/Full ---------- */
   $('.sidebar-toggler').click(function(){
@@ -156,6 +198,11 @@ document.addEventListener('turbolinks:load', function(event) {
 
   $('.aside-menu-toggler').click(function(){
     $('body').toggleClass('aside-menu-hidden');
+    resizeBroadcast();
+  });
+
+  $('.search-panel-toggler').click(function () {
+    $('.search-panel').slideToggle('fast');
     resizeBroadcast();
   });
 
