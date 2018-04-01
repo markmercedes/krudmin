@@ -22,7 +22,7 @@
 
     = yield(:head_content)
 
-  %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden{class: body_classes}
+  %body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden{class: body_classes, data: {controller: controller_name, action: action_name}}
     #body-overlay
     = render partial: 'layouts/krudmin/core_theme/header'
     .app-body

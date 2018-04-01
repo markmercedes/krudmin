@@ -24,6 +24,10 @@ function initScripts() {
   $('.alert.alert-info').delay( 5000 ).fadeOut( 400 );
 }
 
+function controllerPath() {
+  return `${$('body').data('controller')}-${$('body').data('action')}`;
+}
+
 document.addEventListener("turbofroms:updated", function(e) {
 });
 
