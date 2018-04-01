@@ -56,6 +56,9 @@ body
     background: none
     border: none
   .card-body
+    @include media-breakpoint-down(md)
+      overflow-y: auto
+      overflow-x: scroll
     padding-top: 0px
     table
       thead
@@ -194,3 +197,23 @@ body
 
   @include media-breakpoint-down(md)
     margin-top: 130px
+
+
+.search-filter
+  background: #fdfdfd
+  padding: 10px
+  border-radius: 2px
+  border: 1px solid #efebeb
+  box-shadow: 0 1px 3px rgba(33, 33, 33, 0.2)
+  margin-top: 10px
+
+  .form-group
+    margin-bottom: 0px
+
+.hidden
+  display: none
+
+.main
+  @include media-breakpoint-down(sm)
+    .container-fluid
+      padding: 0 5px
