@@ -30,7 +30,7 @@ module PageFeatures
   end
 
   def click_add_link
-    within('.toolbar') do
+    within('.toolbar-buttons') do
       click_link("Add")
     end
   end
