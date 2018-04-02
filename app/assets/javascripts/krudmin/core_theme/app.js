@@ -175,8 +175,6 @@ document.addEventListener('turbolinks:load', function(event) {
       iconEl.className = iconEl.className.replace('fa-chevron-down', 'fa-chevron-up');
       sessionStorage.removeItem(panelPath);
     }
-
-    console.log(panelPath);
   });
 
   /* ---------- Main Menu Open/Close, Min/Full ---------- */
@@ -202,9 +200,18 @@ document.addEventListener('turbolinks:load', function(event) {
     resizeBroadcast();
   });
 
+  $('.search-panel-displayer').click(function () {
+    $('.search-panel').show('fast');
+    resizeBroadcast();
+
+    $("html, body").animate({ scrollTop: 0 }, "fast");
+  });
+
   $('.search-panel-toggler').click(function () {
     $('.search-panel').slideToggle('fast');
     resizeBroadcast();
+
+    $("html, body").animate({ scrollTop: 0 }, "fast");
   });
 
   $('.mobile-sidebar-toggler').click(function(){
@@ -258,4 +265,11 @@ function init(url) {
   /* ---------- Popover ---------- */
   $('[rel="popover"],[data-rel="popover"],[data-toggle="popover"]').popover();
 
+}
+
+function blinkHighlight(el, from, to) {
+  if (!from) { from = 0.5; }
+  if (!to) { to = 1.0; }
+
+  $(el).fadeTo(100, from).fadeTo(200, to);
 }
