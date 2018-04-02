@@ -1,3 +1,3 @@
 module Krudmin
-  VERSION = "0.1.7.8"
+  VERSION = "0.1.7.9"
 end
