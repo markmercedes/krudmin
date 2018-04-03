@@ -43,17 +43,4 @@
                 = t(item.label)
 
       %ul.nav.navbar-nav.navbar-right.ml-auto#main-user-menu
-        - if _current_user
-          %li.nav-item.dropdown
-            = link_to("#", class: "nav-link dropdown-toggle", data: {toggle: :dropdown}) do
-              %i.fa.fa-user
-              &nbsp;
-              = _current_user.name
-              &nbsp;
-            .dropdown-menu.dropdown-menu-right
-              = link_to(send(Krudmin::Config.edit_profile_path, _current_user), class: 'dropdown-item') do
-                %i.fa.fa-user
-                = I18n.t('krudmin.labels.edit_profile')
-              = link_to(send(Krudmin::Config.logout_path), method: :delete, data: {no_turbolink: true}, class: 'dropdown-item') do
-                %i.fa.fa-lock
-                = I18n.t('krudmin.labels.logout')
+        = render partial: '/layouts/krudmin/core_theme/top_user_menu_toolbar'

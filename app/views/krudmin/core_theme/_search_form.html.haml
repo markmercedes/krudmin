@@ -1,6 +1,6 @@
 .row.search-panel.hidden
   .col-lg-12.no-padding
-    .card.items-list
+    .card
       .card-body
         = simple_form_for(search_form, as: :q, method: :get, url: resource_root, html: { class: 'turbo-form' }) do |f|
           = f.hidden_field :s
