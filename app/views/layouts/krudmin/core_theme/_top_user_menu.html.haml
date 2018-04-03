@@ -1,0 +1,16 @@
+- if _current_user
+  %li.nav-item.dropdown
+    %a.nav-link.dropdown-toggle.nav-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+      %span.hidden-xs-down
+        = _current_user.name
+      %span.hidden-sm-up
+        %i.icon-people
+    .dropdown-menu.dropdown-menu-right
+      .dropdown-header.text-center
+        %strong Settings
+      = link_to(send(Krudmin::Config.edit_profile_path, _current_user), class: 'dropdown-item') do
+        %i.fa.fa-user
+        = I18n.t('krudmin.labels.edit_profile')
+      = link_to(send(Krudmin::Config.logout_path), method: :delete, data: {no_turbolink: true}, class: 'dropdown-item') do
+        %i.fa.fa-lock
+        = I18n.t('krudmin.labels.logout')
