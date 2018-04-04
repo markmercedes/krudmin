@@ -66,7 +66,7 @@ $(document).on('submit', '.turbo-form[method=post],.turbo-form[method=put]', fun
   var obj =  context.serialize();
   var actionPath = context.find('select[data-action-path="true"]').val();
   var route = extractTurboActionPathFrom(context, actionPath);
-  var selector = e.target.dataset.target || "body";
+  var selector = e.target.dataset.target || ".app-body";
 
   $.ajax({
     url: route,
