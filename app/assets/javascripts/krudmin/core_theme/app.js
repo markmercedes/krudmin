@@ -35,7 +35,10 @@ function panelNameFor(cardEl) {
   return [cPath, panelName].join("-");
 }
 
-document.addEventListener("turbofroms:updated", function(e) {
+document.addEventListener("turboforms:updated", function(e) {
+  setTimeout(() => {
+    Turbolinks.dispatch("turbolinks:load");
+  }, 100);
 });
 
 document.addEventListener('turbolinks:load', function(event) {
@@ -79,28 +82,6 @@ document.addEventListener('turbolinks:load', function(event) {
 });
 
 document.addEventListener('turbolinks:load', function(event) {
-  $('.alert-story-chk').prop('disabled', true);
-
-  $('.business-category-checker').each(function(el) {
-    var checked = $(this).prop('checked') == true;
-
-    if(checked) {
-      $(this).closest('tr').find('.alert-story-chk').prop('disabled', false);
-    }
-  });
-
-  $(document).on('click', '.business-category-checker', function() {
-    var checked = $(this).prop('checked') == true;
-    console.warn(checked);
-
-    if(checked) {
-      $(this).closest('td').find('.destroy-indicator').val(0);
-      $(this).closest('tr').find('.alert-story-chk').prop('disabled', false);
-    } else {
-      $(this).closest('td').find('.destroy-indicator').val(1);
-    }
-  });
-
   $('.card-collapser').each(function(_, collapser) {
     var cardEl = $(collapser).closest('.card');
     var iconEl = $(collapser).find('i').get(0);
@@ -143,17 +124,15 @@ document.addEventListener('turbolinks:load', function(event) {
   });
 
   function resizeBroadcast() {
-
     var timesRun = 0;
-    var interval = setInterval(function(){
+    var interval = setInterval(function () {
       timesRun += 1;
-      if(timesRun === 5){
+      if (timesRun === 5) {
         clearInterval(interval);
       }
       window.dispatchEvent(new Event('resize'));
     }, 62.5);
   }
-  // console.warn();
 
   $('.card-collapser').click(function (e) {
     e.preventDefault();

@@ -63,29 +63,29 @@ $(document).on('submit', '.turbo-form[method=post],.turbo-form[method=put]', fun
   e.preventDefault();
 
   var context = $(this);
-
   var obj =  context.serialize();
-
   var actionPath = context.find('select[data-action-path="true"]').val();
-
   var route = extractTurboActionPathFrom(context, actionPath);
+  var selector = e.target.dataset.target || "body";
 
   $.ajax({
     url: route,
     type: this.method.toUpperCase(),
     data: obj,
     success: function(data) {
-      var form = $($.parseHTML(data)).find('.turbo-form-container').html()
-      $('.turbo-form-container').html(form);
+      var domElement = new DOMParser().parseFromString(data, "text/html");
+      var form = $(domElement).find(selector).html();
 
-      var event = new CustomEvent("turbofroms:updated", {
+      $(selector).html(form);
+
+      var event = new CustomEvent("turboforms:updated", {
         doc: data,
         form: form
       });
 
-      document.dispatchEvent(event);
-
       $("html, body").animate({ scrollTop: 0 }, "slow");
+
+      document.dispatchEvent(event);
     }
   });
 
