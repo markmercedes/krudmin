@@ -32,6 +32,22 @@ module Krudmin
       def association_path
         options[:association_path]
       end
+
+      def grouped?
+        group_method
+      end
+
+      def group_method
+        options[:group_method]
+      end
+
+      def group_label_method
+        options[:group_label_method]
+      end
+
+      def input_type
+        @input_type ||= grouped? ? :grouped_select : :select
+      end
     end
   end
 end

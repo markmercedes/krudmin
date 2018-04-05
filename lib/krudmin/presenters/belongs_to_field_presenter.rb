@@ -1,12 +1,17 @@
 module Krudmin
   module Presenters
     class BelongsToFieldPresenter < BaseFieldPresenter
-      delegate :associated_options, :collection_label_field, :association_name, :association_path, :link_to_path, :humanized_value, to: :field
+      delegate :associated_options, :collection_label_field, :association_name, :association_path, :link_to_path, :humanized_value, :group_method, :group_label_method, :input_type, to: :field
 
       alias linkable? association_path
 
       def render_form
-        render_partial(:form, association_name: association_name, associated_options: associated_options, collection_label_field: collection_label_field)
+        render_partial(:form, association_name: association_name,
+                              associated_options: associated_options,
+                              collection_label_field: collection_label_field,
+                              group_method: group_method,
+                              group_label_method: group_label_method,
+                              input_type: input_type)
       end
 
       def render_search
@@ -15,7 +20,10 @@ module Krudmin
                                 associated_options: associated_options,
                                 collection_label_field: collection_label_field,
                                 search_value: search_value,
-                                options_attribute: options_attribute)
+                                options_attribute: options_attribute,
+                                group_method: group_method,
+                                group_label_method: group_label_method,
+                                input_type: input_type)
       end
 
       def render_show
