@@ -36,7 +36,7 @@ function panelNameFor(cardEl) {
 }
 
 document.addEventListener("turboforms:updated", function(e) {
-  setTimeout(() => {
+  setTimeout(function() {
     Turbolinks.dispatch("turbolinks:load");
   }, 100);
 });

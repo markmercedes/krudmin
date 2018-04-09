@@ -21,6 +21,7 @@
 //= require krudmin/vendor/daterangepicker
 //= require krudmin/vendor/js.cookie
 //= require krudmin/kjs
+//= require krudmin/sweet-confirm
 //= require krudmin/turbo-forms
 //= require krudmin/core_theme/constants
 //= require krudmin/core_theme/app
