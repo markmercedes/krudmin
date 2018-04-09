@@ -31,7 +31,10 @@ module Krudmin
       if model.save
         redirect_to edit_resource_path(model), notice: created_message
       else
-        render "new"
+        respond_to do |format|
+          format.html { render "new" }
+          format.js { render "form_errors" }
+        end
       end
     end
 
@@ -41,7 +44,10 @@ module Krudmin
       if model.valid?
         redirect_to edit_resource_path(model), notice: modified_message
       else
-        render "edit"
+        respond_to do |format|
+          format.html { render "edit" }
+          format.js { render "form_errors" }
+        end
       end
     end
 
