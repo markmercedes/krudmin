@@ -1,0 +1,17 @@
+(function () {
+  <%- simple_form_for(model, url: form_submit_path) do | form | %>
+    <% @form_id = form.options.fetch(:html).fetch(:id) %>
+    <% @model_name = form.object.model_name.singular %>
+  <%- end %>
+
+  var errors = <%= model.errors.to_json.html_safe %>;
+  var formId = "#<%= @form_id %>";
+  var modelName = "<%= @model_name %>";
+  var form = $(formId);
+
+  blinkHighlight(formId);
+
+  $("html, body").animate({ scrollTop: 0 }, "slow");
+
+  $('.alert-messages').html('<%=j render partial: "error_messages" %>');
+})();

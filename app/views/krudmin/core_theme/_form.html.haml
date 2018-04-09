@@ -6,11 +6,9 @@
     = crud_title
 
 .turbo-form-container
-  - if model.errors.any?
-    - model.errors.full_messages.each do |msg|
-      = content_tag :div, msg, class: "alert alert-danger"
+  = render partial: "error_messages"
 
-  = simple_form_for(model, validate: true, url: form_submit_path, html: { class: 'turbo-form form-horizontal' }) do |f|
+  = simple_form_for(model, validate: true, remote: true, url: form_submit_path, html: { class: 'form-horizontal' }) do |f|
     .row
       - grouped_attributes.each do |key, metadata|
         = render partial: "general_fields", locals: {metadata: metadata, f: f, key: key}
