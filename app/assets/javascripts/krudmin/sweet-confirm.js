@@ -3,7 +3,7 @@
     showConfirmationDialog(element);
   }
 
-   function showConfirmationDialog(element) {
+  function showConfirmationDialog(element) {
     var title = $(element).data("title");
     var text = $(element).data("sweet-confirm");
     var icon = $(element).data('confirm-icon') || "warning";
