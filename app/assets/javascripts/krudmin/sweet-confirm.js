@@ -1,20 +1,9 @@
 (function () {
-   function handleConfirm (element, event) {
-    if (!allowAction(element, event)) {
-      Rails.stopEverything(event);
-    }
+  function handleConfirm (element) {
+    showConfirmationDialog(element);
   }
 
-   function allowAction(element, event) {
-    if (element.getAttribute('data-sweet-confirm') === null) {
-      return true
-    }
-
-    showConfirmationDialog(element, event);
-    return false
-  }
-
-   function showConfirmationDialog(element, event) {
+   function showConfirmationDialog(element) {
     var title = $(element).data("title");
     var text = $(element).data("sweet-confirm");
     var icon = $(element).data('confirm-icon') || "warning";
@@ -28,22 +17,25 @@
       buttons: true,
     }).then(function (result) {
       if (result) {
-        var element = event.target.dataset.sweetConfirm ? event.target : $(event.target).closest('*[data-sweet-confirm]').get(0);
-
-        element.dataset.sweetConfirmTemp = element.dataset.sweetConfirm;
-        delete element.dataset.sweetConfirm;
-        element.click();
-        element.dataset.sweetConfirm = element.dataset.sweetConfirmTemp;
+        this.dataset.sweetConfirmTemp = this.dataset.sweetConfirm;
+        delete this.dataset.sweetConfirm;
+        this.click();
+        this.dataset.sweetConfirm = element.dataset.sweetConfirmTemp;
       }
-    }.bind(event));
+    }.bind(element));
   }
 
   document.addEventListener("turbolinks:load", function () {
     $('*[data-sweet-confirm]').click(function (e) {
       e.preventDefault();
 
-      handleConfirm(this, e);
-    });
-  })
+      var element = e.target.getAttribute('data-sweet-confirm') != null ? e.target : $(e.target).closest('*[data-sweet-confirm]').get(0);
 
+      if (element != null) {
+        Rails.stopEverything(e);
+
+        handleConfirm(element);
+      }
+    });
+  });
 }).call(this);
