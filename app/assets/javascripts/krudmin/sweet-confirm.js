@@ -1,5 +1,5 @@
 (function () {
-  function handleConfirm (element) {
+  function handleConfirm(element) {
     showConfirmationDialog(element);
   }
 
@@ -27,11 +27,11 @@
 
   document.addEventListener("turbolinks:load", function () {
     $('*[data-sweet-confirm]').click(function (e) {
-      e.preventDefault();
-
       var element = e.target.getAttribute('data-sweet-confirm') != null ? e.target : $(e.target).closest('*[data-sweet-confirm]').get(0);
 
       if (element != null) {
+        e.preventDefault();
+
         Rails.stopEverything(e);
 
         handleConfirm(element);

@@ -3,7 +3,7 @@
   - b.button :search
   - b.link admin_cars_path, class: 'btn btn-danger' do
     %i.fa.fa-car
-  - b.link 'https://google.com', class: 'btn btn-primary', target: :_blank, data: {confirm: "?"} do
+  - b.link 'https://google.com', class: 'btn btn-primary', target: :_blank, data: { sweet_confirm: "Do you really wanna go there?", confirm_icon: :success, title: :Google, confirm_class: :success } do
     %i.fa.fa-google
     %i.fa.fa-plus
     Google
