@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/markmercedes/trix.git
+  revision: 56d84ae42e34488b0bb301bd9bd0f54fac7fc811
+  specs:
+    trix (0.11.1)
+      rails (> 4.1, <= 6.0)
+
 PATH
   remote: .
   specs:
@@ -15,7 +22,6 @@ PATH
       ransack
       sass-rails
       simple_form
-      trix
       turbolinks
 
 GEM
@@ -303,8 +309,6 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.8)
     timecop (0.9.1)
-    trix (0.10.1)
-      rails
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
@@ -343,6 +347,7 @@ DEPENDENCIES
   rspec_junit_formatter
   simplecov
   timecop
+  trix!
   uglifier
   webmock
 

@@ -15,6 +15,7 @@ gemspec
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem "pg"
+gem "trix", github: "markmercedes/trix"
 
 group :development, :test do
   gem "factory_bot_rails"
