@@ -13,6 +13,7 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+gem 'bootsnap', '>= 1.1.0', require: false
 gem "pg"
 
 group :development, :test do
