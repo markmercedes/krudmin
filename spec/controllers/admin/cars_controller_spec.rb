@@ -8,7 +8,7 @@ describe Admin::CarsController, type: :controller do
     it "renders the index" do
       get :index
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -16,7 +16,7 @@ describe Admin::CarsController, type: :controller do
     it "renders a show page for the given resource" do
       get :show, params: {id: car.to_param}
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -24,7 +24,7 @@ describe Admin::CarsController, type: :controller do
     it "renders a new resource page with a form" do
       get :new
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -32,7 +32,7 @@ describe Admin::CarsController, type: :controller do
     it "renders an edit resource page with a form" do
       get :edit, params: {id: car.to_param}
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -62,7 +62,7 @@ describe Admin::CarsController, type: :controller do
           post :create, params: {car: invalid_attributes}
         }.to change(Car, :count).by(0)
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(assigns(:model)).to be_a_new(Car)
       end
     end

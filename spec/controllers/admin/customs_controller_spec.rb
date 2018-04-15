@@ -5,7 +5,7 @@ describe Admin::CustomsController, type: :controller do
     it "renders the index" do
       get :index
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -13,7 +13,7 @@ describe Admin::CustomsController, type: :controller do
     it "renders a show page for the given resource" do
       get :show, params: {id: 1}
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 end

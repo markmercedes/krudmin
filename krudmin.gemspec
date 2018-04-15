@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", "~> 5.1.3"
+  s.add_dependency "rails", "~> 5.2.0"
 
   s.add_dependency "arbre"
   s.add_dependency "bootstrap", "~> 4.0.0"
@@ -30,6 +30,6 @@ Gem::Specification.new do |s|
   s.add_dependency "ransack"
   s.add_dependency "sass-rails"
   s.add_dependency "simple_form"
-  s.add_dependency "trix"
+  # s.add_dependency "trix"
   s.add_dependency "turbolinks"
 end
