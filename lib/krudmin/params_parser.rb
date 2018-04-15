@@ -27,7 +27,7 @@ module Krudmin
         if metadata && raw_value.present?
           case metadata.type
           when :datetime
-            parse_time(Time.zone ? Time.zone : Time, raw_value)
+            parse_time(raw_value)
           when :date
             Date.strptime(raw_value, I18n.t("krudmin.date.input_format"))
           else raw_value
@@ -43,8 +43,8 @@ module Krudmin
 
       private
 
-      def parse_time(parser, value)
-        parser.strptime(value, I18n.t("krudmin.datetime.input_format"))
+      def parse_time(value)
+        (Time.zone ? Time.zone : Time).strptime(value, I18n.t("krudmin.datetime.input_format"))
       end
     end
   end
