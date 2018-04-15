@@ -34,9 +34,13 @@ describe Krudmin::ParamsParser do
       expect(subject.to_h).to eq({
         "string_type" => "Hello",
         "int_type" => "9001",
-        "datetime_field" => Time.new(2018, 01, 21, 18, 49),
+        "datetime_field" => time_in_current_zone(2018, 1, 21, 18, 49),
         "date_field" => Date.new(2012, 02, 01)
       })
+    end
+
+    def time_in_current_zone(*args)
+      Time.zone ? Time.zone.local(*args) : Time.new(*args)
     end
   end
 end
