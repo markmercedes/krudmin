@@ -5,7 +5,7 @@ describe Admin::CarBrandsController, type: :controller do
     it "renders the index" do
       get :index
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -15,7 +15,7 @@ describe Admin::CarBrandsController, type: :controller do
 
       get :show, params: {id: car_brand.to_param}
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -23,7 +23,7 @@ describe Admin::CarBrandsController, type: :controller do
     it "renders a new resource page with a form" do
       get :new
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -33,7 +33,7 @@ describe Admin::CarBrandsController, type: :controller do
 
       get :edit, params: {id: car_brand.to_param}
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -62,7 +62,7 @@ describe Admin::CarBrandsController, type: :controller do
           post :create, params: {car_brand: invalid_attributes}
         }.to change(CarBrand, :count).by(0)
 
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
