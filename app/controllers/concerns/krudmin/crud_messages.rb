@@ -4,6 +4,7 @@ module Krudmin
 
     included do
       helper_method :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :crud_title
+      helper_method :activated_message, :deactivated_message, :destroyed_message
     end
 
     def confirm_destroy_message(given_model)

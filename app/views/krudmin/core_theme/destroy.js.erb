@@ -1,0 +1,7 @@
+var itemRowClass = ".item-model-<%= model_id %>";
+
+$(itemRowClass).fadeOut();
+
+$('.alert-messages').html('<%=j render partial: "messages", locals: {messages: [destroyed_message]} %>');
+
+$(itemRowClass).remove();

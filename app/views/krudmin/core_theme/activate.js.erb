@@ -1,0 +1,9 @@
+var itemRowClass = ".item-model-<%= model_id %>";
+
+$('.alert-messages').html('<%=j render partial: "messages", locals: {messages: [activated_message]} %>');
+
+$(itemRowClass).replaceWith('<%=j render partial: "list_item", locals: {item: model} %>');
+
+blinkHighlight(itemRowClass);
+
+Turbolinks.dispatch("turbolinks:load");

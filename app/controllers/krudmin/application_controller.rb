@@ -53,7 +53,10 @@ module Krudmin
 
     def destroy
       if model.destroy
-        redirect_to resource_root, notice: destroyed_message
+        respond_to do |format|
+          format.html { redirect_to resource_root, notice: destroyed_message }
+          format.js { render "destroy" }
+        end
       else
         redirect_to edit_resource_path(model, failed_destroy: 1), notice: cant_be_destroyed_message
       end
