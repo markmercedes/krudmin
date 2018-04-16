@@ -26,7 +26,7 @@ module Krudmin
       if form_context? || !command_result
         display_form_context_after_toggle(action_message)
       else
-        status_change_response(command_result, action_message, partial_name)
+        status_change_response(action_message, partial_name)
       end
     end
 
@@ -38,7 +38,7 @@ module Krudmin
       redirect_to edit_resource_path(model), notice: action_message
     end
 
-    def status_change_response(command_result, action_message, partial_name)
+    def status_change_response(action_message, partial_name)
       respond_to do |format|
         format.html { redirect_to resource_root, notice: action_message }
         format.js { render partial_name }
