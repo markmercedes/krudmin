@@ -19,16 +19,30 @@ module Krudmin
 
     def toggle_model_status(status_method)
       message_node = model_status_messages[status_method]
+      partial_name = status_method.to_s.gsub("!", "")
+      command_result = model.send(status_method)
+      action_message = command_result ? message_node[:on_success] : message_node[:on_error]
 
-      if model.send(status_method)
-        action_message = message_node[:on_success]
-        action_path = params[:context] == "form" ? edit_resource_path(model) : resource_root
+      if form_context? || !command_result
+        display_form_context_after_toggle(action_message)
       else
-        action_message = message_node[:on_error]
-        action_path = edit_resource_path(model)
+        status_change_response(action_message, partial_name)
       end
+    end
 
-      redirect_to action_path, notice: action_message
+    def form_context?
+      params[:context] == "form"
+    end
+
+    def display_form_context_after_toggle(action_message)
+      redirect_to edit_resource_path(model), notice: action_message
+    end
+
+    def status_change_response(action_message, partial_name)
+      respond_to do |format|
+        format.html { redirect_to resource_root, notice: action_message }
+        format.js { render partial_name }
+      end
     end
   end
 end
