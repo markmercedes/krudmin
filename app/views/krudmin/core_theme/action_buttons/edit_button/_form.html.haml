@@ -1,4 +1,4 @@
 - if edit_access?(model)
-  = link_to edit_resource_path(model), class: "btn btn-success" do
+  = link_to edit_resource_path(model), {class: "btn btn-success"}.merge(html_options) do
     %i.fa.fa-pencil
     = crud_title

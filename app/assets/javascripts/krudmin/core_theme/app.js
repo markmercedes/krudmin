@@ -261,25 +261,27 @@ toastr.options = {
   "positionClass": "toast-top-center",
 }
 
-function displayToast(type, msg) {
+function displayToast(type, msg, position) {
+  var positionClass = position || "toast-top-center";
+
   switch (type) {
     case "error": {
-      toastr.error(msg, "", { timeOut: 5000 });
+      toastr.error(msg, "", { timeOut: 5000, positionClass: positionClass});
       break;
     }
 
     case "warning": {
-      toastr.warning(msg);
+      toastr.warning(msg, "", {positionClass: positionClass});
       break;
     }
 
     case "success": {
-      toastr.success(msg);
+      toastr.success(msg, "", {positionClass: positionClass});
       break;
     }
 
     default: {
-      toastr.info(msg);
+      toastr.info(msg, "", {positionClass: positionClass});
       break;
     }
   }

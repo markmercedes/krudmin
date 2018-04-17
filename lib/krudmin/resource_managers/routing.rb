@@ -16,8 +16,8 @@ module Krudmin
         @namespace = namespace.present? ? namespace : nil
       end
 
-      def new_resource_path
-        routes.build(new_route_path)
+      def new_resource_path(*params)
+        routes.build(new_route_path, *params)
       end
 
       def activate_path(given_model, *params)
@@ -28,8 +28,8 @@ module Krudmin
         routes.build(deactivate_route_path, given_model, *params)
       end
 
-      def resource_path(given_model)
-        routes.build(resource_route_path, given_model)
+      def resource_path(given_model, *params)
+        routes.build(resource_route_path, given_model, *params)
       end
 
       def edit_resource_path(given_model, params = {})

@@ -1,0 +1,4 @@
+- configure_toolbar(:form, self) do |b|
+  - b.button :save, form_submit_path, form: f
+  - b.button :cancel, '#', data: {dismiss: :modal, type: :button}
+  - b.button :show, model, remote: true

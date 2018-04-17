@@ -1,0 +1,15 @@
+var modalContent = "<%=j render partial: 'modal_form' %>";
+
+var modal = $("#crudFormModal");
+
+if (modal.length > 0) {
+  modal.replaceWith(modalContent);
+} else {
+  var div = document.createElement('div');
+  div.innerHTML = modalContent;
+  document.body.appendChild(div);
+}
+
+$(crudFormModal).on('show.bs.modal', function (e) {
+  Turbolinks.dispatch("turbolinks:load");
+}).modal();

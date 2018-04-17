@@ -1,0 +1,19 @@
+= render "modal_show_action_buttons"
+
+#crudFormModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %h4.modal-title= model_label
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        %table.table
+          - displayable_attributes.each do |attribute|
+            %tr
+              %th
+                = model_class.human_attribute_name(attribute)
+              %td
+                = field_for(attribute, model).render(:show, self)
+      .modal-footer
+        = yield :toolbar

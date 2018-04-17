@@ -1,0 +1,42 @@
+<%= render(partial: 'form_messages', locals: {messages: messages}) if defined?(messages) %>
+
+var itemRowClass = ".item-model-<%= model_id %>";
+var itemRow = $(itemRowClass);
+var modalContent = "<%=j render partial: 'modal_form' %>";
+var itemRowHTML = '<%=j render_item_row(model) %>';
+
+if(itemRow.length == 0) {
+  var itemsTable = $(".card.items-list .card-body table:first");
+  itemsTable.prepend(itemRowHTML);
+} else {
+  itemRow.replaceWith(itemRowHTML);
+}
+
+var modal = $("#crudFormModal");
+
+if (modal.hasClass("show")) {
+  var domElement = new DOMParser().parseFromString(modalContent, "text/html");
+  var header = $(domElement).find('.modal-header').html();
+  var body = $(domElement).find('.modal-body').html();
+  var footer = $(domElement).find('.modal-footer').html();
+
+  modal.find('.modal-header').html(header);
+  modal.find('.modal-body').html(body);
+  modal.find('.modal-footer').html(footer);
+
+  blinkHighlight(modal);
+
+  Turbolinks.dispatch("turbolinks:load");
+} else {
+  if (modal.length > 0) {
+    modal.replaceWith(modalContent);
+  } else {
+    var div = document.createElement('div');
+    div.innerHTML = modalContent;
+    document.body.appendChild(div);
+  }
+
+  $(crudFormModal).on('show.bs.modal', function (e) {
+    Turbolinks.dispatch("turbolinks:load");
+  }).modal();
+}

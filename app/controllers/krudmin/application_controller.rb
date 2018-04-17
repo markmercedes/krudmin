@@ -23,14 +23,39 @@ module Krudmin
 
     def new; end
 
+    def form_context
+      params[:form_context]
+    end
+
+    def modal_form_context?
+      form_context == "modal"
+    end
+
     def create
       model.attributes = model_params
 
       authorize_model(model)
 
       if model.save
-        flash[:info] = created_message
-        redirect_to edit_resource_path(model)
+        if modal_form_context?
+          respond_to do |format|
+            format.html do
+              flash[:info] = created_message
+
+              redirect_to edit_resource_path(model)
+            end
+
+            format.js do
+              params[:id] = model.id # This is something dirty I'm not exactly proud of
+
+              render "edit", locals: {messages: [OpenStruct.new(type: "info", text: created_message)]}
+            end
+          end
+        else
+          flash[:info] = created_message
+
+          redirect_to edit_resource_path(model)
+        end
       else
         respond_to do |format|
           format.html { render "new" }
@@ -43,8 +68,23 @@ module Krudmin
       model.update_attributes(model_params)
 
       if model.valid?
-        flash[:info] = [modified_message].concat(model.errors.full_messages)
-        redirect_to edit_resource_path(model)
+        if modal_form_context?
+          respond_to do |format|
+            format.html do
+              flash[:info] = [modified_message]
+
+              redirect_to edit_resource_path(model)
+            end
+
+            format.js do
+              render "edit", locals: {messages: [OpenStruct.new(type: "info", text: modified_message)]}
+            end
+          end
+        else
+          flash[:info] = [modified_message]
+
+          redirect_to edit_resource_path(model)
+        end
       else
         respond_to do |format|
           format.html { render "edit" }
