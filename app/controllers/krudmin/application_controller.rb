@@ -48,7 +48,7 @@ module Krudmin
             format.js do
               params[:id] = model.id # This is something dirty I'm not exactly proud of
 
-              render "edit", locals: {messages: [OpenStruct.new(type: "info", text: created_message)]}
+              render "edit", locals: { messages: [OpenStruct.new(type: "info", text: created_message)] }
             end
           end
         else
@@ -77,7 +77,7 @@ module Krudmin
             end
 
             format.js do
-              render "edit", locals: {messages: [OpenStruct.new(type: "info", text: modified_message)]}
+              render "edit", locals: { messages: [OpenStruct.new(type: "info", text: modified_message)] }
             end
           end
         else
