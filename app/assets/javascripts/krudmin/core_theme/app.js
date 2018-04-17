@@ -21,7 +21,6 @@ $.grayLightest =  '#f8f9fa';
 'use strict';
 
 function initScripts() {
-  $('.alert.alert-info').delay( 5000 ).fadeOut( 400 );
 }
 
 function controllerPath() {
@@ -251,4 +250,41 @@ function blinkHighlight(el, from, to) {
   if (!to) { to = 1.0; }
 
   $(el).fadeTo(100, from).fadeTo(200, to);
+}
+
+toastr.options = {
+  "closeButton": true,
+  "newestOnTop": true,
+  "preventDuplicates": true,
+  "timeOut": 3000,
+  closeDuration: 100,
+  "positionClass": "toast-top-center",
+}
+
+function displayToast(type, msg) {
+  switch (type) {
+    case "error": {
+      toastr.error(msg, "", { timeOut: 5000 });
+      break;
+    }
+
+    case "warning": {
+      toastr.warning(msg);
+      break;
+    }
+
+    case "success": {
+      toastr.success(msg);
+      break;
+    }
+
+    default: {
+      toastr.info(msg);
+      break;
+    }
+  }
+}
+
+function clearToasts() {
+  $("#toast-container").html('');
 }
