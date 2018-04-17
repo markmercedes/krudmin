@@ -6,6 +6,10 @@ module Krudmin
       PERSISTED_CSS_BODY_CLASSES.map { |body_class| evaluate_boolean_string(body_class) }.compact.join(" ")
     end
 
+    def render_item_row(item)
+      render partial: "list_item", locals: { item: item }
+    end
+
     private
 
     def evaluate_boolean_string(value)
