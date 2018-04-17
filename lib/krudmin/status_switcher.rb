@@ -52,7 +52,7 @@ module Krudmin
           controller.redirect_back(fallback_location: controller.resource_root)
         end
 
-        format.js { controller.render partial: "js_error_messages", locals: {error_messages: with_model_error_messages(result)} }
+        format.js { controller.render partial: "js_error_messages", locals: { error_messages: with_model_error_messages(result) } }
       end
     end
 
