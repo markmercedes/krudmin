@@ -32,4 +32,4 @@
                 %th{width: "20%"}= t('krudmin.actions.label')
           %tbody
             - items.result.each do |item|
-              = render partial: "list_item", locals: {item: item}
+              = render_item_row(item)

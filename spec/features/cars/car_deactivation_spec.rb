@@ -27,9 +27,7 @@ describe "line item index page", type: :feature do
     it "displays a message indicating that the model couldn't be deactivated" do
       car_page.click_deactivate_model_link
 
-      expect(car_page).to be_on_edit_page
-
-      expect(car_page).to have_model_unable_to_be_deactivated
+      expect(car_page).to be_on_index_page
     end
   end
 end

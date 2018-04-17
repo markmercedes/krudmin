@@ -1,8 +1,8 @@
 var itemRowClass = ".item-model-<%= model_id %>";
 
-$('.alert-messages').html('<%=j render partial: "messages", locals: {messages: [deactivated_message]} %>');
+$(itemRowClass).replaceWith('<%=j render_item_row(model) %>');
 
-$(itemRowClass).replaceWith('<%=j render partial: "list_item", locals: {item: model} %>');
+toastr.warning("<%= deactivated_message %>");
 
 blinkHighlight(itemRowClass);
 

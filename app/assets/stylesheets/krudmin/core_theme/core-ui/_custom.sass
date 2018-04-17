@@ -66,7 +66,6 @@ body
           border: none
       tbody
         td
-          padding: 25px 10px
         tr.nested-fields
           td
             padding: 10px 10px
@@ -249,3 +248,16 @@ body
 .sweet-dark
   .swal-button--confirm
     background-color: $gray-800
+
+#toast-container
+  &.toast-top-center > div, &.toast-bottom-center > div
+    width: 60%
+
+    @include media-breakpoint-down(sm)
+      width: 95%
+
+  div
+    opacity: 1 !important
+
+    .toast-message
+      text-align: center

@@ -1,3 +1,3 @@
 - if model.errors.any?
-  - model.errors.full_messages.each do |msg|
-    = content_tag :div, msg, class: "alert alert-danger"
+  :javascript
+    render "js_error_messages", error_messages: model.errors.full_messages

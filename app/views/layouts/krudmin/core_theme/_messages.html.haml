@@ -1,4 +1,14 @@
 .alert-messages
-  - flash.each do |name, msg|
-    .alert.alert-info
-      = msg
+  - flash.each do |name, msgs|
+    - Array(msgs).each do |msg|
+      .alert{class: "alert-#{name == "error" ? :danger : name}"}
+        = msg
+
+- if flash.any?
+  :javascript
+    $(".alert-messages").hide();
+
+- flash.each do |name, msgs|
+  - Array(msgs).each do |msg|
+    :javascript
+      displayToast("#{name}", "#{msg}");

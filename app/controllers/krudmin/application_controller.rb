@@ -29,7 +29,8 @@ module Krudmin
       authorize_model(model)
 
       if model.save
-        redirect_to edit_resource_path(model), notice: created_message
+        flash[:info] = created_message
+        redirect_to edit_resource_path(model)
       else
         respond_to do |format|
           format.html { render "new" }
@@ -42,7 +43,8 @@ module Krudmin
       model.update_attributes(model_params)
 
       if model.valid?
-        redirect_to edit_resource_path(model), notice: modified_message
+        flash[:info] = [modified_message].concat(model.errors.full_messages)
+        redirect_to edit_resource_path(model)
       else
         respond_to do |format|
           format.html { render "edit" }
@@ -54,11 +56,16 @@ module Krudmin
     def destroy
       if model.destroy
         respond_to do |format|
-          format.html { redirect_to resource_root, notice: destroyed_message }
+          format.html do
+            flash[:error] = destroyed_message
+            redirect_to resource_root
+          end
+
           format.js { render "destroy" }
         end
       else
-        redirect_to edit_resource_path(model, failed_destroy: 1), notice: cant_be_destroyed_message
+        flash[:error] = cant_be_destroyed_message
+        redirect_to edit_resource_path(model, failed_destroy: 1)
       end
     end
 
