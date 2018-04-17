@@ -18,11 +18,21 @@ class Car < ApplicationRecord
   delegate :description, to: :car_brand, prefix: true, allow_nil: true
 
   def activate!
-    update_attribute(:active, true) unless cant_be_touched?
+    unless cant_be_touched?
+      update_attribute(:active, true)
+    else
+      errors[:base] << "Can't be touched"
+      false
+    end
   end
 
   def deactivate!
-    update_attribute(:active, false) unless cant_be_touched?
+    unless cant_be_touched?
+      update_attribute(:active, false)
+    else
+      errors[:base] << "Can't be touched"
+      false
+    end
   end
 
   # There is an special trick for Camry 1989, it can't be activated or deactivated
