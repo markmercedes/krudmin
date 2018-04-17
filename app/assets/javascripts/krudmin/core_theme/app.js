@@ -96,31 +96,36 @@ document.addEventListener('turbolinks:load', function(event) {
   //Main navigation
   $.navigation = $('nav > ul.nav');
 
-  // Add class .active to current link - AJAX Mode off
-  $.navigation.find('a').each(function(){
 
-    var cUrl = String(window.location).split('?')[0];
+  if(!$.navigation.hasClass("initialized")) {
+    // Add class .active to current link - AJAX Mode off
+    $.navigation.find('a').each(function(){
 
-    if (cUrl.substr(cUrl.length - 1) == '#') {
-      cUrl = cUrl.slice(0,-1);
-    }
+      var cUrl = String(window.location).split('?')[0];
 
-    if ($($(this))[0].href==cUrl) {
-      $(this).addClass('active');
+      if (cUrl.substr(cUrl.length - 1) == '#') {
+        cUrl = cUrl.slice(0,-1);
+      }
 
-      $(this).parents('ul').add(this).each(function(){
-        $(this).parent().addClass('open');
-      });
-    }
-  });
+      if ($($(this))[0].href==cUrl) {
+        $(this).addClass('active');
 
-  // Dropdown Menu
-  $.navigation.on('click', 'a', function(e){
-    if ($(this).hasClass('nav-dropdown-toggle')) {
-      $(this).parent().toggleClass('open');
-      resizeBroadcast();
-    }
-  });
+        $(this).parents('ul').add(this).each(function(){
+          $(this).parent().addClass('open');
+        });
+      }
+    });
+
+    // Dropdown Menu
+    $.navigation.on('click', 'a', function(e){
+      if ($(this).hasClass('nav-dropdown-toggle')) {
+        $(this).parent().toggleClass('open');
+        resizeBroadcast();
+      }
+    });
+  }
+
+  $.navigation.addClass("initialized");
 
   function resizeBroadcast() {
     var timesRun = 0;
