@@ -1,0 +1,15 @@
+clearToasts();
+
+var errorMessages = [
+<% error_messages.each do |msg| %>
+  "<li class='text-left'><%= msg %></li>",
+<% end %>
+];
+
+var errorList = [
+    "<ul class='text-left'>",
+    errorMessages.join(""),
+    "</ul>"
+  ];
+
+toastr.error(errorList, "", {timeOut: 5000});

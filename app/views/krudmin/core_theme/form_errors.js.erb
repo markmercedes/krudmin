@@ -11,7 +11,5 @@
 
   blinkHighlight(formId);
 
-  $("html, body").animate({ scrollTop: 0 }, "slow");
-
-  $('.alert-messages').html('<%=j render partial: "error_messages" %>');
+  <%= render partial: "js_error_messages", locals: { error_messages: model.errors.full_messages } %>
 })();
