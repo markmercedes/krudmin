@@ -17,6 +17,11 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem "pg"
 gem "trix", github: "markmercedes/trix"
 
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+end
+
 group :development, :test do
   gem "factory_bot_rails"
   gem "ffaker"
