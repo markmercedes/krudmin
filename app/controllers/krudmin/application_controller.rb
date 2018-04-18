@@ -1,6 +1,7 @@
 module Krudmin
   class ApplicationController < Krudmin::Config.parent_controller.constantize
     include Krudmin::KrudminControllerSupport
+    include Krudmin::KrudminResourceManagerControllerSupport
     include Krudmin::Authorizable
     include Krudmin::ModelStatusToggler
     include Krudmin::CrudMessages
