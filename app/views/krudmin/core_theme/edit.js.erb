@@ -24,8 +24,6 @@ if (modal.hasClass("show")) {
   modal.find('.modal-body').html(body);
   modal.find('.modal-footer').html(footer);
 
-  blinkHighlight(modal);
-
   Turbolinks.dispatch("turbolinks:load");
 } else {
   if (modal.length > 0) {
