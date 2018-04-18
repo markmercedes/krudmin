@@ -1,18 +1,10 @@
 module Krudmin
-  class CustomController < Krudmin::Config.parent_controller.constantize
+  class CustomController < ActionController::Base
     include Krudmin::KrudminControllerSupport
     include Krudmin::ActionButtonsSupport
     extend Krudmin::HelperIncluder
     include_helper Krudmin::ApplicationHelper
 
     layout Krudmin::Config.layout
-
-    before_action :set_view_path
-
-    private
-
-    def set_view_path
-      lookup_context.prefixes.append Krudmin::Config.theme
-    end
   end
 end
