@@ -30,7 +30,7 @@ module Krudmin
     end
 
     def model_id
-      params[:id]
+      @model_id ||= params[:id]
     end
 
     def model

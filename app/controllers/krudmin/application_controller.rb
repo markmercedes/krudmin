@@ -37,61 +37,113 @@ module Krudmin
 
       authorize_model(model)
 
-      if model.save
-        if modal_form_context?
-          respond_to do |format|
-            format.html do
-              flash[:info] = created_message
+      ModelMutation.(self, model, created_message)
+    end
 
-              redirect_to edit_resource_path(model)
-            end
+    class ActionResultMessage < Struct.new(:type, :text); end
 
-            format.js do
-              params[:id] = model.id # This is something dirty I'm not exactly proud of
+    class FormContextValidUpdate
+      attr_reader :controller, :model, :success_message
+      def initialize(controller, model, success_message)
+        @controller = controller
+        @model = model
+        @success_message = success_message
+      end
 
-              render "edit", locals: { messages: [OpenStruct.new(type: "info", text: created_message)] }
-            end
-          end
-        else
-          flash[:info] = created_message
+      def successful_html_response(format)
+        format.html do
+          controller.flash[:info] = [success_message]
 
-          redirect_to edit_resource_path(model)
+          controller.redirect_to controller.edit_resource_path(model)
         end
-      else
-        respond_to do |format|
-          format.html { render "new" }
+      end
+
+      def successful_js_response(format)
+        format.js do
+          controller.instance_variable_set(:@model_id, model.id)
+
+          controller.render "edit", locals: { messages: [ActionResultMessage.new("info", success_message)] }
+        end
+      end
+
+      def perform
+        controller.respond_to do |format|
+          successful_html_response(format)
+
+          successful_js_response(format)
+        end
+      end
+
+      def self.call(controller, model, success_message)
+        new(controller, model, success_message).perform
+      end
+    end
+
+    class RegularContexValidtUpdate
+      attr_reader :controller, :model, :success_message
+      def initialize(controller, model, success_message)
+        @controller = controller
+        @model = model
+        @success_message = success_message
+      end
+
+      def perform
+        controller.flash[:info] = [success_message]
+        controller.redirect_to controller.edit_resource_path(model)
+      end
+
+      def self.call(controller, model, success_message)
+        new(controller, model, success_message).perform
+      end
+    end
+
+    class ModelMutation
+      attr_reader :controller, :model, :success_message, :new_record
+      def initialize(controller, model, success_message)
+        @controller = controller
+        @model = model
+        @success_message = success_message
+        @new_record = model.new_record?
+      end
+
+      def self.call(controller, model, success_message)
+        new(controller, model, success_message).perform
+      end
+
+      def perform
+        valid? ? valid_path : invalid_path
+      end
+
+      private
+
+      def on_error_view
+        new_record ? "new" : "edit"
+      end
+
+      def valid?
+        model.save
+      end
+
+      def valid_path
+        valid_context_mutator.(controller, model, success_message)
+      end
+
+      def valid_context_mutator
+        controller.modal_form_context? ? FormContextValidUpdate : RegularContexValidtUpdate
+      end
+
+      def invalid_path
+        controller.respond_to do |format|
+          format.html { controller.render on_error_view }
           format.js { render "form_errors" }
         end
       end
     end
 
     def update
-      model.update_attributes(model_params)
+      model.attributes = model_params
 
-      if model.valid?
-        if modal_form_context?
-          respond_to do |format|
-            format.html do
-              flash[:info] = [modified_message]
-
-              redirect_to edit_resource_path(model)
-            end
-
-            format.js do
-              render "edit", locals: { messages: [OpenStruct.new(type: "info", text: modified_message)] }
-            end
-          end
-        else
-          flash[:info] = [modified_message]
-
-          redirect_to edit_resource_path(model)
-        end
-      else
-        respond_to do |format|
-          format.html { render "edit" }
-          format.js { render "form_errors" }
-        end
-      end
+      ModelMutation.(self, model, modified_message)
     end
 
     def destroy
