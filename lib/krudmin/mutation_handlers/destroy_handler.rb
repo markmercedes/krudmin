@@ -27,9 +27,11 @@ module Krudmin
       end
 
       def successful_html_response(format)
-        flash[:error] = success_message
+        format.html do
+          flash[:error] = success_message
 
-        format.html { redirect_to resource_root }
+          redirect_to resource_root
+        end
       end
 
       def successful_js_response(format)
@@ -45,9 +47,11 @@ module Krudmin
       end
 
       def unsuccessful_html_response(format)
-        flash[:error] = failure_message
+        format.html do
+          flash[:error] = failure_message
 
-        format.html { redirect_to resource_root }
+          redirect_to resource_root
+        end
       end
 
       def unsuccessful_js_response(format)

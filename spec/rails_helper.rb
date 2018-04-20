@@ -21,6 +21,10 @@ def in_ci?
   # true
 end
 
+def exception_from_feature(example)
+  example.metadata[:type] == :feature and example.exception.present?
+end
+
 RSpec.configure do |config|
   puts "Running specs in CI" if in_ci?
 
@@ -32,23 +36,16 @@ RSpec.configure do |config|
 
   config.filter_rails_from_backtrace!
 
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, inspector: false, js_errors: false)
-  end
-
+  Capybara.register_driver :poltergeist { |app| Capybara::Poltergeist::Driver.new(app, inspector: false, js_errors: false) }
   Capybara.javascript_driver = :poltergeist
   Capybara::Screenshot.webkit_options = { width: 1280, height: 800 }
   Capybara::Screenshot.autosave_on_failure = true
   Capybara::Screenshot::RSpec.add_link_to_screenshot_for_failed_examples = true
 
   config.after do |example|
-    if example.metadata[:type] == :feature and example.exception.present?
-      unless in_ci?
-        save_and_open_page
+    save_and_open_page if exception_from_feature(example) && in_ci?
 
-        save_and_open_screenshot if example.metadata[:js]
-      end
-    end
+    save_and_open_screenshot if exception_from_feature(example) && in_ci? && example.metadata[:js]
   end
 
   config.append_after(:each) do

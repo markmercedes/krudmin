@@ -63,21 +63,20 @@ describe Krudmin::Fields::HasMany do
     describe "associated resource manager" do
       let(:resource_double) { double }
 
-      module ResourceDouble
+      module HasManyResourceDouble
         def self.new
           OpenStruct.new(items: Ranger.rangers)
         end
-
       end
 
       subject {
         described_class.new(:rangers, model,
           association_predicate:->(*){Ranger.rangers},
-          resource_manager: :ResourceDouble)
+          resource_manager: :HasManyResourceDouble)
       }
 
       it "infers the class of the associated resource manager" do
-        expect(subject.associated_resource_manager_class).to eq(ResourceDouble)
+        expect(subject.associated_resource_manager_class).to eq(HasManyResourceDouble)
         expect(subject.associated_collection).to eq(Ranger.rangers)
       end
     end

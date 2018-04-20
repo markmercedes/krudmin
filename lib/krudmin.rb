@@ -5,7 +5,6 @@ require "krudmin/navigation_menu"
 require "krudmin/navigation_menu/node"
 require "krudmin/search_form"
 require "krudmin/app_router"
-require "krudmin/status_switcher"
 require_relative "config"
 require "krudmin/resource_managers/base"
 require "krudmin/resource_managers/routing"
@@ -44,6 +43,8 @@ require "krudmin/mutation_handlers/update_handler"
 require "krudmin/mutation_handlers/form_context_update"
 require "krudmin/mutation_handlers/modal_form_context_update"
 require "krudmin/mutation_handlers/destroy_handler"
+require "krudmin/mutation_handlers/switch_on_handler"
+require "krudmin/mutation_handlers/switch_off_handler"
 
 module Krudmin
   def self.config(&block)
