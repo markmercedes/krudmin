@@ -88,6 +88,9 @@ Style/CommentAnnotation:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#annotate-keywords'
   Enabled: false
 
+Style/StructInheritance:
+  Enabled: false
+
 Metrics/AbcSize:
   Description: >-
                  A calculated magnitude based on number of assignments,
