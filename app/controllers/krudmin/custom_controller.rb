@@ -1,5 +1,5 @@
 module Krudmin
-  class CustomController < ActionController::Base
+  class CustomController < Krudmin::Config.parent_controller.constantize
     include Krudmin::KrudminControllerSupport
     include Krudmin::ActionButtonsSupport
     extend Krudmin::HelperIncluder

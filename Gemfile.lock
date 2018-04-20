@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    krudmin (0.1.7.9.5.2)
+    krudmin (0.1.7.9.5.3)
       arbre
       bootstrap (~> 4.0.0)
       cocoon
@@ -73,7 +73,7 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (9.0.0)
-    autoprefixer-rails (8.2.0)
+    autoprefixer-rails (8.3.0)
       execjs
     better_errors (2.1.1)
       coderay (>= 1.0.0)
