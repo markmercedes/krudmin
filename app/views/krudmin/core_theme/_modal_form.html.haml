@@ -1,0 +1,18 @@
+#crudFormModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %h4.modal-title= crud_title
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        = simple_form_for(model, validate: true, remote: true, url: form_submit_path(form_context: :modal), html: { class: 'form-horizontal' }) do |f|
+          = render partial: "modal_form_action_buttons", locals: {f: f}
+
+          - grouped_attributes.each do |key, metadata|
+            - metadata.fetch(:attributes).each do |attribute|
+              %div{class: metadata.fetch(:input_container_class, 'col-md-12')}
+                .form-group
+                  = field_for(attribute, model).render(:form, self, {form: f})
+      .modal-footer
+        = yield :toolbar

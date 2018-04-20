@@ -10,8 +10,8 @@ module Krudmin
       Toolbar.configure(page, view_context, &block)
     end
 
-    def list_action_panel(model, actions, view_context, &block)
-      ListActionPanel.for(model, actions, view_context, &block)
+    def list_action_panel(model, actions, view_context, remote: false, &block)
+      ListActionPanel.for(model, actions, view_context, remote: remote, &block)
     end
   end
 end

@@ -38,6 +38,12 @@ require "krudmin/params_parser"
 require "krudmin/list_action_panel"
 require "krudmin/action_buttons/active_button"
 require "krudmin/action_buttons/destroy_button"
+require "krudmin/mutation_handlers/action_result_message"
+require "krudmin/mutation_handlers/create_handler"
+require "krudmin/mutation_handlers/update_handler"
+require "krudmin/mutation_handlers/form_context_update"
+require "krudmin/mutation_handlers/modal_form_context_update"
+require "krudmin/mutation_handlers/destroy_handler"
 
 module Krudmin
   def self.config(&block)

@@ -1,4 +1,4 @@
 - if show_access?(model)
   %li.list-inline-item
-    = link_to(resource_path(model), class: "btn btn-outline-secondary btn-show-item") do
+    = link_to(resource_path(model), {class: "btn btn-outline-secondary btn-show-item"}.merge(html_options)) do
       %i.fa.fa-eye

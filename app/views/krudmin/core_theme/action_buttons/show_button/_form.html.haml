@@ -1,4 +1,4 @@
 - if show_access?(model) && !model.new_record?
-  = link_to(resource_path(model), class: "btn btn-secondary") do
+  = link_to(resource_path(model), {class: "btn btn-secondary"}.merge(html_options)) do
     %i.fa.fa-eye
     = t('krudmin.actions.show')

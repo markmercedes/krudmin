@@ -30,7 +30,7 @@ module Krudmin
     end
 
     def model_id
-      params[:id]
+      @model_id ||= params[:id]
     end
 
     def model
@@ -49,8 +49,8 @@ module Krudmin
       params.require(model_class.name.underscore.downcase.to_sym).permit(permitted_attributes)
     end
 
-    def form_submit_path
-      model.new_record? ? resource_root : resource_path(model)
+    def form_submit_path(*params)
+      model.new_record? ? resource_root(*params) : resource_path(model, *params)
     end
 
     def model_label

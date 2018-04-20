@@ -22,7 +22,7 @@ describe "line item index page", type: :feature do
     end
   end
 
-  context "on an successful destroy" do
+  context "on an unsuccessful destroy" do
     let!(:car) { create(:car, model: car_model, year: 1989) }
 
     it "displays message indicating that the model couldn't be destroyed" do
@@ -30,7 +30,7 @@ describe "line item index page", type: :feature do
 
       car_page.click_destroy_model_link
 
-      expect(car_page).to be_on_edit_page
+      expect(car_page).to be_on_index_page
       expect(car_page).to have_model_unable_to_be_destroyed
     end
   end

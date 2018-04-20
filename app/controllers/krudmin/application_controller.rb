@@ -29,45 +29,17 @@ module Krudmin
 
       authorize_model(model)
 
-      if model.save
-        flash[:info] = created_message
-        redirect_to edit_resource_path(model)
-      else
-        respond_to do |format|
-          format.html { render "new" }
-          format.js { render "form_errors" }
-        end
-      end
+      Krudmin::MutationHandlers::CreateHandler.(self, model, created_message)
     end
 
     def update
-      model.update_attributes(model_params)
+      model.attributes = model_params
 
-      if model.valid?
-        flash[:info] = [modified_message].concat(model.errors.full_messages)
-        redirect_to edit_resource_path(model)
-      else
-        respond_to do |format|
-          format.html { render "edit" }
-          format.js { render "form_errors" }
-        end
-      end
+      Krudmin::MutationHandlers::UpdateHandler.(self, model, modified_message)
     end
 
     def destroy
-      if model.destroy
-        respond_to do |format|
-          format.html do
-            flash[:error] = destroyed_message
-            redirect_to resource_root
-          end
-
-          format.js { render "destroy" }
-        end
-      else
-        flash[:error] = cant_be_destroyed_message
-        redirect_to edit_resource_path(model, failed_destroy: 1)
-      end
+      Krudmin::MutationHandlers::DestroyHandler.(self, model, destroyed_message, cant_be_destroyed_message)
     end
 
     def page
@@ -76,6 +48,14 @@ module Krudmin
 
     def limit
       params.fetch(:limit, 25)
+    end
+
+    def form_context
+      params[:form_context]
+    end
+
+    def modal_form_context?
+      form_context == "modal"
     end
 
     private

@@ -1,15 +1,16 @@
 module Krudmin
   class ListActionPanel
-    attr_reader :model, :actions, :view_context
+    attr_reader :model, :actions, :view_context, :remote
 
-    def initialize(model, actions, view_context)
+    def initialize(model, actions, view_context, remote: false)
       @model = model
       @actions = actions
       @view_context = view_context
+      @remote = remote
     end
 
-    def self.for(model, actions, view_context)
-      new(model, actions, view_context)
+    def self.for(model, actions, view_context, remote: false)
+      new(model, actions, view_context, remote: remote)
     end
 
     def to_s
@@ -19,7 +20,7 @@ module Krudmin
     end
 
     def action_button(button_type)
-      "Krudmin::ActionButtons::#{button_type.to_s.classify}Button".constantize.new(:list, view_context, model)
+      "Krudmin::ActionButtons::#{button_type.to_s.classify}Button".constantize.new(:list, view_context, model, remote: remote)
     end
   end
 end

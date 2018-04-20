@@ -96,31 +96,67 @@ document.addEventListener('turbolinks:load', function(event) {
   //Main navigation
   $.navigation = $('nav > ul.nav');
 
-  // Add class .active to current link - AJAX Mode off
-  $.navigation.find('a').each(function(){
 
-    var cUrl = String(window.location).split('?')[0];
+  if(!$.navigation.hasClass("initialized")) {
+    // Add class .active to current link - AJAX Mode off
+    $.navigation.find('a').each(function(){
 
-    if (cUrl.substr(cUrl.length - 1) == '#') {
-      cUrl = cUrl.slice(0,-1);
-    }
+      var cUrl = String(window.location).split('?')[0];
 
-    if ($($(this))[0].href==cUrl) {
-      $(this).addClass('active');
+      if (cUrl.substr(cUrl.length - 1) == '#') {
+        cUrl = cUrl.slice(0,-1);
+      }
 
-      $(this).parents('ul').add(this).each(function(){
-        $(this).parent().addClass('open');
-      });
-    }
-  });
+      if ($($(this))[0].href==cUrl) {
+        $(this).addClass('active');
 
-  // Dropdown Menu
-  $.navigation.on('click', 'a', function(e){
-    if ($(this).hasClass('nav-dropdown-toggle')) {
-      $(this).parent().toggleClass('open');
+        $(this).parents('ul').add(this).each(function(){
+          $(this).parent().addClass('open');
+        });
+      }
+    });
+
+    // Dropdown Menu
+    $.navigation.on('click', 'a', function(e){
+      if ($(this).hasClass('nav-dropdown-toggle')) {
+        $(this).parent().toggleClass('open');
+        resizeBroadcast();
+      }
+    });
+
+    $('.sidebar-toggler').click(function () {
+      $('body').toggleClass('sidebar-hidden');
+      Cookies.set('sidebar-hidden', $('body').hasClass('sidebar-hidden'));
       resizeBroadcast();
-    }
-  });
+    });
+
+    $('.sidebar-minimizer').click(function () {
+      $('body').toggleClass('sidebar-minimized');
+      Cookies.set('sidebar-minimized', $('body').hasClass('sidebar-minimized'));
+      resizeBroadcast();
+    });
+
+    $('.brand-minimizer').click(function () {
+      $('body').toggleClass('brand-minimized');
+      Cookies.set('brand-minimized', $('body').hasClass('brand-minimized'));
+    });
+
+    $('.aside-menu-toggler').click(function () {
+      $('body').toggleClass('aside-menu-hidden');
+      resizeBroadcast();
+    });
+
+    $('.mobile-sidebar-toggler').click(function () {
+      $('body').toggleClass('sidebar-mobile-show');
+      resizeBroadcast();
+    });
+
+    $('.sidebar-close').click(function () {
+      $('body').toggleClass('sidebar-opened').parent().toggleClass('sidebar-opened');
+    });
+  }
+
+  $.navigation.addClass("initialized");
 
   function resizeBroadcast() {
     var timesRun = 0;
@@ -156,28 +192,6 @@ document.addEventListener('turbolinks:load', function(event) {
   });
 
   /* ---------- Main Menu Open/Close, Min/Full ---------- */
-  $('.sidebar-toggler').click(function(){
-    $('body').toggleClass('sidebar-hidden');
-    Cookies.set('sidebar-hidden', $('body').hasClass('sidebar-hidden'));
-    resizeBroadcast();
-  });
-
-  $('.sidebar-minimizer').click(function(){
-    $('body').toggleClass('sidebar-minimized');
-    Cookies.set('sidebar-minimized', $('body').hasClass('sidebar-minimized'));
-    resizeBroadcast();
-  });
-
-  $('.brand-minimizer').click(function(){
-    $('body').toggleClass('brand-minimized');
-    Cookies.set('brand-minimized', $('body').hasClass('brand-minimized'));
-  });
-
-  $('.aside-menu-toggler').click(function(){
-    $('body').toggleClass('aside-menu-hidden');
-    resizeBroadcast();
-  });
-
   $('.search-panel-displayer').click(function () {
     $('.search-panel').show('fast');
     resizeBroadcast();
@@ -192,14 +206,6 @@ document.addEventListener('turbolinks:load', function(event) {
     $("html, body").animate({ scrollTop: 0 }, "fast");
   });
 
-  $('.mobile-sidebar-toggler').click(function(){
-    $('body').toggleClass('sidebar-mobile-show');
-    resizeBroadcast();
-  });
-
-  $('.sidebar-close').click(function(){
-    $('body').toggleClass('sidebar-opened').parent().toggleClass('sidebar-opened');
-  });
 
   /* ---------- Disable moving to top ---------- */
   $('a[href="#"][data-top!=true]').click(function(e){
@@ -261,25 +267,27 @@ toastr.options = {
   "positionClass": "toast-top-center",
 }
 
-function displayToast(type, msg) {
+function displayToast(type, msg, position) {
+  var positionClass = position || "toast-top-center";
+
   switch (type) {
     case "error": {
-      toastr.error(msg, "", { timeOut: 5000 });
+      toastr.error(msg, "", { timeOut: 5000, positionClass: positionClass});
       break;
     }
 
     case "warning": {
-      toastr.warning(msg);
+      toastr.warning(msg, "", {positionClass: positionClass});
       break;
     }
 
     case "success": {
-      toastr.success(msg);
+      toastr.success(msg, "", {positionClass: positionClass});
       break;
     }
 
     default: {
-      toastr.info(msg);
+      toastr.info(msg, "", {positionClass: positionClass});
       break;
     }
   }
