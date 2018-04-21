@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     resources :car_brands
 
     resources :customs, only: [:index, :show]
-    resources :dog_breeds, only: [:index, :show]
 
     resources :cars do
       member do
