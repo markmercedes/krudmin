@@ -41,12 +41,12 @@ describe Admin::CarBrandsController, type: :controller do
     describe "with valid params" do
       it "creates a new car_brand" do
         expect {
-          post :create, params: {car_brand: attributes_for(:car_brand)}
+          post :create, params: {car_brand: attributes_for(:car_brand), form_context: :modal, format: :js}
         }.to change(CarBrand, :count).by(1)
       end
 
       it "redirects to the created car_brand" do
-        post :create, params: {car_brand: attributes_for(:car_brand)}
+        post :create, params: {car_brand: attributes_for(:car_brand), form_context: :modal}
 
         new_car_brand = CarBrand.first
 

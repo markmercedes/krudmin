@@ -1,17 +1,11 @@
 module Krudmin
   module ModelStatusToggler
     def activate
-      switch_status(:on)
+      Krudmin::MutationHandlers::SwitchOnHandler.(self, :activate, activated_message, cant_be_activated_message)
     end
 
     def deactivate
-      switch_status(:off)
-    end
-
-    private
-
-    def switch_status(new_status)
-      Krudmin::StatusSwitcher.new(self, model, model_label, context: params[:context]).call(new_status)
+      Krudmin::MutationHandlers::SwitchOffHandler.(self, :deactivate, deactivated_message, cant_be_deactivated_message)
     end
   end
 end

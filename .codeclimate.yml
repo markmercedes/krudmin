@@ -1,0 +1,10 @@
+version: "2"
+plugins:
+  rubocop:
+    enabled: true
+  eslint:
+    enabled: false
+  csslint:
+    enabled: false
+  exclude_patterns:
+    - "**/*.js"

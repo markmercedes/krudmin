@@ -11,21 +11,11 @@ describe Krudmin::Fields::HasManyIds do
 
   module Ranger
     class << self
-      def where(*)
-        rangers
-      end
-
-      def rangers
+      def list
         [
           OpenStruct.new(name: "Rambo", id: 1, ranger_id: 1),
           OpenStruct.new(name: "Chuck Norris", id: 2, ranger_id: 1),
           OpenStruct.new(name: "Arnold", id: 3, ranger_id: 1)
-        ]
-      end
-
-      def main
-        [
-          OpenStruct.new(name: "Rambo", id: 1, rangers: rangers)
         ]
       end
     end
@@ -74,21 +64,21 @@ describe Krudmin::Fields::HasManyIds do
     describe "associated resource manager" do
       let(:resource_double) { double }
 
-      module ResourceDouble
+      class HasManyIdsResourceDouble
         def self.new
-          OpenStruct.new(items: Ranger.rangers)
+          OpenStruct.new(items: Ranger.list)
         end
       end
 
       subject {
         described_class.new(:rangers, model,
-          association_predicate:->(*){Ranger.rangers},
-          resource_manager: :ResourceDouble)
+          association_predicate:->(*){Ranger.list},
+          resource_manager: :HasManyIdsResourceDouble)
       }
 
       it "infers the class of the associated resource manager" do
-        expect(subject.associated_resource_manager_class).to eq(ResourceDouble)
-        expect(subject.associated_collection).to eq(Ranger.rangers)
+        expect(subject.associated_resource_manager_class).to eq(HasManyIdsResourceDouble)
+        expect(subject.associated_collection).to eq(Ranger.list)
       end
     end
 

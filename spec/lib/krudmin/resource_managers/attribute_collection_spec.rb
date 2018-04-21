@@ -33,7 +33,7 @@ describe Krudmin::ResourceManagers::AttributeCollection do
       let(:attribute_types) do
         {
           name: Krudmin::Fields::String,
-          age: :Number,
+          age: {type: :Number},
           description: "Text",
         }
       end

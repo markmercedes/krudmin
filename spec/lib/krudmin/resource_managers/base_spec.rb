@@ -48,6 +48,7 @@ describe Krudmin::ResourceManagers::Base do
       props: { class: "col-md-6", label: "Props" }
     }
 
+    DISPLAYABLE_ATTRIBUTES = [:description]
     LISTABLE_ACTIONS = [:show, :edit, :destroy, :active]
     ORDER_BY = {description: :desc}
     LISTABLE_INCLUDES = [:logs]
@@ -79,6 +80,13 @@ describe Krudmin::ResourceManagers::Base do
 
   it "Initializes a field for a given attribute, the type is defined by the resource manager" do
     expect(subject.field_for(:description, double(description: "hello")).to_s).to eq("hello")
+  end
+
+  describe "displayable_attributes" do
+    it "returns the value contained in the the DISPLAYABLE_ATTIBUTES constant" do
+      expect(subject.displayable_attributes).to eq([:description])
+      expect(subject.class.displayable_attributes).to eq([:description])
+    end
   end
 
   it do
