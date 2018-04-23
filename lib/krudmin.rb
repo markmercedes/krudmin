@@ -1,5 +1,5 @@
 require "krudmin/engine"
-require "haml"
+require "hamlit"
 require "krudmin/activable_labeler"
 require "krudmin/navigation_menu"
 require "krudmin/navigation_menu/node"

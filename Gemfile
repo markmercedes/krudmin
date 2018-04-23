@@ -25,7 +25,7 @@ end
 group :development, :test do
   gem "factory_bot_rails"
   gem "ffaker"
-  gem "haml-rails"
+  gem "hamlit-rails"
   gem "pry"
 end
 
