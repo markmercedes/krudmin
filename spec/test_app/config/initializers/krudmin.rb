@@ -17,6 +17,8 @@ Krudmin::config do |cfg|
   cfg.krudmin_root_path = :admin_cars_path
   cfg.pundit_enabled = true
   cfg.layout = "krudmin/core_theme_top_navbar"
+  cfg.form_wrapper = :horizontal_form
+  cfg.modal_form_wrapper = :vertical_form
 end
 
 config = Krudmin::config

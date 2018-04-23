@@ -8,7 +8,7 @@
 .turbo-form-container
   = render partial: "error_messages"
 
-  = simple_form_for(model, validate: true, remote: true, url: form_submit_path, html: { class: 'form-horizontal' }) do |f|
+  = simple_form_for(model, wrapper: Krudmin::Config.form_wrapper, validate: true, remote: true, url: form_submit_path, html: { class: 'form-horizontal' }) do |f|
     .row
       - grouped_attributes.each do |key, metadata|
         = render partial: "general_fields", locals: {metadata: metadata, f: f, key: key}

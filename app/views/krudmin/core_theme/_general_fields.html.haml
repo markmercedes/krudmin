@@ -10,5 +10,4 @@
       .row
         - metadata.fetch(:attributes).each do |attribute|
           %div{class: metadata.fetch(:input_container_class, 'col-md-12')}
-            .form-group
-              = field_for(attribute, model).render(:form, self, {form: f})
+            = field_for(attribute, model).render(:form, self, {form: f})
