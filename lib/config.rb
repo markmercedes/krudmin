@@ -13,6 +13,7 @@ module Krudmin
       end
 
       attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme, :layout
+      attr_accessor :form_wrapper, :modal_form_wrapper
 
       attr_accessor :edit_profile_path, :logout_path
 
