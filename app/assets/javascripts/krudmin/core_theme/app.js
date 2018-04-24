@@ -57,9 +57,7 @@ document.addEventListener('turbolinks:load', function(event) {
         timePicker: true,
         locale: {
           format: inputFormat
-        }
-      }, inputDefaults)
-    , function(inputValue) {
+        }}, inputDefaults), function(inputValue) {
       this.element.val(inputValue.format(inputFormat));
     });
   });
@@ -80,7 +78,27 @@ document.addEventListener('turbolinks:load', function(event) {
   });
 });
 
+function bindAssociatedButtonEditUrl(control) {
+  var launchEditorBtn = $(control).closest('.associated-resource-container').find('.associated-resource-editor').get(0);
+  var editUrl = $(launchEditorBtn).data('edit-url');
+  $(launchEditorBtn).attr('href', editUrl.replace('__ID__', control.value));
+
+  if (control.value) {
+    $(launchEditorBtn).removeClass('hidden');
+  } else {
+    $(launchEditorBtn).addClass('hidden');
+  }
+}
+
 document.addEventListener('turbolinks:load', function(event) {
+  $('.belongs-to-control').each(function() {
+    bindAssociatedButtonEditUrl(this);
+  });
+
+  $('.belongs-to-control').on('change', function (e) {
+    bindAssociatedButtonEditUrl(this);
+  });
+
   $('.card-collapser').each(function(_, collapser) {
     var cardEl = $(collapser).closest('.card');
     var iconEl = $(collapser).find('i').get(0);
@@ -304,3 +322,41 @@ function displayToast(type, msg, position) {
 function clearToasts() {
   $("#toast-container").html('');
 }
+
+document.addEventListener('updateBelongsToLookups', function (e) {
+  var model_element = e.detail.model_element;
+  var _relations = e.detail.relations;
+  var _model_id = e.detail.model_id;
+
+  $.get(window.location, {format: "json"}).done(function (_data) {
+    var relations = _relations;
+    var mod_id = _model_id;
+    var data = _data;
+
+    $(relations).each(function (index) {
+      var formSelector = "form[data-model-element='" + relations[index] + "']";
+      var targetForm = $(formSelector);
+      var model_element_name = targetForm.data('model-element');
+      var field_name = model_element + "_id";
+      var field_id = ["#", model_element_name, "_", field_name].join("");
+      var targetLookup = targetForm.find(field_id);
+      var field_data = data[field_name];
+      var items = field_data.options;
+      var label_field = field_data.collection_label_field;
+
+      var options = $(items).map(function (itemIndex) {
+        var option = document.createElement("OPTION");
+        var item = items[itemIndex];
+
+        option.value = item.id;
+        option.text = item[label_field];
+
+        return option;
+      });
+
+      targetLookup.empty().append(options);
+      targetLookup.val(mod_id);
+      targetLookup.trigger('change');
+    });
+  });
+}, false);
