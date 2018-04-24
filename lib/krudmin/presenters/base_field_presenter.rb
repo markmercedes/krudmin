@@ -25,8 +25,20 @@ module Krudmin
         field.options.fetch(:input, {}).merge(options.fetch(:input, {}))
       end
 
+      def json_options
+        field.options.fetch(:json, {}).merge(options.fetch(:json, {}))
+      end
+
       def render
         respond_to?("render_#{page}") ? send("render_#{page}") : to_s
+      end
+
+      def render_json
+        {
+          class: field.class.name,
+          attribute: field.attribute,
+          value: field.value,
+        }
       end
 
       def render_form

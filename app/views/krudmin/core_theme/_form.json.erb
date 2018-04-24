@@ -1,0 +1,20 @@
+<% if params[:grouped] %>
+<%=
+  grouped_attributes.map do |key, metadata|
+    {
+      group: key,
+      metadata: metadata,
+      attributes: metadata[:attributes].map do |attribute|
+        field_for(attribute, model).render(:json, self, {})
+      end
+    }
+  end.to_json.html_safe
+%>
+<% else %>
+  <%=
+  editable_attributes.map.inject({}) do |hash, attribute|
+    hash[attribute] = field_for(attribute, model).render(:json, self, {})
+    hash
+  end.to_json.html_safe
+  %>
+<% end %>

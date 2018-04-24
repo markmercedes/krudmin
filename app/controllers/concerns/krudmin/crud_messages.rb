@@ -5,6 +5,7 @@ module Krudmin
     included do
       helper_method :confirm_deactivation_message, :confirm_activation_message, :confirm_destroy_message, :crud_title
       helper_method :activated_message, :deactivated_message, :destroyed_message
+      helper_method :edit_title, :new_title
     end
 
     def confirm_destroy_message(given_model)
@@ -19,12 +20,12 @@ module Krudmin
       I18n.t("krudmin.messages.confirm_deactivation", label: krudmin_manager.model_label(given_model))
     end
 
-    def edit_title
-      I18n.t("krudmin.messages.edit_record", label: model_label)
+    def edit_title(label = model_label)
+      I18n.t("krudmin.messages.edit_record", label: label)
     end
 
-    def new_title
-      I18n.t("krudmin.messages.new_record", label: resource_label)
+    def new_title(label = resource_label)
+      I18n.t("krudmin.messages.new_record", label: label)
     end
 
     def created_message
