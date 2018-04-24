@@ -36,7 +36,7 @@ RSpec.configure do |config|
 
   config.filter_rails_from_backtrace!
 
-  Capybara.register_driver :poltergeist { |app| Capybara::Poltergeist::Driver.new(app, inspector: false, js_errors: false) }
+  Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, inspector: false, js_errors: false) }
   Capybara.javascript_driver = :poltergeist
   Capybara::Screenshot.webkit_options = { width: 1280, height: 800 }
   Capybara::Screenshot.autosave_on_failure = true

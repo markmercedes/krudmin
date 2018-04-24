@@ -4,6 +4,8 @@ defaults: &defaults
   docker:
     - image: epicname/ruby-node-phantomjs-docker
       environment:
+        RAILS_ENV: test
+        RACK_ENV: test
         PGHOST: localhost
         PGUSER: krudmin_test
     - image: postgres:9.5-alpine
@@ -44,6 +46,8 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run: rake db:create
+      - run: rake db:migrate
       - run:
           name: run tests
           command: |
