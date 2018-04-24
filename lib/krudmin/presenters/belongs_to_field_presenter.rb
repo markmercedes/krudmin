@@ -2,7 +2,7 @@ module Krudmin
   module Presenters
     class BelongsToFieldPresenter < BaseFieldPresenter
       delegate :associated_options, :collection_label_field, :association_name, :association_path, :link_to_path, :humanized_value, :group_method, :group_label_method, to: :field
-      delegate :input_type, :associated_resource_manager_class, to: :field
+      delegate :input_type, :associated_resource_manager_class, :edit_path, :add_path, to: :field
 
       alias linkable? association_path
 
@@ -29,6 +29,8 @@ module Krudmin
                               group_label_method: group_label_method,
                               input_type: input_type,
                               associated_model: associated_model,
+                              add_path: add_path,
+                              edit_path: edit_path,
                               associated_resource_label: associated_resource_label,
                               associated_resource_manager_class: associated_resource_manager_class)
       end

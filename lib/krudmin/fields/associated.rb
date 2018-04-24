@@ -33,6 +33,14 @@ module Krudmin
         @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize
       end
 
+      def add_path
+        options[:add_path]
+      end
+
+      def edit_path
+        options[:edit_path]
+      end
+
       private
 
       def inferred_resource_manager
