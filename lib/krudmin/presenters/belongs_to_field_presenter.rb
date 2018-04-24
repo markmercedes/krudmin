@@ -17,7 +17,7 @@ module Krudmin
       def render_json
         super.merge(
           options: standarized_associated_options,
-          collection_label_field: field.collection_label_field
+          collection_label_field: collection_label_field,
         )
       end
 

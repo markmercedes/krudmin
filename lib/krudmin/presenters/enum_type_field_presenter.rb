@@ -4,10 +4,7 @@ module Krudmin
       delegate :associated_options, :enum_value, :humanize_value, to: :field
 
       def render_json
-        super.merge(
-          associated_options: standardarized_associated_options,
-          value: enum_value
-        )
+        super.merge(value: enum_value)
       end
 
       def render_form
@@ -22,11 +19,11 @@ module Krudmin
         nil
       end
 
-      def standardarized_associated_options
+      def standarized_associated_options
         associated_options.map do |option|
           {
             id: option.last,
-            label: option.first
+            label: option.first,
           }
         end
       end
