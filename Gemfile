@@ -27,6 +27,7 @@ group :development, :test do
   gem "ffaker"
   gem "hamlit-rails"
   gem "pry"
+  gem "spring"
 end
 
 group :test do
@@ -38,6 +39,7 @@ group :test do
   gem "rails-controller-testing"
   gem "rspec-rails"
   gem "rspec_junit_formatter"
+  gem "spring-commands-rspec"
   gem "simplecov"
   gem "timecop"
 end

@@ -5,7 +5,7 @@ require 'active_model'
 SimpleCov.start
 
 I18n.backend.store_translations(:en,
-  YAML.load_file(File.open('./config/locales/en.yml'))['en']
+  YAML.load(File.open('./config/locales/en.yml').read)['en']
 )
 
 RSpec.configure do |config|
