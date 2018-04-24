@@ -76,11 +76,11 @@ module Krudmin
       end
 
       def partial_scope
-        @partial_scope ||= self.class.name.demodulize.split("Field").first.underscore
+        @partial_scope ||= field.class.name.demodulize.underscore
       end
 
       def default_locals
-        { field: field, form: form, input_options: input_options, attribute: attribute }
+        { field: field, form: form, input_options: input_options, attribute: attribute, options: options }
       end
 
       def form
