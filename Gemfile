@@ -40,7 +40,6 @@ group :test do
   gem "rspec_junit_formatter"
   gem "simplecov"
   gem "timecop"
-  gem "webmock", require: false
 end
 
 group :staging, :production do

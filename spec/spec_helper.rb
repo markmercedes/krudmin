@@ -1,7 +1,6 @@
 require 'simplecov'
 require 'active_support/all'
 require 'active_model'
-require 'webmock/rspec'
 
 SimpleCov.start
 
@@ -27,6 +26,4 @@ RSpec.configure do |config|
 
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
-
-  WebMock.disable_net_connect!(allow_localhost: true)
 end
