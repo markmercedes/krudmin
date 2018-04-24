@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    krudmin (0.1.7.9.5.3)
+    krudmin (0.1.7.9.5.4)
       arbre
       bootstrap (~> 4.0.0)
       cocoon

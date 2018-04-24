@@ -173,8 +173,6 @@ document.addEventListener('turbolinks:load', function(event) {
   $.navigation.addClass("initialized");
 
   function scrollToTopAfterAction(e) {
-    e.preventDefault();
-
     resizeBroadcast();
 
     $("html, body").animate({ scrollTop: 0 }, "fast");
@@ -223,13 +221,15 @@ document.addEventListener('turbolinks:load', function(event) {
   $('.search-panel-displayer').click(function (e) {
     $('.search-panel').show('fast');
 
-    scrollToTopAfterAction(e);
+    scrollToTopAfterAction();
+
+    e.preventDefault();
   });
 
   $('.search-panel-toggler').click(function (e) {
     $('.search-panel').slideToggle('fast');
 
-    scrollToTopAfterAction(e);
+    scrollToTopAfterAction();
   });
 
 

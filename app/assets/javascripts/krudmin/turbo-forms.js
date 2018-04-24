@@ -1,7 +1,7 @@
 function extractPropertiesWithValuesOnly(obj) {
   var onlyWithValues = {}
 
-  for(prop in obj) {
+  for(var prop in obj) {
     var propValue = obj[prop] || "";
 
     if (propValue.trim() != "") {
