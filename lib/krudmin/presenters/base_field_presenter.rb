@@ -42,7 +42,11 @@ module Krudmin
       end
 
       def render_form
-        render_partial(:form, input_options: input_options)
+        render_partial(partial_form, input_options: input_options)
+      end
+
+      def partial_form
+        field.options.fetch(:partial_form, :form)
       end
 
       def render_search
