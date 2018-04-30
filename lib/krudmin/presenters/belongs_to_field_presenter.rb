@@ -22,7 +22,7 @@ module Krudmin
       end
 
       def render_form
-        render_partial(:form, association_name: association_name,
+        render_partial(partial_form, association_name: association_name,
                               associated_options: associated_options,
                               collection_label_field: collection_label_field,
                               group_method: group_method,

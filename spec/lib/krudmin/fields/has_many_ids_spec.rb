@@ -86,7 +86,7 @@ describe Krudmin::Fields::HasManyIds do
       describe "partial_form" do
         context "default" do
           it "returns the default value" do
-            expect(subject.partial_form).to eq(:form)
+            expect(subject.partial_form).to eq(Krudmin::Presenters::BaseFieldPresenter::DEFAULT_PARTIAL_FORM)
           end
         end
 

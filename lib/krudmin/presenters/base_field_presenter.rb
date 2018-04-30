@@ -45,8 +45,9 @@ module Krudmin
         render_partial(partial_form, input_options: input_options)
       end
 
+      DEFAULT_PARTIAL_FORM = :form_field
       def partial_form
-        field.options.fetch(:partial_form, :form_field)
+        field.options.fetch(:partial_form, DEFAULT_PARTIAL_FORM)
       end
 
       def render_search
@@ -70,7 +71,7 @@ module Krudmin
       def render_partial(partial_name, locals = {})
         view_context.controller.lookup_context.prefixes.prepend partial_path
 
-        view_context.render(partial: "#{partial_name}", locals: default_locals.merge(locals))
+        view_context.render(partial: partial_name.to_s, locals: default_locals.merge(locals))
       end
 
       def partial_path
