@@ -5,10 +5,6 @@ module Krudmin
         render_partial(partial_form, options: options, render_partial: method(:render_partial), form_fields_partial: form_fields_partial)
       end
 
-      def partial_form
-        field.options.fetch(:partial_form, :form)
-      end
-
       def child_partial_form
         field.options.fetch(:child_partial_form, :form_fields)
       end
