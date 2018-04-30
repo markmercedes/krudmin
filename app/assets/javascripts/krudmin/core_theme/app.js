@@ -114,7 +114,6 @@ document.addEventListener('turbolinks:load', function(event) {
   //Main navigation
   $.navigation = $('nav > ul.nav');
 
-
   if(!$.navigation.hasClass("initialized")) {
     // Add class .active to current link - AJAX Mode off
     $.navigation.find('a').each(function(){
@@ -195,7 +194,7 @@ document.addEventListener('turbolinks:load', function(event) {
     }, 62.5);
   }
 
-  $('.card-collapser').click(function (e) {
+  $('.card-collapser').off("click").on("click", function (e) {
     e.preventDefault();
 
     var cPath = controllerPath();
@@ -232,7 +231,6 @@ document.addEventListener('turbolinks:load', function(event) {
     scrollToTopAfterAction();
   });
 
-
   /* ---------- Disable moving to top ---------- */
   $('a[href="#"][data-top!=true]').click(function(e){
     e.preventDefault();
@@ -243,25 +241,6 @@ document.addEventListener('turbolinks:load', function(event) {
 /****
 * CARDS ACTIONS
 */
-
-$(document).on('click', '.card-actions a', function(e){
-  e.preventDefault();
-
-  if ($(this).hasClass('btn-close')) {
-    $(this).parent().parent().parent().fadeOut();
-  } else if ($(this).hasClass('btn-minimize')) {
-    var $target = $(this).parent().parent().next('.card-body');
-    if (!$(this).hasClass('collapsed')) {
-      $('i',$(this)).removeClass($.panelIconOpened).addClass($.panelIconClosed);
-    } else {
-      $('i',$(this)).removeClass($.panelIconClosed).addClass($.panelIconOpened);
-    }
-
-  } else if ($(this).hasClass('btn-setting')) {
-    $('#myModal').modal('show');
-  }
-
-});
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -324,6 +303,10 @@ function clearToasts() {
 }
 
 document.addEventListener('updateBelongsToLookups', function (e) {
+  if (!document.body.dataset.modelId) {
+    return;
+  }
+
   var model_element = e.detail.model_element;
   var _relations = e.detail.relations;
   var _model_id = e.detail.model_id;

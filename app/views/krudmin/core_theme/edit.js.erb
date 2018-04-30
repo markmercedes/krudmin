@@ -1,37 +1,26 @@
-<% if defined?(messages) %>
-<%= render(partial: 'form_messages', locals: {messages: messages}) %>
-
-var updateableRelations = <%= model_class.reflections.values.select{|r| r.macro == :has_many }.map{|r| r.klass.model_name.element }.to_s.html_safe %>
-var event = new CustomEvent('updateBelongsToLookups', { detail: { model_id: "<%= model.id %>", model_element: "<%= model_class.model_name.element %>", relations: updateableRelations } });
-document.dispatchEvent(event);
-
 var itemRowHTML = '<%=j render_item_row(model) %>';
-
-if(itemRow.length == 0) {
-  var itemsTable = $(".card.items-list .card-body table:first");
-  itemsTable.prepend(itemRowHTML);
-} else {
-  itemRow.replaceWith(itemRowHTML);
-}
-<% end %>
-
 var itemRowClass = ".item-model-<%= model.id %>";
 var itemRow = $(itemRowClass);
 var modalContent = "<%=j render partial: 'modal_form' %>";
-
 var modal = $("#crudFormModal");
 
+<% if defined?(messages) %>
+  <%= render(partial: 'form_messages', locals: {messages: messages}) %>
+
+  var updateableRelations = <%= model_class.reflections.values.select{|r| r.macro == :has_many }.map{|r| r.klass.model_name.element }.to_s.html_safe %>
+  var event = new CustomEvent('updateBelongsToLookups', { detail: { model_id: "<%= model.id %>", model_element: "<%= model_class.model_name.element %>", relations: updateableRelations } });
+  document.dispatchEvent(event);
+
+  if(itemRow.length == 0) {
+    var itemsTable = $(".card.items-list .card-body table:first");
+    itemsTable.prepend(itemRowHTML);
+  } else {
+    itemRow.replaceWith(itemRowHTML);
+  }
+<% end %>
+
 if (modal.hasClass("show")) {
-  var domElement = new DOMParser().parseFromString(modalContent, "text/html");
-  var header = $(domElement).find('.modal-header').html();
-  var body = $(domElement).find('.modal-body').html();
-  var footer = $(domElement).find('.modal-footer').html();
-
-  modal.find('.modal-header').html(header);
-  modal.find('.modal-body').html(body);
-  modal.find('.modal-footer').html(footer);
-
-  Turbolinks.dispatch("turbolinks:load");
+  $(crudFormModal).modal('hide');
 } else {
   if (modal.length > 0) {
     modal.replaceWith(modalContent);
