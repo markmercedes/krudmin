@@ -1,14 +1,10 @@
 <% if defined?(messages) %>
 <%= render(partial: 'form_messages', locals: {messages: messages}) %>
 
-var updateableRelations = <%= CarBrand.reflections.values.select{|r| r.macro == :has_many }.map{|r| r.klass.model_name.element }.to_s.html_safe %>
-var event = new CustomEvent('updateBelongsToLookups', { detail: { model_id: "<%= model.id %>", model_element: "<%= model.class.model_name.element %>", relations: updateableRelations } });
+var updateableRelations = <%= model_class.reflections.values.select{|r| r.macro == :has_many }.map{|r| r.klass.model_name.element }.to_s.html_safe %>
+var event = new CustomEvent('updateBelongsToLookups', { detail: { model_id: "<%= model.id %>", model_element: "<%= model_class.model_name.element %>", relations: updateableRelations } });
 document.dispatchEvent(event);
-<% end %>
 
-var itemRowClass = ".item-model-<%= model.id %>";
-var itemRow = $(itemRowClass);
-var modalContent = "<%=j render partial: 'modal_form' %>";
 var itemRowHTML = '<%=j render_item_row(model) %>';
 
 if(itemRow.length == 0) {
@@ -17,6 +13,11 @@ if(itemRow.length == 0) {
 } else {
   itemRow.replaceWith(itemRowHTML);
 }
+<% end %>
+
+var itemRowClass = ".item-model-<%= model.id %>";
+var itemRow = $(itemRowClass);
+var modalContent = "<%=j render partial: 'modal_form' %>";
 
 var modal = $("#crudFormModal");
 
