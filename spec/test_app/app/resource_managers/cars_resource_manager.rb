@@ -29,7 +29,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     model: { type: :Text, input: { rows: 2 } },
     description: { type: :RichText, show_length: 20 },
     year: :Number,
-    active: :Boolean,
+    active: { type: :Boolean, input: { label: 'Is Active'} },
     passengers: :HasMany,
     car_brand_id: { type: :BelongsTo, collection_label_field: :description, association_path: :admin_car_brand_path, add_path: :new_admin_car_brand, edit_path: :edit_admin_car_brand },
     created_at: { type: :DateTime, format: :short },
