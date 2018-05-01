@@ -7,11 +7,11 @@ module Krudmin
       alias linkable? association_path
 
       def associated_model
-        associated_resource_manager_class::MODEL_CLASSNAME.constantize.new
+        associated_resource_manager_class::MODEL_CLASSNAME.constantize.new if associated_resource_manager_class
       end
 
       def associated_resource_label
-        associated_resource_manager_class::RESOURCE_LABEL
+        associated_resource_manager_class::RESOURCE_LABEL if associated_resource_manager_class
       end
 
       def render_json

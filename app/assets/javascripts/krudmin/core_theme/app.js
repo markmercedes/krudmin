@@ -80,6 +80,11 @@ document.addEventListener('turbolinks:load', function(event) {
 
 function bindAssociatedButtonEditUrl(control) {
   var launchEditorBtn = $(control).closest('.associated-resource-container').find('.associated-resource-editor').get(0);
+
+  if (!launchEditorBtn) {
+    return;
+  }
+
   var editUrl = $(launchEditorBtn).data('edit-url');
   $(launchEditorBtn).attr('href', editUrl.replace('__ID__', control.value));
 
