@@ -24,13 +24,9 @@ module Krudmin
         helper_method defined_access_method
 
         define_method(defined_access_method) do |*args|
-          defined?(super(*args)) ? super(*args) && method(defined_method).call : method(defined_method).call
+          defined?(super) ? super(*args) && method(defined_method).call : method(defined_method).call
         end
       end
-    end
-
-    def model_id
-      @model_id ||= params[:id]
     end
 
     def model

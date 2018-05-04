@@ -25,5 +25,9 @@ module Krudmin
     def navigation_menu
       @navigation_menu ||= Krudmin::Config.navigation_menu.for(_current_user)
     end
+
+    def model_id
+      @model_id ||= params[:id]
+    end
   end
 end
