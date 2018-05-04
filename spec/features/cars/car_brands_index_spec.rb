@@ -4,7 +4,7 @@ describe "line item index page", type: :feature do
   let(:brand_name) { "Toyota" }
   let!(:car_brand) { create(:car_brand, description: brand_name) }
 
-  let(:brand_page) { CarBrandPage.new(url: admin_car_brands_path, model: car_brand) }
+  let(:brand_page) { CarBrandPage.new(url: car_brands_path, model: car_brand) }
 
   before do
     brand_page.visit_page
