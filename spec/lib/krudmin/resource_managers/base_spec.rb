@@ -34,7 +34,7 @@ describe Krudmin::ResourceManagers::Base do
     end
   end
 
-  class MockedGateway < described_class
+  class MockedResourceManager < described_class
     MODEL_CLASSNAME = 'Krudmin::ItemSpecModel'
     LISTABLE_ATTRIBUTES = [:description, :priority]
 
@@ -68,7 +68,7 @@ describe Krudmin::ResourceManagers::Base do
     }
   end
 
-  subject { MockedGateway.new }
+  subject { MockedResourceManager.new }
 
   it "maps types and options for base properties" do
     expect(subject.field_for(:priority, double(priority: 9001.199999)).to_s).to eq("9001.200")
@@ -108,9 +108,37 @@ describe Krudmin::ResourceManagers::Base do
   end
 
   describe "constant delegations" do
-    describe do
+    context "With default values values" do
+      subject { described_class }
+
       it do
-        expect(MockedGateway.model_class).to eq(Krudmin::ItemSpecModel)
+        expect{ subject.model_class }.to raise_error(subject::ModelNotFound, "undefined model for Resource Manager `#{subject.name}`")
+      end
+
+      it do
+        expect(subject.model_classname).to be_nil
+      end
+
+      it do
+        expect(subject.listable_actions).to eq([:show, :edit, :destroy])
+      end
+
+      it do
+        expect(subject.order_by).to be_empty
+      end
+
+      it do
+        expect(subject.listable_includes).to be_empty
+      end
+
+      it do
+        expect(subject.resource_instance_label_attribute).to eq(:id)
+      end
+    end
+
+    context "With custom values" do
+      it do
+        expect(MockedResourceManager.model_class).to eq(Krudmin::ItemSpecModel)
         expect(subject.scope).to eq(Krudmin::ItemSpecModel.all)
       end
 
