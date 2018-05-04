@@ -8,6 +8,8 @@ module Krudmin
       include Enumerable
       extend Krudmin::ConstantsToMethodsExposer
 
+      class ModelNotFound < StandardError; end
+
       delegate :each, :total_pages, :current_page, :limit_value, to: :items
 
       MODEL_CLASSNAME = nil
@@ -18,7 +20,7 @@ module Krudmin
       LISTABLE_ACTIONS = [:show, :edit, :destroy]
       ORDER_BY = []
       LISTABLE_INCLUDES = []
-      RESOURCE_INSTANCE_LABEL_ATTRIBUTE = nil
+      RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :id
       RESOURCE_LABEL = ""
       RESOURCES_LABEL = ""
       ATTRIBUTE_TYPES = {}
@@ -61,6 +63,8 @@ module Krudmin
 
       def self.model_class
         self::MODEL_CLASSNAME.constantize
+      rescue NoMethodError
+        fail ModelNotFound.new("undefined model for Resource Manager `#{name}`")
       end
 
       private

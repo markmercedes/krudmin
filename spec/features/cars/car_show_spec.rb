@@ -5,7 +5,7 @@ describe "line item index page", type: :feature do
 
   let!(:car_brand) { create(:car_brand, description: "Toyota") }
 
-  let!(:car) { create(:car, model: car_model, car_brand: car_brand) }
+  let!(:car) { create(:car, model: car_model, car_brand: car_brand, year: 3000) }
   let!(:passenger1) { create(:passenger, gender: 0, car: car) }
   let!(:passenger2) { create(:passenger, gender: 1, car: car) }
 
