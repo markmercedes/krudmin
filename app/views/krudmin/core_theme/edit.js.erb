@@ -1,4 +1,3 @@
-var itemRowHTML = '<%=j render_item_row(model) %>';
 var itemRowClass = ".item-model-<%= model.id %>";
 var itemRow = $(itemRowClass);
 var modalContent = "<%=j render partial: 'modal_form' %>";
@@ -7,6 +6,7 @@ var modal = $("#crudFormModal");
 <% if defined?(messages) %>
   <%= render(partial: 'form_messages', locals: {messages: messages}) %>
 
+  var itemRowHTML = '<%=j render_item_row(model) %>';
   var updateableRelations = <%= model_class.reflections.values.select{|r| r.macro == :has_many }.map{|r| r.klass.model_name.element }.to_s.html_safe %>
   var event = new CustomEvent('updateBelongsToLookups', { detail: { model_id: "<%= model.id %>", model_element: "<%= model_class.model_name.element %>", relations: updateableRelations } });
   document.dispatchEvent(event);
@@ -19,11 +19,19 @@ var modal = $("#crudFormModal");
   }
 <% end %>
 
-if (modal.hasClass("show")) {
+
+if (modal.hasClass("show") && <%= defined?(messages) ? true : false %>) {
   $(crudFormModal).modal('hide');
 } else {
   if (modal.length > 0) {
-    modal.replaceWith(modalContent);
+    var domElement = new DOMParser().parseFromString(modalContent, "text/html");
+    var header = $(domElement).find('.modal-header').html();
+    var body = $(domElement).find('.modal-body').html();
+    var footer = $(domElement).find('.modal-footer').html();
+
+    modal.find('.modal-header').html(header);
+    modal.find('.modal-body').html(body);
+    modal.find('.modal-footer').html(footer);
   } else {
     var div = document.createElement('div');
     div.innerHTML = modalContent;
