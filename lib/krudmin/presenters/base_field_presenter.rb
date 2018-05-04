@@ -54,6 +54,18 @@ module Krudmin
         render_partial(:search, search_form: search_form, options_attribute: options_attribute)
       end
 
+      def model_class
+        if field.model
+          field.model.class
+        elsif search_form
+          search_form.model_class
+        end
+      end
+
+      def field_label
+        input_options.fetch(:label, model_class.human_attribute_name(attribute))
+      end
+
       private
 
       def options_attribute
@@ -83,7 +95,7 @@ module Krudmin
       end
 
       def default_locals
-        { field: field, form: form, input_options: input_options, attribute: attribute, options: options }
+        { field: field, form: form, input_options: input_options, attribute: attribute, options: options, field_label: field_label }
       end
 
       def form

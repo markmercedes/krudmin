@@ -20,6 +20,7 @@ describe "line item index page", type: :feature do
   it "shows checkbox field for boolean type" do
     click_edit_link_for(car)
     expect(car_page).to have_css 'input#car_active'
+    expect(car_page).to have_content 'Is Active'
   end
 
   it "shows the rich text field type" do
