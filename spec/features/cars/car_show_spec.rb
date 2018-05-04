@@ -24,7 +24,7 @@ describe "line item index page", type: :feature do
   end
 
   it "shows a link to car model" do
-    expect(car_page).to have_selector :link, "Toyota", href: "/admin/car_brands/#{car_brand.id}"
+    expect(car_page).to have_selector :link, "Toyota", href: "/car_brands/#{car_brand.id}"
   end
 
   it "shows a link to edit the car" do
