@@ -85,7 +85,7 @@ module Krudmin
       end
 
       def controller_path
-        @controller_path ||= namespace.present? ? "#{namespace}/#{resources}" : resource
+        @controller_path ||= namespace.present? ? "#{namespace}/#{resources}" : resources
       end
 
       def resource_method_path

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Admin::CarBrandsController, type: :controller do
+describe CarBrandsController, type: :controller do
   describe "GET index" do
     it "renders the index" do
       get :index
@@ -50,7 +50,7 @@ describe Admin::CarBrandsController, type: :controller do
 
         new_car_brand = CarBrand.first
 
-        expect(response).to redirect_to([:edit, :admin, new_car_brand])
+        expect(response).to redirect_to([:edit, new_car_brand])
       end
     end
 
@@ -86,7 +86,7 @@ describe Admin::CarBrandsController, type: :controller do
 
         put :update, params: {id: car_brand.to_param, car_brand: valid_attributes}
 
-        expect(response).to redirect_to([:edit, :admin, car_brand])
+        expect(response).to redirect_to([:edit, car_brand])
       end
     end
 
@@ -118,7 +118,7 @@ describe Admin::CarBrandsController, type: :controller do
 
       delete :destroy, params: {id: car_brand.to_param}
 
-      expect(response).to redirect_to(admin_car_brands_url)
+      expect(response).to redirect_to(car_brands_url)
     end
   end
 end

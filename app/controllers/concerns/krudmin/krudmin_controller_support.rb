@@ -3,7 +3,7 @@ module Krudmin
     extend ActiveSupport::Concern
 
     included do
-      helper_method :navigation_menu, :_current_user, :krudmin_root_path
+      helper_method :navigation_menu, :_current_user, :krudmin_root_path, :model_id
     end
 
     def krudmin_router
@@ -24,6 +24,10 @@ module Krudmin
 
     def navigation_menu
       @navigation_menu ||= Krudmin::Config.navigation_menu.for(_current_user)
+    end
+
+    def model_id
+      @model_id ||= params[:id]
     end
   end
 end

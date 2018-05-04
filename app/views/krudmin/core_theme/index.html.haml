@@ -31,5 +31,4 @@
               - if listable_actions.any?
                 %th{width: "20%"}= t('krudmin.actions.label')
           %tbody
-            - items.result.each do |item|
-              = render_item_row(item)
+            = render partial: "list_item", collection: items.result, as: :item, cached: true
