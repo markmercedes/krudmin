@@ -6,6 +6,7 @@ require "#{Dir.pwd}/lib/krudmin/fields/number"
 require "#{Dir.pwd}/lib/krudmin/fields/string"
 require "#{Dir.pwd}/lib/krudmin/fields/associated"
 require "#{Dir.pwd}/lib/krudmin/fields/has_many"
+require "#{Dir.pwd}/lib/krudmin/fields/inflector"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/base"
 
 describe Krudmin::ResourceManagers::Base do
@@ -21,6 +22,14 @@ describe Krudmin::ResourceManagers::Base do
 
       def column_names
         []
+      end
+
+      def columns_hash
+        {}
+      end
+
+      def reflections
+        {}
       end
     end
   end

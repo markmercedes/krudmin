@@ -30,6 +30,12 @@ module Krudmin
       end
 
       class << self
+        def from_inferred_type(attribute, active_record_type)
+          type = Krudmin::Fields::Inflector.field_from_active_record(active_record_type)
+
+          new(attribute, type)
+        end
+
         def from_list(attribute_types)
           attribute_types.reduce({}) { |hash, metadata|
             attribute = metadata.first

@@ -4,6 +4,7 @@ require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/string"
 require "#{Dir.pwd}/lib/krudmin/fields/number"
 require "#{Dir.pwd}/lib/krudmin/fields/text"
+require "#{Dir.pwd}/lib/krudmin/fields/inflector"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute_collection"
 
@@ -14,7 +15,7 @@ describe Krudmin::ResourceManagers::AttributeCollection do
   let(:listable_attributes) { [] }
   let(:displayable_attributes) { [] }
   let(:searchable_attributes) { [] }
-  let(:model) { double(primary_key: "pk_id", column_names: ["pk_id", "name", "age", "created_at", "updated_at"]) }
+  let(:model) { double(primary_key: "pk_id", column_names: ["pk_id", "name", "age", "created_at", "updated_at"], columns_hash: {}, reflections: {}) }
 
   subject{ described_class.new(model, attribute_types, editable_attributes, listable_attributes, searchable_attributes, displayable_attributes, attributes_metadata) }
 
