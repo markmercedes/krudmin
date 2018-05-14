@@ -12,14 +12,6 @@
     = stylesheet_link_tag    'krudmin/core_theme/application', media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag 'krudmin/core_theme/application', 'data-turbolinks-track' => 'reload'
 
-    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js'
-    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/en.js'
-
-    = stylesheet_link_tag    'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css'
-    = stylesheet_link_tag    'https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'
-
-    = javascript_include_tag "https://unpkg.com/sweetalert/dist/sweetalert.min.js"
-
     = render partial: 'layouts/krudmin/core_theme/head_content'
 
     = yield(:head_content)

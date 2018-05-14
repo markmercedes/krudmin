@@ -21,6 +21,9 @@
 //= require krudmin/vendor/daterangepicker
 //= require krudmin/vendor/js.cookie
 //= require krudmin/vendor/toast
+//= require krudmin/vendor/select2
+//= require krudmin/vendor/select2-en
+//= require krudmin/vendor/sweetalert
 //= require krudmin/kjs
 //= require krudmin/sweet-confirm
 //= require krudmin/turbo-forms
