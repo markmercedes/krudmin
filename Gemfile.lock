@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    krudmin (0.1.7.9.5.11)
+    krudmin (0.1.7.9.5.12)
       bootstrap (~> 4.0.0)
       cocoon
       font-awesome-rails
