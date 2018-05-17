@@ -40,44 +40,6 @@ document.addEventListener("turboforms:updated", function(e) {
   }, 100);
 });
 
-document.addEventListener('turbolinks:load', function(event) {
-  var inputDefaults = {
-    singleDatePicker: true,
-    showDropdowns: true,
-    autoApply: true,
-    cancelClass: "btn-danger",
-    autoUpdateInput: false,
-  };
-
-  $('.datetimepicker').each(function (_, inputControl) {
-    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATETIME_FORMAT;
-
-    $(inputControl).daterangepicker(
-      $.extend({
-        timePicker: true,
-        locale: {
-          format: inputFormat
-        }}, inputDefaults), function(inputValue) {
-      this.element.val(inputValue.format(inputFormat));
-    });
-  });
-
-  $('.datepicker').each(function(_, inputControl) {
-    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATE_FORMAT;
-
-    $(inputControl).daterangepicker(
-      $.extend({
-        locale: {
-          format: inputFormat
-        }
-      }, inputDefaults),
-      function (inputValue) {
-        this.element.val(inputValue.format(inputFormat));
-      }
-    );
-  });
-});
-
 function bindAssociatedButtonEditUrl(control) {
   var launchEditorBtn = $(control).closest('.associated-resource-container').find('.associated-resource-editor').get(0);
 
