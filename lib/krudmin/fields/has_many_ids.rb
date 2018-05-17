@@ -1,8 +1,12 @@
 module Krudmin
   module Fields
-    class HasManyIds < HasMany
+    class HasManyIds < BelongsTo
       def editable_attribute
-        { "#{attribute}_ids".to_sym => [] }
+        { attribute => [] }
+      end
+
+      def input_type
+        options.fetch(:input_type, :select)
       end
     end
   end

@@ -1,3 +1,7 @@
+- valid_editable_attributes = metadata.fetch(:attributes) & editable_attributes
+
+- return if valid_editable_attributes.empty?
+
 %div{class: metadata.fetch(:class, 'col-lg-6 col-md-12')}
   .card{data: {card_panel: key}}
     .card-header
@@ -8,6 +12,6 @@
           %i.fa.fa-chevron-up.fa-lg
     .card-body
       .row
-        - metadata.fetch(:attributes).each do |attribute|
+        - valid_editable_attributes.each do |attribute|
           %div{class: metadata.fetch(:input_container_class, 'col-md-12')}
             = field_for(attribute, model).render(:form, self, {form: f})

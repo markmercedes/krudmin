@@ -3,6 +3,8 @@ module Krudmin
     class Attribute
       delegate :html_class, to: :type
 
+      class NoPresentationMedatataFound < StandardError; end
+
       attr_reader :attribute, :type, :options
       def initialize(attribute, type = Krudmin::Fields::String, options = {})
         @attribute = attribute
@@ -48,7 +50,10 @@ module Krudmin
           return new(attribute) unless field_metadata
 
           if field_metadata.is_a?(Hash)
-            new(attribute, field_metadata.fetch(:type), field_metadata.except(:type))
+            new(attribute,
+                field_metadata.fetch(:type) { raise NoPresentationMedatataFound.new(attribute) },
+                field_metadata.except(:type)
+              )
           else
             new(attribute, field_metadata)
           end

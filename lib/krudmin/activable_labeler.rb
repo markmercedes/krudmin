@@ -1,7 +1,9 @@
 module Krudmin
   module ActivableLabeler
-    include ActionView::Helpers::TagHelper
-    include ActionView::Context
+    if defined?(Rails)
+      include ActionView::Helpers::TagHelper
+      include ActionView::Context
+    end
 
     def label_for_active(value)
       content_tag(:span, class: "badge badge-success") { value }
