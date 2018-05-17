@@ -26,6 +26,7 @@
 //= require krudmin/vendor/sweetalert
 //= require krudmin/kjs
 //= require krudmin/sweet-confirm
+//= require krudmin/select2-adapter
 //= require krudmin/turbo-forms
 //= require krudmin/core_theme/constants
 //= require krudmin/core_theme/app
