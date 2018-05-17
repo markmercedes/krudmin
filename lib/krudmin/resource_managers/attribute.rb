@@ -51,7 +51,7 @@ module Krudmin
 
           if field_metadata.is_a?(Hash)
             new(attribute,
-                field_metadata.fetch(:type) { raise NoPresentationMedatataFound.new(attribute) },
+                field_metadata.fetch(:type) { fail NoPresentationMedatataFound.new("No presentation key found for `#{attribute}`") },
                 field_metadata.except(:type)
               )
           else

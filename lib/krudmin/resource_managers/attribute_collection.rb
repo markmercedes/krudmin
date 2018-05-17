@@ -1,6 +1,8 @@
 module Krudmin
   module ResourceManagers
     class AttributeCollection
+      class NoPresentationMedatataFound < StandardError; end
+
       attr_reader :model, :attributes_metadata, :attributes, :searchable_attributes, :presentation_metadata, :listable_attributes, :displayable_attributes
       def initialize(model, attributes_metadata, attributes, listable_attributes, searchable_attributes, displayable_attributes, presentation_metadata)
         @model = model
@@ -25,7 +27,7 @@ module Krudmin
                                   attributes.reduce({}) do |hash, value|
                                     key = value.first
                                     attributes = value.last
-                                    hash[key] = { attributes: attributes }.merge(presentation_metadata.fetch(key))
+                                    hash[key] = { attributes: attributes }.merge(presentation_metadata.fetch(key) { fail NoPresentationMedatataFound.new("No presentation key found for `#{key}`") })
                                     hash
                                   end
                                 else
