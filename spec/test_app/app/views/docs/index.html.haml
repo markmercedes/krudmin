@@ -1,0 +1,89 @@
+- content_for(:page_title) do
+  Custom Stand Alone Controller
+
+- content_for :breadcrumb do
+  %li.breadcrumb-item.active
+    = link_to(docs_path) do
+      = "Docs"
+  %li.breadcrumb-item
+    = active_doc_file.humanize
+
+.row
+  .col-lg-8
+    .card{data: {card_panel: active_doc_file}}
+      .card-header
+        %h1.pull-left
+          = active_doc_file.humanize
+        .card-actions.pull-right
+          %a.btn.card-collapser{href: '#'}
+            %i.fa.fa-chevron-up.fa-lg
+      .card-body
+        = @md_content
+
+        %br
+        %br
+  .col-lg-4
+    .card{data: {card_panel: :docs_links}}
+      .card-header
+        %h4.pull-left
+          Links
+        .card-actions.pull-right
+          %a.btn.card-collapser{href: '#'}
+            %i.fa.fa-chevron-up.fa-lg
+      .card-body
+        .list-group
+          = link_to("/", class: "list-group-item list-group-item-action") do
+            Home
+          = link_to("https://github.com/markmercedes/krudmin", class: "list-group-item list-group-item-action") do
+            Github
+          = link_to("https://krudmin.herokuapp.com/admin", class: "list-group-item list-group-item-action") do
+            Demo App
+        %br
+
+        %h4
+          Documentation
+
+        %br
+          = render_menu_item_for("docs/getting_started")
+          = render_menu_item_for("#", "Customizing Resources")
+          = render_menu_item_for("#", "Overriding views")
+          = render_menu_item_for("#", "Associated resources")
+          = render_menu_item_for("#", "Master/Detail")
+          = render_menu_item_for("#", "Modal content")
+          = render_menu_item_for("#", "Adding an autocomplete field")
+
+        %h4
+          Security
+
+        %br
+          = render_menu_item_for("#", "Authentication")
+          = render_menu_item_for("#", "Authorization")
+
+        %h4
+          Core Classes
+
+        %br
+          = render_menu_item_for("#", "Resource Managers")
+          = render_menu_item_for("#", "Attributes")
+          = render_menu_item_for("#", "Fields")
+          = render_menu_item_for("#", "Action Buttons")
+          = render_menu_item_for("#", "Views")
+          = render_menu_item_for("#", "Partials")
+          = render_menu_item_for("#", "Navigation Menu")
+          = render_menu_item_for("#", "Toolbars")
+          = render_menu_item_for("#", "Modals")
+          = render_menu_item_for("#", "Search Form")
+          = render_menu_item_for("#", "Breadcrumbs")
+          = render_menu_item_for("#", "Generators")
+          = render_menu_item_for("#", "Custom Controllers")
+
+        %br
+
+        %h4
+          Other docs
+        %br
+
+        .list-group
+          = render_menu_item_for("docs", "Readme")
+          = render_menu_item_for("docs/contributing")
+          = render_menu_item_for("docs/code_of_conduct")

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root to: "admin/cars#index"
+  root to: "docs#index"
+
+  resources :docs, only: [:index, :show]
 
   resources :car_brands
 

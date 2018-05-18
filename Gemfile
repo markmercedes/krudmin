@@ -15,6 +15,7 @@ gemspec
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem "pg"
+gem "redcarpet"
 gem "trix", github: "markmercedes/trix"
 
 group :development do
