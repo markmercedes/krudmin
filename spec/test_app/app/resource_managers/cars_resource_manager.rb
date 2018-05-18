@@ -31,7 +31,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     year: :Number,
     active: { type: :Boolean, input: { label: 'Is Active'} },
     passengers: :HasMany,
-    car_brand_id: { type: :BelongsTo, collection_label_field: :description, association_path: :car_brand_path, add_path: :new_car_brand, edit_path: :edit_car_brand },
+    car_brand_id: { type: :BelongsTo, collection_label_field: :description, association_path: :car_brand_path, add_path: :new_car_brand, edit_path: :edit_car_brand, remote: true },
     created_at: { type: :DateTime, format: :short },
     release_date: { type: :Date, format: :short },
     transmission: { type: :EnumType, associated_options: -> { Car.transmissions } },

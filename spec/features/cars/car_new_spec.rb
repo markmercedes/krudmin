@@ -16,7 +16,8 @@ describe "line item index page", type: :feature do
 
     fill_in(:car_model, with: car_model)
     fill_in(:car_year, with: 2009)
-    select('Toyota', from: :car_car_brand_id)
+    # For now the car brand will be optional, because now this is a remote select and by default no options are loaded
+    # select('Toyota', from: :car_car_brand_id)
 
     car_page.click_save_model_button
 

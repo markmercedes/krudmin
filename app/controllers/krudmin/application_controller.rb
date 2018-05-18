@@ -13,6 +13,7 @@ module Krudmin
 
     before_action :set_view_path
     before_action :set_model, only: [:new, :edit, :create]
+    helper_method :requested_editable_fields, :search_term, :search_id
 
     def index; end
 
@@ -70,6 +71,19 @@ module Krudmin
 
     def set_view_path
       lookup_context.prefixes.append Krudmin::Config.theme
+    end
+
+    def requested_editable_fields
+      requested_fields = Array(params[:fields]).map(&:to_sym)
+      requested_fields.any? ? (editable_attributes & requested_fields) : editable_attributes
+    end
+
+    def search_term
+      params[:search_term]
+    end
+
+    def search_id
+      params[:search_id]
     end
   end
 end

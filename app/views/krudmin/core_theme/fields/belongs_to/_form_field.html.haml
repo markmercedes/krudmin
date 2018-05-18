@@ -1,5 +1,5 @@
 .associated-resource-container
-  = form.association association_name, label: field_label, as: input_type, collection: associated_options, label_method: collection_label_field, value_method: :id, group_method: group_method, group_label_method: group_label_method, input_html: {class: 'form-control select2 belongs-to-control', include_blank: true}
+  = form.association association_name, label: field_label, as: input_type, collection: associated_options, label_method: collection_label_field, value_method: :id, group_method: group_method, group_label_method: group_label_method, input_html: { class: 'form-control select2 belongs-to-control', include_blank: true, data: { remote: remote, field: attribute } }
 
   - if add_path || edit_path
     .row
