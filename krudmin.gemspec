@@ -16,13 +16,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", "~> 5.2.0"
-
-  s.add_dependency "arbre"
   s.add_dependency "bootstrap", "~> 4.0.0"
   s.add_dependency "cocoon"
   s.add_dependency "font-awesome-rails"
-  s.add_dependency "haml"
+  s.add_dependency "hamlit"
   s.add_dependency "jquery-rails"
   s.add_dependency "kaminari"
   s.add_dependency "momentjs-rails"

@@ -27,9 +27,8 @@
             %tr
               - listable_attributes.each_with_index do |column_label, column_index|
                 %th{class: "#{krudmin_manager.field_for(column_label).html_class}"}
-                  = sort_link items, column_label, model_class.human_attribute_name(column_label), o: search_form.search_criteria
+                  = sort_link items, column_label, krudmin_manager.field_for(column_label).options.fetch(:input, {}).fetch(:label, model_class.human_attribute_name(column_label)) , o: search_form.search_criteria
               - if listable_actions.any?
                 %th{width: "20%"}= t('krudmin.actions.label')
           %tbody
-            - items.result.each do |item|
-              = render_item_row(item)
+            = render partial: "list_item", collection: items.result, as: :item, cached: Rails.application.config.cache_classes

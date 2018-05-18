@@ -25,7 +25,7 @@ end
 group :development, :test do
   gem "factory_bot_rails"
   gem "ffaker"
-  gem "haml-rails"
+  gem "hamlit-rails"
   gem "pry"
 end
 
@@ -40,7 +40,6 @@ group :test do
   gem "rspec_junit_formatter"
   gem "simplecov"
   gem "timecop"
-  gem "webmock"
 end
 
 group :staging, :production do

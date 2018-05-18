@@ -15,6 +15,10 @@ describe "line item index page", type: :feature do
     expect(car_page).to have_model_visible
   end
 
+  it "renders a custom label in the index page" do
+    expect(car_page).to have_content 'Is Active'
+  end
+
   it "links to the show page of a given item" do
     click_show_link_for(car)
 

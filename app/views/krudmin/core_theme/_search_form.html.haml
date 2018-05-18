@@ -10,10 +10,6 @@
                 .col-lg-4.col-md-6
                   .search-filter
                     .form-group.row
-                      .col-sm-12
-                        %label
-                          %strong
-                            = model_class.human_attribute_name(field)
                       = field_for(field).render(:search, self, {form: f, search_form: search_form})
           .row
             .col-sm-12

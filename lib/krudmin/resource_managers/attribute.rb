@@ -3,6 +3,8 @@ module Krudmin
     class Attribute
       delegate :html_class, to: :type
 
+      class NoPresentationMedatataFound < StandardError; end
+
       attr_reader :attribute, :type, :options
       def initialize(attribute, type = Krudmin::Fields::String, options = {})
         @attribute = attribute
@@ -30,6 +32,12 @@ module Krudmin
       end
 
       class << self
+        def from_inferred_type(attribute, active_record_type)
+          type = Krudmin::Fields::Inflector.field_from_active_record(active_record_type)
+
+          new(attribute, type)
+        end
+
         def from_list(attribute_types)
           attribute_types.reduce({}) { |hash, metadata|
             attribute = metadata.first
@@ -42,7 +50,10 @@ module Krudmin
           return new(attribute) unless field_metadata
 
           if field_metadata.is_a?(Hash)
-            new(attribute, field_metadata.fetch(:type), field_metadata.except(:type))
+            new(attribute,
+                field_metadata.fetch(:type) { fail NoPresentationMedatataFound.new("No presentation key found for `#{attribute}`") },
+                field_metadata.except(:type)
+              )
           else
             new(attribute, field_metadata)
           end

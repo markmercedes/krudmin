@@ -16,3 +16,15 @@
         = link_to_add_association(form, field.association_name, class: "btn btn-warning", partial: form_fields_partial, data: {association_insertion_node: "#krudmin-nested-fields-#{field.association_name}", association_insertion_method: :append}) do
           %i.fa.fa-plus
           = t('krudmin.actions.add_new')
+
+:javascript
+  $("#krudmin-nested-fields-#{field.association_name}").on('cocoon:after-insert', function (e) {
+    var event = new CustomEvent("krudmin:updateControls", {
+      detail: {
+        selector: "#krudmin-nested-fields-#{field.association_name}",
+        event: e
+      }
+    });
+
+    document.dispatchEvent(event);
+  });

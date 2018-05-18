@@ -38,7 +38,7 @@ module Krudmin
       def invalid_path
         controller.respond_to do |format|
           format.html { controller.render on_error_view }
-          format.js { render "form_errors" }
+          format.js { controller.render "form_errors" }
         end
       end
     end

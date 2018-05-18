@@ -12,3 +12,7 @@ public/assets/
 spec/test_app/public/assets/
 tmp/caching-dev.txt
 tmp/rspec_guard_result
+
+.vscode/settings.json
+
+.ruby-gemset

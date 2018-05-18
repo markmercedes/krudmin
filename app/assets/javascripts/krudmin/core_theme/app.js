@@ -40,47 +40,32 @@ document.addEventListener("turboforms:updated", function(e) {
   }, 100);
 });
 
-document.addEventListener('turbolinks:load', function(event) {
-  var inputDefaults = {
-    singleDatePicker: true,
-    showDropdowns: true,
-    autoApply: true,
-    cancelClass: "btn-danger",
-    autoUpdateInput: false,
-  };
+function bindAssociatedButtonEditUrl(control) {
+  var launchEditorBtn = $(control).closest('.associated-resource-container').find('.associated-resource-editor').get(0);
 
-  $('.datetimepicker').each(function (_, inputControl) {
-    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATETIME_FORMAT;
+  if (!launchEditorBtn) {
+    return;
+  }
 
-    $(inputControl).daterangepicker(
-      $.extend({
-        timePicker: true,
-        locale: {
-          format: inputFormat
-        }
-      }, inputDefaults)
-    , function(inputValue) {
-      this.element.val(inputValue.format(inputFormat));
-    });
-  });
+  var editUrl = $(launchEditorBtn).data('edit-url');
+  $(launchEditorBtn).attr('href', editUrl.replace('__ID__', control.value));
 
-  $('.datepicker').each(function(_, inputControl) {
-    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATE_FORMAT;
-
-    $(inputControl).daterangepicker(
-      $.extend({
-        locale: {
-          format: inputFormat
-        }
-      }, inputDefaults),
-      function (inputValue) {
-        this.element.val(inputValue.format(inputFormat));
-      }
-    );
-  });
-});
+  if (control.value) {
+    $(launchEditorBtn).removeClass('hidden');
+  } else {
+    $(launchEditorBtn).addClass('hidden');
+  }
+}
 
 document.addEventListener('turbolinks:load', function(event) {
+  $('.belongs-to-control').each(function() {
+    bindAssociatedButtonEditUrl(this);
+  });
+
+  $('.belongs-to-control').on('change', function (e) {
+    bindAssociatedButtonEditUrl(this);
+  });
+
   $('.card-collapser').each(function(_, collapser) {
     var cardEl = $(collapser).closest('.card');
     var iconEl = $(collapser).find('i').get(0);
@@ -95,7 +80,6 @@ document.addEventListener('turbolinks:load', function(event) {
   initScripts();
   //Main navigation
   $.navigation = $('nav > ul.nav');
-
 
   if(!$.navigation.hasClass("initialized")) {
     // Add class .active to current link - AJAX Mode off
@@ -155,8 +139,6 @@ document.addEventListener('turbolinks:load', function(event) {
   $.navigation.addClass("initialized");
 
   function scrollToTopAfterAction(e) {
-    e.preventDefault();
-
     resizeBroadcast();
 
     $("html, body").animate({ scrollTop: 0 }, "fast");
@@ -179,7 +161,7 @@ document.addEventListener('turbolinks:load', function(event) {
     }, 62.5);
   }
 
-  $('.card-collapser').click(function (e) {
+  $('.card-collapser').off("click").on("click", function (e) {
     e.preventDefault();
 
     var cPath = controllerPath();
@@ -205,15 +187,16 @@ document.addEventListener('turbolinks:load', function(event) {
   $('.search-panel-displayer').click(function (e) {
     $('.search-panel').show('fast');
 
-    scrollToTopAfterAction(e);
+    scrollToTopAfterAction();
+
+    e.preventDefault();
   });
 
   $('.search-panel-toggler').click(function (e) {
     $('.search-panel').slideToggle('fast');
 
-    scrollToTopAfterAction(e);
+    scrollToTopAfterAction();
   });
-
 
   /* ---------- Disable moving to top ---------- */
   $('a[href="#"][data-top!=true]').click(function(e){
@@ -225,25 +208,6 @@ document.addEventListener('turbolinks:load', function(event) {
 /****
 * CARDS ACTIONS
 */
-
-$(document).on('click', '.card-actions a', function(e){
-  e.preventDefault();
-
-  if ($(this).hasClass('btn-close')) {
-    $(this).parent().parent().parent().fadeOut();
-  } else if ($(this).hasClass('btn-minimize')) {
-    var $target = $(this).parent().parent().next('.card-body');
-    if (!$(this).hasClass('collapsed')) {
-      $('i',$(this)).removeClass($.panelIconOpened).addClass($.panelIconClosed);
-    } else {
-      $('i',$(this)).removeClass($.panelIconClosed).addClass($.panelIconOpened);
-    }
-
-  } else if ($(this).hasClass('btn-setting')) {
-    $('#myModal').modal('show');
-  }
-
-});
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -304,3 +268,46 @@ function displayToast(type, msg, position) {
 function clearToasts() {
   $("#toast-container").html('');
 }
+
+document.addEventListener('updateBelongsToLookups', function (e) {
+  var model_element = e.detail.model_element;
+  var relations = e.detail.relations;
+  var _model_id = e.detail.model_id;
+
+  var _field_names = $.map(relations, function (index) {
+    var field_name = model_element + "_id";
+    return field_name;
+  });
+
+  $.get(window.location, { format: "json", fields: _field_names, search_id: _model_id}).done(function (_data) {
+    var mod_id = _model_id;
+    var data = _data;
+    var field_names = _field_names;
+
+    $(field_names).each(function (index) {
+      var field_name = field_names[index];
+      var formSelector = "form[data-model-element='" + relations[index] + "']";
+      var targetForm = $(formSelector);
+      var model_element_name = targetForm.data('model-element');
+      var field_id = ["#", model_element_name, "_", field_name].join("");
+      var targetLookup = targetForm.find(field_id);
+      var field_data = data[field_name];
+      var items = field_data.options;
+      var label_field = field_data.collection_label_field;
+
+      var options = $(items).map(function (itemIndex) {
+        var option = document.createElement("OPTION");
+        var item = items[itemIndex];
+
+        option.value = item.id;
+        option.text = item[label_field];
+
+        return option;
+      });
+
+      targetLookup.empty().append(options);
+      targetLookup.val(mod_id);
+      targetLookup.trigger('change');
+    });
+  });
+}, false);

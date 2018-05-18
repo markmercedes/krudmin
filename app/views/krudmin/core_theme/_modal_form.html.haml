@@ -6,7 +6,7 @@
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
       .modal-body
-        = simple_form_for(model, validate: true, remote: true, url: form_submit_path(form_context: :modal), html: { class: 'form-horizontal' }) do |f|
+        = simple_form_for(model, wrapper: Krudmin::Config.modal_form_wrapper, validate: true, remote: true, url: form_submit_path(form_context: :modal), html: { class: 'form-horizontal' }) do |f|
           = render partial: "modal_form_action_buttons", locals: {f: f}
 
           - grouped_attributes.each do |key, metadata|

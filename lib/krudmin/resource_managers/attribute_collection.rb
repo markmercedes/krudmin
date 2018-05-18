@@ -1,6 +1,8 @@
 module Krudmin
   module ResourceManagers
     class AttributeCollection
+      class NoPresentationMedatataFound < StandardError; end
+
       attr_reader :model, :attributes_metadata, :attributes, :searchable_attributes, :presentation_metadata, :listable_attributes, :displayable_attributes
       def initialize(model, attributes_metadata, attributes, listable_attributes, searchable_attributes, displayable_attributes, presentation_metadata)
         @model = model
@@ -25,7 +27,7 @@ module Krudmin
                                   attributes.reduce({}) do |hash, value|
                                     key = value.first
                                     attributes = value.last
-                                    hash[key] = { attributes: attributes }.merge(presentation_metadata.fetch(key))
+                                    hash[key] = { attributes: attributes }.merge(presentation_metadata.fetch(key) { fail NoPresentationMedatataFound.new("No presentation key found for `#{key}`") })
                                     hash
                                   end
                                 else
@@ -48,7 +50,26 @@ module Krudmin
           attribute_types[root].type_as_hash[:__attributes][field]
         else
           attribute_types[field]
-        end || Attribute.new(field)
+        end || Attribute.from_inferred_type(field, find_type_for(field))
+      end
+
+      # TODO: Refactor for clarity
+      def find_type_for(field)
+        field_name = field.to_s
+
+        model_field = model.columns_hash[field_name]
+
+        if model_field
+          model_field.type
+        else
+          model.reflections.keys.select { |s| field_name.start_with?(s) }.sort_by(&:length).reverse.each do |relation|
+            related_field_name = field_name.gsub("#{relation}_", "")
+
+            related_field = model.reflections[relation].active_record.columns_hash[related_field_name]
+
+            return related_field.type if related_field
+          end
+        end
       end
 
       def attribute_types

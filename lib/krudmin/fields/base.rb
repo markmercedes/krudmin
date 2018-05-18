@@ -44,6 +44,10 @@ module Krudmin
         self.class.field_type
       end
 
+      def editable_attribute
+        attribute
+      end
+
       def self.field_type
         to_s.split("::").last.underscore
       end
@@ -57,7 +61,7 @@ module Krudmin
       end
 
       def self.editable_attribute(attribute)
-        attribute
+        new(attribute).editable_attribute
       end
 
       def self.type_as_hash(attribute, options)

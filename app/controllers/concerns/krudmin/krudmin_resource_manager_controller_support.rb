@@ -7,7 +7,7 @@ module Krudmin
       delegate :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :displayable_attributes, :field_for, to: :krudmin_manager
 
       helper_method :resource_label, :resources_label, :items, :model_label, :resource_root, :listable_actions, :listable_attributes, :model_class, :model, :editable_attributes
-      helper_method :model_id, :krudmin_manager, :field_for, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :displayable_attributes
+      helper_method :krudmin_manager, :field_for, :grouped_attributes, :resource_instance_label_attribute, :searchable_attributes, :displayable_attributes
 
       delegate :resource_root, :activate_path, :deactivate_path, :new_resource_path, :resource_path, :edit_resource_path, to: :krudmin_router
 
@@ -24,13 +24,9 @@ module Krudmin
         helper_method defined_access_method
 
         define_method(defined_access_method) do |*args|
-          defined?(super(*args)) ? super(*args) && method(defined_method).call : method(defined_method).call
+          defined?(super) ? super(*args) && method(defined_method).call : method(defined_method).call
         end
       end
-    end
-
-    def model_id
-      @model_id ||= params[:id]
     end
 
     def model
@@ -42,7 +38,7 @@ module Krudmin
     end
 
     def model_params
-      @model_params ||= Krudmin::ParamsParser.new(permitted_params, model.class).to_h.permit!
+      @model_params ||= Krudmin::ParamsParser.new(permitted_params, model_class).to_h.permit!
     end
 
     def permitted_params

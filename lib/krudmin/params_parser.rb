@@ -29,7 +29,7 @@ module Krudmin
           when :datetime
             parse_time(raw_value)
           when :date
-            Date.strptime(raw_value, I18n.t("krudmin.date.input_format"))
+            parse_date(raw_value)
           else raw_value
           end
         else
@@ -44,7 +44,19 @@ module Krudmin
       private
 
       def parse_time(value)
+        return value if date_formattable?(value)
+
         (Time.zone ? Time.zone : Time).strptime(value, I18n.t("krudmin.datetime.input_format"))
+      end
+
+      def parse_date(value)
+        return value if date_formattable?(value)
+
+        Date.strptime(value, I18n.t("krudmin.date.input_format"))
+      end
+
+      def date_formattable?(value)
+        value.respond_to?(:strftime)
       end
     end
   end
