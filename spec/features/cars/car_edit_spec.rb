@@ -39,7 +39,9 @@ describe "line item index page", type: :feature do
     click_edit_link_for(car)
 
     expect(car_page).to have_selector :select, "car[car_brand_id]", selected: "Toyota"
-    expect(page).to have_selector :select, "car[car_brand_id]", with_options: ["Toyota", "Honda"]
+    # expect(page).to have_selector :select, "car[car_brand_id]", with_options: ["Toyota", "Honda"]
+    # Only Toyota is visible, because this is a remote select and only the selected option is loaded
+    expect(page).to have_selector :select, "car[car_brand_id]", with_options: ["Toyota"]
   end
 
   it "shows the email field type" do

@@ -11,7 +11,7 @@ class Car < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
-  belongs_to :car_brand
+  belongs_to :car_brand, optional: true
 
   enum transmission: {automatic: 0, manual: 1}
 
