@@ -13,7 +13,7 @@
 <% else %>
   <%=
   requested_editable_fields.map.inject({}) do |hash, attribute|
-    hash[attribute] = field_for(attribute, model).render(:json, self, { search_term: search_term, remote_search: true })
+    hash[attribute] = field_for(attribute, model).render(:json, self, { search_term: search_term, search_id: search_id, remote_search: true })
     hash
   end.to_json.html_safe
   %>

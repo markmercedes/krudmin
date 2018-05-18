@@ -59,6 +59,8 @@ module Krudmin
       def associated_options
         if remote? && !remote_search?
           field.associated_options.where(id: field.value)
+        elsif search_id
+          field.associated_options.where(id: search_id)
         elsif remote_search?
           field.associated_options.send(search_by_term_scope, search_term)
         else
@@ -72,6 +74,10 @@ module Krudmin
 
       def search_term
         options[:search_term]
+      end
+
+      def search_id
+        options[:search_id]
       end
 
       def remote?

@@ -279,7 +279,7 @@ document.addEventListener('updateBelongsToLookups', function (e) {
     return field_name;
   });
 
-  $.get(window.location, { format: "json", fields: _field_names }).done(function (_data) {
+  $.get(window.location, { format: "json", fields: _field_names, search_id: _model_id}).done(function (_data) {
     var mod_id = _model_id;
     var data = _data;
     var field_names = _field_names;

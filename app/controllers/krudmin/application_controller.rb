@@ -13,7 +13,7 @@ module Krudmin
 
     before_action :set_view_path
     before_action :set_model, only: [:new, :edit, :create]
-    helper_method :requested_editable_fields, :search_term
+    helper_method :requested_editable_fields, :search_term, :search_id
 
     def index; end
 
@@ -80,6 +80,10 @@ module Krudmin
 
     def search_term
       params[:search_term]
+    end
+
+    def search_id
+      params[:search_id]
     end
   end
 end
