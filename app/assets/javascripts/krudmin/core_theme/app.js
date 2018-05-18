@@ -270,24 +270,25 @@ function clearToasts() {
 }
 
 document.addEventListener('updateBelongsToLookups', function (e) {
-  if (!document.body.dataset.modelId) {
-    return;
-  }
-
   var model_element = e.detail.model_element;
-  var _relations = e.detail.relations;
+  var relations = e.detail.relations;
   var _model_id = e.detail.model_id;
 
-  $.get(window.location, {format: "json"}).done(function (_data) {
-    var relations = _relations;
+  var _field_names = $.map(relations, function (index) {
+    var field_name = model_element + "_id";
+    return field_name;
+  });
+
+  $.get(window.location, { format: "json", fields: _field_names }).done(function (_data) {
     var mod_id = _model_id;
     var data = _data;
+    var field_names = _field_names;
 
-    $(relations).each(function (index) {
+    $(field_names).each(function (index) {
+      var field_name = field_names[index];
       var formSelector = "form[data-model-element='" + relations[index] + "']";
       var targetForm = $(formSelector);
       var model_element_name = targetForm.data('model-element');
-      var field_name = model_element + "_id";
       var field_id = ["#", model_element_name, "_", field_name].join("");
       var targetLookup = targetForm.find(field_id);
       var field_data = data[field_name];
