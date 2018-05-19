@@ -86,6 +86,12 @@ module Krudmin
         view_context.render(partial: partial_name.to_s, locals: default_locals.merge(locals))
       end
 
+      def render_partial_to_string(partial_name, locals = {})
+        view_context.controller.lookup_context.prefixes.prepend partial_path
+
+        view_context.controller.render_to_string(partial: partial_name.to_s, locals: default_locals.merge(locals))
+      end
+
       def partial_path
         "#{Krudmin::Config.theme}/fields/#{partial_scope}/"
       end

@@ -1,0 +1,12 @@
+.belongs-to-one-container{data: { form_fields: form_fields, model_id: field.model.send(attribute)&.id } }
+  .form-fields
+    = form_fields.html_safe if field.model.send(attribute)&.id
+
+  = link_to("#", class: "btn btn-warning add-form-fields hidden") do
+    %i.fa.fa-plus
+    = t('krudmin.actions.add_new')
+
+  = link_to("#", class: "btn btn-danger delete-form-fields hidden") do
+    %i.fa.fa-trash
+    = t('krudmin.actions.delete')
+

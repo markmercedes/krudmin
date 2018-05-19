@@ -65,7 +65,7 @@
         %br
           = render_menu_item_for("#", "Resource Managers")
           = render_menu_item_for("#", "Attributes")
-          = render_menu_item_for("#", "Fields")
+          = render_menu_item_for("docs/fields")
           = render_menu_item_for("#", "Action Buttons")
           = render_menu_item_for("#", "Views")
           = render_menu_item_for("#", "Partials")
@@ -87,3 +87,6 @@
           = render_menu_item_for("docs", "Readme")
           = render_menu_item_for("docs/contributing")
           = render_menu_item_for("docs/code_of_conduct")
+
+:javascript
+  $("table").addClass('table')

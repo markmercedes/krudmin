@@ -5,6 +5,8 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     general: [:active, :description, :created_at, :release_date],
     activation: [:model, :year, :car_brand_id, :transmission],
     passengers: [:passengers],
+    insurance: [:car_insurance],
+    owner: [:car_owner]
   }
   DISPLAYABLE_ATTRIBUTES = [:id, :model, :year, :description, :transmission, :car_brand_id, :passengers, :created_at]
   SEARCHABLE_ATTRIBUTES = [:model, :year, :active, :car_brand_id, :transmission, :created_at]
@@ -22,6 +24,8 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     general: { label: "General Info", class: "col-lg-6 col-md-12" },
     activation: { label: "Activation", class: "col-lg-6 col-md-12" },
     passengers: { label: "Passengers", class: "col-md-12" },
+    insurance: { label: "Insurance", class: "col-md-6" },
+    owner: { label: "Owner", class: "col-md-6" },
   }
 
   ATTRIBUTE_TYPES = {
@@ -35,5 +39,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     created_at: { type: :DateTime, format: :short },
     release_date: { type: :Date, format: :short },
     transmission: { type: :EnumType, associated_options: -> { Car.transmissions } },
+    car_insurance: :HasOne,
+    car_owner: :BelongsToOne
   }
 end
