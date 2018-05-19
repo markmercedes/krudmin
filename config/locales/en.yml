@@ -69,6 +69,7 @@ en:
       label: "Actions"
       save: "Save"
       cancel: "Cancel"
+      delete: "Delete"
       show: "Show"
       search: "Search"
       reset: "Reset"
