@@ -2,6 +2,7 @@ class DocsController < Krudmin::CustomController
   REDCARPET_CONFIG = {
     fenced_code_blocks: true,
     autolink: true,
+    tables: true
   }.freeze
 
   helper_method :active_doc_file
