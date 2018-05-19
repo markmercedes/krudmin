@@ -9,7 +9,10 @@ class Car < ApplicationRecord
   accepts_nested_attributes_for :passengers, reject_if: :all_blank, allow_destroy: true
 
   has_one                         :car_insurance, dependent: :destroy
-  accepts_nested_attributes_for   :car_insurance
+  accepts_nested_attributes_for   :car_insurance, allow_destroy: true
+
+  belongs_to                      :car_owner, optional: true
+  accepts_nested_attributes_for   :car_owner, allow_destroy: true
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
