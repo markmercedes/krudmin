@@ -19,12 +19,5 @@
 
 :javascript
   $("#krudmin-nested-fields-#{field.association_name}").on('cocoon:after-insert', function (e) {
-    var event = new CustomEvent("krudmin:updateControls", {
-      detail: {
-        selector: "#krudmin-nested-fields-#{field.association_name}",
-        event: e
-      }
-    });
-
-    document.dispatchEvent(event);
+    updateKrudminControlsOn("#krudmin-nested-fields-#{field.association_name}", e);
   });

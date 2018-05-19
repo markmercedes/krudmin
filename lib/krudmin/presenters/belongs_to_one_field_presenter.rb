@@ -1,6 +1,6 @@
 module Krudmin
   module Presenters
-    class HasOneFieldPresenter < BaseFieldPresenter
+    class BelongsToOneFieldPresenter < BaseFieldPresenter
       def render_form
         render_partial(partial_form, options: options, form_fields: form_fields)
       end

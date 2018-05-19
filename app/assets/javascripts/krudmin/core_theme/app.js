@@ -23,6 +23,17 @@ $.grayLightest =  '#f8f9fa';
 function initScripts() {
 }
 
+function updateKrudminControlsOn(selector, e) {
+  var event = new CustomEvent("krudmin:updateControls", {
+    detail: {
+      selector: selector,
+      event: e
+    }
+  });
+
+  document.dispatchEvent(event);
+}
+
 function controllerPath() {
   return [$('body').data('controller'), $('body').data('action')].join("-");
 }
