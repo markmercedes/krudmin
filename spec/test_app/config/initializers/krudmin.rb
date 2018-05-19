@@ -7,6 +7,7 @@ Krudmin::Config.with do |config|
       menu.node "Cars", 'car', module_path: :admin, icon: :car, visible_if: -> { CarPolicy.new(nil, nil).index? }
       menu.node "Car Brands", 'car_brand', icon: :car
       menu.link "Customs", :admin_customs_path, module_path: :admin, icon: :gear
+      menu.link "Documentation", :docs_path, icon: :copy
     end
   }
 
