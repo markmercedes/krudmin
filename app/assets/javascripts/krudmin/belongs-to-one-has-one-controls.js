@@ -14,11 +14,14 @@ document.addEventListener('turbolinks:load', function (event) {
 
     var container = $(this).parent('.belongs-to-one-container');
     var formFields = container.data('form-fields');
-    var fieldsContainer = container.find('.form-fields');
-    var content = $.trim(container.find('.form-fields').html());
+    var fieldsContainer = container.find('.form-fields .editable-attributes');
 
-    if (content == "") {
-      fieldsContainer.html(formFields);
+    if ( fieldsContainer.length == 0 ) {
+      container.find('.form-fields').html(formFields);
+    } else {
+      var domElement = new DOMParser().parseFromString(formFields, "text/html");
+      var editableAttributes = $(domElement).find('.editable-attributes').html();
+      fieldsContainer.html(editableAttributes);
     }
 
     fieldsContainer.show();
@@ -26,6 +29,8 @@ document.addEventListener('turbolinks:load', function (event) {
 
     $(this).addClass('hidden');
     $(container).find('.delete-form-fields').removeClass('hidden');
+
+    updateKrudminControlsOn(container, e);
   });
 
   $(document).on('click', '.delete-form-fields', function (e) {
@@ -34,12 +39,10 @@ document.addEventListener('turbolinks:load', function (event) {
     var container = $(this).parent('.belongs-to-one-container');
     var formFields = container.data('form-fields');
 
-    container.find('.form-fields').hide();
+    container.find('.form-fields .editable-attributes').html('');
     container.find('.destroy_model_check').val(true);
 
     $(this).addClass('hidden');
     $(container).find('.add-form-fields').removeClass('hidden');
-
-    updateKrudminControlsOn(container, e);
   });
 });
