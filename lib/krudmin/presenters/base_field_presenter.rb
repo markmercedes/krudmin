@@ -81,15 +81,15 @@ module Krudmin
       end
 
       def render_partial(partial_name, locals = {})
-        view_context.controller.lookup_context.prefixes.prepend partial_path
-
-        view_context.render(partial: partial_name.to_s, locals: default_locals.merge(locals))
+        view_context.render(partial: full_partial_path(partial_name), locals: default_locals.merge(locals))
       end
 
       def render_partial_to_string(partial_name, locals = {})
-        view_context.controller.lookup_context.prefixes.prepend partial_path
+        view_context.controller.render_to_string(partial: full_partial_path(partial_name), locals: default_locals.merge(locals))
+      end
 
-        view_context.controller.render_to_string(partial: partial_name.to_s, locals: default_locals.merge(locals))
+      def full_partial_path(partial_name)
+        "#{partial_path}#{partial_name}"
       end
 
       def partial_path
