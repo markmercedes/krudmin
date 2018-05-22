@@ -7,4 +7,5 @@
         = field_for(column_label, item).render(:list, self)
   - if listable_actions.any?
     %td{width: "20%"}
-      = render partial: "list_item_action_buttons", locals: {item: item}
+      %ul.list-inline.actions-list
+        = list_action_panel(item, listable_actions, self, remote: krudmin_manager.remote_crud)
