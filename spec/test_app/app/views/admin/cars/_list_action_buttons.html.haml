@@ -1,5 +1,5 @@
 - configure_toolbar(:list, self) do |b|
-  - b.button :new
+  - b.button :new, remote: krudmin_manager.remote_crud
   - b.button :search
   - b.link admin_cars_path, class: 'btn btn-danger' do
     %i.fa.fa-car
