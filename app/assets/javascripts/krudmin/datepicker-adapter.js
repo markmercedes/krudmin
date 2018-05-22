@@ -36,6 +36,10 @@ function initializeDateTimePickers(container) {
         this.element.val(inputValue.format(inputFormat));
       }
     );
+
+    $(inputControl).on('apply.daterangepicker', function (ev, picker) {
+      $(this).trigger("change");
+    });
   });
 }
 
