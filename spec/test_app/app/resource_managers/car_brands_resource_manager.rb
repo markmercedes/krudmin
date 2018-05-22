@@ -6,4 +6,5 @@ class CarBrandsResourceManager < Krudmin::ResourceManagers::Base
   RESOURCE_INSTANCE_LABEL_ATTRIBUTE = :description
   RESOURCE_LABEL = "Car Brand"
   RESOURCES_LABEL = "Car Brands"
+  REMOTE_CRUD = true
 end

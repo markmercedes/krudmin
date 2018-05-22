@@ -25,8 +25,9 @@ module Krudmin
       RESOURCES_LABEL = ""
       ATTRIBUTE_TYPES = {}
       PRESENTATION_METADATA = {}
+      REMOTE_CRUD = false
 
-      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_actions, :order_by
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_actions, :order_by, :remote_crud
       constantized_methods :listable_includes, :resource_instance_label_attribute, :presentation_metadata, :displayable_attributes
 
       def field_for(field, model = nil, root: nil)
