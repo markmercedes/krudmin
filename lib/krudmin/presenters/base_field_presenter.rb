@@ -89,7 +89,7 @@ module Krudmin
       end
 
       def full_partial_path(partial_name)
-        "#{partial_path}#{partial_name}"
+        partial_name.is_a?(Symbol) || !partial_name.to_s.start_with?("/") ? "#{partial_path}#{partial_name}" : partial_name[1..-1]
       end
 
       def partial_path
