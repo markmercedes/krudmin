@@ -41,7 +41,7 @@ module Krudmin
 
       def permitted_attributes
         @permitted_attributes ||= editable_attributes.map do |attribute|
-          attribute_for(attribute).type.editable_attribute(attribute)
+          attribute_for(attribute).type.permitted_attribute(attribute)
         end
       end
 

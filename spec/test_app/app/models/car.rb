@@ -5,7 +5,7 @@ class Car < ApplicationRecord
   validates :year, numericality: { only_integer: true }
   validates :year, length: { is: 4 }
 
-  has_many :passengers
+  has_many :passengers, -> { order(:id) }
   accepts_nested_attributes_for :passengers, reject_if: :all_blank, allow_destroy: true
 
   has_one                         :car_insurance, dependent: :destroy
