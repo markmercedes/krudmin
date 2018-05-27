@@ -4,25 +4,37 @@ require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/string"
 require "#{Dir.pwd}/lib/krudmin/fields/number"
 require "#{Dir.pwd}/lib/krudmin/fields/text"
+require "#{Dir.pwd}/lib/krudmin/fields/associated"
+require "#{Dir.pwd}/lib/krudmin/fields/belongs_to"
+require "#{Dir.pwd}/lib/krudmin/fields/has_many_ids"
 require "#{Dir.pwd}/lib/krudmin/fields/inflector"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute_collection"
 
 describe Krudmin::ResourceManagers::AttributeCollection do
-  let(:attribute_types) { [] }
+  let(:attribute_types) do
+    {
+      name: Krudmin::Fields::String,
+      age: {type: :Number},
+      description: "Text",
+      skills: :HasManyIds,
+    }
+  end
   let(:editable_attributes) { [] }
   let(:attributes_metadata) { [] }
   let(:listable_attributes) { [] }
   let(:displayable_attributes) { [] }
   let(:searchable_attributes) { [] }
-  let(:model) { double(primary_key: "pk_id", column_names: ["pk_id", "name", "age", "created_at", "updated_at"], columns_hash: {}, reflections: {}) }
+  let(:model) { double(primary_key: "pk_id", column_names: ["pk_id", "name", "age", "skills", "created_at", "updated_at"], columns_hash: {}, reflections: {}) }
 
   subject{ described_class.new(model, attribute_types, editable_attributes, listable_attributes, searchable_attributes, displayable_attributes, attributes_metadata) }
 
-  let(:default_columns) { [:name, :age] }
+  let(:default_columns) { [:name, :age, :skills] }
 
   describe "attribute_types" do
     context 'default' do
+      let(:attribute_types) { [] }
+
       it "returns an empty hash if no values are provided" do
         expect(subject.attribute_types).to eq({})
       end
@@ -31,17 +43,9 @@ describe Krudmin::ResourceManagers::AttributeCollection do
     context "with custom values" do
       let(:editable_attributes) { {main_info: [], extra_info: []} }
 
-      let(:attribute_types) do
-        {
-          name: Krudmin::Fields::String,
-          age: {type: :Number},
-          description: "Text",
-        }
-      end
-
       it "returns an empty hash if no values are provided" do
         expect(subject.attribute_types.values.map(&:class).uniq).to eq([Krudmin::ResourceManagers::Attribute])
-        expect(subject.attribute_types.values.map(&:type)).to eq([Krudmin::Fields::String, Krudmin::Fields::Number, Krudmin::Fields::Text])
+        expect(subject.attribute_types.values.map(&:type)).to eq([Krudmin::Fields::String, Krudmin::Fields::Number, Krudmin::Fields::Text, Krudmin::Fields::HasManyIds])
       end
     end
   end
@@ -56,7 +60,15 @@ describe Krudmin::ResourceManagers::AttributeCollection do
     context "default" do
       it "returns the model columns if no editable_attributes are provided" do
         expect(subject.editable_attributes).to eq(default_columns)
-        expect(subject.permitted_attributes).to eq(default_columns)
+        expect(subject.permitted_attributes).to eq([:name, :age, {skills: []}])
+      end
+    end
+
+    context "default" do
+      let(:editable_attributes) { [:skills] }
+
+      it "returns the model columns if no editable_attributes are provided" do
+        expect(subject.permitted_attributes).to eq([{skills: []}])
       end
     end
 

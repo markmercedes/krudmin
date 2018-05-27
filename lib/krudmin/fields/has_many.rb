@@ -43,11 +43,11 @@ module Krudmin
         @association_predicate ||= options.fetch(:association_predicate, ->(source) { source.where(foreign_key => primary_key_value) })
       end
 
-      def self.editable_attribute(attribute)
-        new(attribute).editable_attribute
+      def self.permitted_attribute(attribute)
+        new(attribute).permitted_attribute
       end
 
-      def editable_attribute
+      def permitted_attribute
         { "#{attribute}_attributes".to_sym => [:id, *associated_resource_manager_class.editable_attributes, :_destroy] }
       end
 

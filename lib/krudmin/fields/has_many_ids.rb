@@ -1,7 +1,7 @@
 module Krudmin
   module Fields
     class HasManyIds < BelongsTo
-      def editable_attribute
+      def permitted_attribute
         { attribute => [] }
       end
 
