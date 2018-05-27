@@ -27,7 +27,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "ffaker"
   gem "hamlit-rails"
-  gem "pry"
+  gem "pry-byebug"
 end
 
 group :test do
