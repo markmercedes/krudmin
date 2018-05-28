@@ -20,6 +20,10 @@ module Krudmin
         @type_as_hash ||= type.type_as_hash(attribute, options)
       end
 
+      def parse_with_field(value)
+        type.new(attribute, nil, options).parse(value)
+      end
+
       private
 
       def find_field_klass(source)

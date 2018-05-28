@@ -7,6 +7,20 @@ module Krudmin
       DEFAULT_VALUE = "-".freeze
       PRESENTER = Krudmin::Presenters::DateFieldPresenter
 
+      def date_unparsable?(value)
+        value.blank? || value.respond_to?(:strftime)
+      end
+
+      def parse(value)
+        return value if date_unparsable?(value)
+
+        ::Date.strptime(value, input_format)
+      end
+
+      def input_format
+        options.fetch(:input_format, I18n.t(self.class::PRESENTER::INPUT_FORMAT))
+      end
+
       def data
         @data ||= super&.in_time_zone(timezone)
       end
@@ -38,13 +52,9 @@ module Krudmin
       end
 
       def self.search_criteria_for(key, raw_value)
-        value = ::Date.strptime(raw_value, I18n.t("krudmin.date.input_format"))
+        value = ::Date.strptime(raw_value, I18n.t(PRESENTER::INPUT_FORMAT))
 
-        if key.to_s.end_with?("__to")
-          value.end_of_day
-        else
-          value.beginning_of_day
-        end
+        key.to_s.end_with?("__to") ? value.end_of_day : value.beginning_of_day
       end
 
       private

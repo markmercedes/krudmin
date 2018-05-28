@@ -33,6 +33,10 @@ module Krudmin
         @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize rescue nil
       end
 
+      def associated_resource_manager
+        @associated_resource_manager ||= associated_resource_manager_class.new
+      end
+
       def add_path
         options[:add_path]
       end
