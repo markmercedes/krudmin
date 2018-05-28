@@ -71,6 +71,7 @@ GEM
     arel (9.0.0)
     autoprefixer-rails (8.5.0)
       execjs
+    awesome_print (1.8.0)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -322,6 +323,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   better_errors
   binding_of_caller
   bootsnap (>= 1.1.0)

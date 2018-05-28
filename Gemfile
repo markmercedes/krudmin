@@ -24,6 +24,7 @@ group :development do
 end
 
 group :development, :test do
+  gem "awesome_print"
   gem "factory_bot_rails"
   gem "ffaker"
   gem "hamlit-rails"
