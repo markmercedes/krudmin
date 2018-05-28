@@ -12,7 +12,7 @@ document.addEventListener('turbolinks:load', function (event) {
   $(document).on('click', '.add-form-fields', function (e) {
     e.preventDefault();
 
-    var container = $(this).parent('.belongs-to-one-container');
+    var container = $(this).closest('.belongs-to-one-container');
     var formFields = container.data('form-fields');
     var fieldsContainer = container.find('.form-fields .editable-attributes');
 
@@ -36,7 +36,7 @@ document.addEventListener('turbolinks:load', function (event) {
   $(document).on('click', '.delete-form-fields', function (e) {
     e.preventDefault();
 
-    var container = $(this).parent('.belongs-to-one-container');
+    var container = $(this).closest('.belongs-to-one-container');
     var formFields = container.data('form-fields');
 
     container.find('.form-fields .editable-attributes').html('');

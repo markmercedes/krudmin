@@ -2,7 +2,7 @@ module Krudmin
   module Presenters
     class HasOneFieldPresenter < BaseFieldPresenter
       def render_form
-        render_partial(partial_form, options: options, form_fields: form_fields, display_fields_on_load: display_fields_on_load?)
+        render_partial(partial_form, options: options, form_fields: form_fields, display_fields_on_load: display_fields_on_load?, required: required?)
       end
 
       def fields_partial

@@ -2,11 +2,11 @@
   .form-fields
     - if display_fields_on_load
       = form_fields.html_safe
-    - else
-      = link_to("#", class: "btn btn-warning add-form-fields hidden") do
-        %i.fa.fa-plus
-        = t('krudmin.actions.add_new')
+  - unless required
+    = link_to("#", class: "btn btn-warning add-form-fields hidden") do
+      %i.fa.fa-plus
+      = t('krudmin.actions.add_new')
 
-      = link_to("#", class: "btn btn-danger delete-form-fields hidden") do
-        %i.fa.fa-trash
-        = t('krudmin.actions.delete')
+    = link_to("#", class: "btn btn-danger delete-form-fields hidden") do
+      %i.fa.fa-trash
+      = t('krudmin.actions.delete')
