@@ -39,7 +39,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
     created_at: { type: :DateTime, format: :short },
     release_date: { type: :Date, format: :short },
     transmission: { type: :EnumType, associated_options: -> { Car.transmissions } },
-    car_insurance: :HasOne,
+    car_insurance: { type: :HasOne, required: true },
     car_owner: :BelongsToOne
   }
 end
