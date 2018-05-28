@@ -31,7 +31,11 @@ module Krudmin
       constantized_methods :listable_includes, :resource_instance_label_attribute, :presentation_metadata, :displayable_attributes
 
       def field_for(field, model = nil, root: nil)
-        resource_attributes.attribute_for(field, root).new_field(model)
+        field_class_for(field, root).new_field(model)
+      end
+
+      def field_class_for(field, root = nil)
+        resource_attributes.attribute_for(field, root)
       end
 
       def model_label(given_model)

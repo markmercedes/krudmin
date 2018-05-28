@@ -54,6 +54,7 @@ describe "line item index page", type: :feature do
   it "links to the edit page of a given item" do
     click_edit_link_for(car)
     fill_in(:car_model, with: new_car_model)
+    fill_in(:car_car_insurance_attributes_license_number, with: 123)
 
     car_page.click_save_model_button
 
