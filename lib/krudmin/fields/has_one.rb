@@ -7,7 +7,7 @@ module Krudmin
       PRESENTER = Krudmin::Presenters::HasOneFieldPresenter
 
       def parse(value)
-        value.to_h.inject({}) do |hash, (key, value)|
+        value.to_h.reduce({}) do |hash, (key, value)|
           hash[key] = associated_resource_manager.field_class_for(key.to_sym).parse_with_field(value)
 
           hash
