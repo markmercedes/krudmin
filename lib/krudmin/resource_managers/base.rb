@@ -79,7 +79,7 @@ module Krudmin
       end
 
       delegate :attribute_types, :permitted_attributes, :editable_attributes, :listable_attributes, to: :resource_attributes
-      delegate :grouped_attributes, :displayable_attributes, :searchable_attributes, to: :resource_attributes
+      delegate :grouped_attributes, :displayable_attributes, :searchable_attributes, :find_type_for, to: :resource_attributes
 
       def resource_attributes
         @resource_attributes ||= Krudmin::ResourceManagers::AttributeCollection.new(model_class,
