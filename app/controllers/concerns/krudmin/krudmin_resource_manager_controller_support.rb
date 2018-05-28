@@ -38,7 +38,7 @@ module Krudmin
     end
 
     def model_params
-      @model_params ||= Krudmin::ParamsParser.new(permitted_params, model_class).to_h.permit!
+      @model_params ||= Krudmin::ParamsParser.new(permitted_params, krudmin_manager).to_h.permit!
     end
 
     def permitted_params

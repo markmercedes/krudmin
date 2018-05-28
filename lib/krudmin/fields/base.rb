@@ -24,6 +24,10 @@ module Krudmin
         @presenter_contexts = {}
       end
 
+      def parse(value)
+        value
+      end
+
       def data
         @data ||= model&.send(attribute)
       end

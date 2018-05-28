@@ -1,63 +1,38 @@
 module Krudmin
   class ParamsParser
-    attr_reader :params, :model_klass
-    def initialize(params, model_klass)
+    attr_reader :params, :resource_manager
+    def initialize(params, resource_manager)
       @params = params
-      @model_klass = model_klass
+      @resource_manager = resource_manager
     end
 
     def to_h
       params.to_h.reduce(params.class.new) do |hash, item|
-        field = item.first
+        field = item.first.to_sym
 
-        hash[field] = FieldValueParser.value_for(model_klass.columns_hash[field], item.last)
+        hash[field] = find_resource_field_from(field).parse_with_field(params[field])
 
         hash
       end
     end
 
-    class FieldValueParser
-      attr_reader :metadata, :raw_value
-      def initialize(metadata, raw_value)
-        @metadata = metadata
-        @raw_value = raw_value
+    private
+
+    # TODO: Refactor this method, looks dirty, encapsulate logic into new class
+    def resolve_association(field)
+      associated_type = resource_manager.find_type_for(field)
+
+      if associated_type.is_a?(Symbol)
+        associated_type
+      elsif associated_type.is_a?(Array) && associated_type.any?
+        associated_type.first.to_sym
+      else
+        field
       end
+    end
 
-      def value
-        if metadata && raw_value.present?
-          case metadata.type
-          when :datetime
-            parse_time(raw_value)
-          when :date
-            parse_date(raw_value)
-          else raw_value
-          end
-        else
-          raw_value
-        end
-      end
-
-      def self.value_for(metadata, raw_value)
-        new(metadata, raw_value).value
-      end
-
-      private
-
-      def parse_time(value)
-        return value if date_formattable?(value)
-
-        (Time.zone ? Time.zone : Time).strptime(value, I18n.t("krudmin.datetime.input_format"))
-      end
-
-      def parse_date(value)
-        return value if date_formattable?(value)
-
-        Date.strptime(value, I18n.t("krudmin.date.input_format"))
-      end
-
-      def date_formattable?(value)
-        value.respond_to?(:strftime)
-      end
+    def find_resource_field_from(field)
+      resource_manager.attribute_types[field] || resource_manager.field_class_for(resolve_association(field))
     end
   end
 end

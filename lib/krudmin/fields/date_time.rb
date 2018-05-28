@@ -5,6 +5,12 @@ module Krudmin
     class DateTime < Date
       PRESENTER = Krudmin::Presenters::DateTimeFieldPresenter
 
+      def parse(value)
+        return value if date_unparsable?(value)
+
+        (Time.zone ? Time.zone : Time).strptime(value, input_format)
+      end
+
       def value
         if data
           I18n.localize(
