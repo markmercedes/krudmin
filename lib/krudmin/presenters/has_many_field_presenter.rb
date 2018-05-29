@@ -10,7 +10,7 @@ module Krudmin
       end
 
       def form_fields_partial
-        "#{partial_path}/#{child_partial_form}"
+        full_partial_path(child_partial_form)
       end
 
       def render_show
