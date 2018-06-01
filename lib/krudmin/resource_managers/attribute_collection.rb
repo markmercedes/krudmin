@@ -52,13 +52,15 @@ module Krudmin
           attribute_types[root].type_as_hash[:__attributes][field]
         else
           attribute_types[field]
-        end || Attribute.from_inferred_type(field, find_type_for(field))
+        end || Attribute.from_inferred_type(field, find_type_for(field, root))
       end
 
-      def find_type_for(field)
+      def find_type_for(field, root = nil)
         field_name = field.to_s
 
-        model.columns_hash[field_name]&.type || AssociatedTypeResolver.(field_name, model)
+        source_model = root ? model.reflections[root.to_s]&.klass || model : model
+
+        source_model.columns_hash[field_name]&.type
       end
 
       def attribute_types
