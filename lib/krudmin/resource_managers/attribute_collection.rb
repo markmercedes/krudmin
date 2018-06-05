@@ -60,7 +60,7 @@ module Krudmin
 
         source_model = root ? model.reflections[root.to_s]&.klass || model : model
 
-        source_model.columns_hash[field_name]&.type
+        source_model.columns_hash[field_name]&.type || AssociatedTypeResolver.(field_name, source_model)
       end
 
       def attribute_types
