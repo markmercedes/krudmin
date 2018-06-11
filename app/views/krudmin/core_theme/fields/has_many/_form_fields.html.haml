@@ -1,6 +1,6 @@
 %tr.nested-fields
   - @field.associated_resource_manager_class.editable_attributes.each do |attribute|
-    %td
+    %td{ class: @field.associated_resource_manager.field_for(attribute).html_class }
       = field_for(attribute, f.object, root: @field.association_name).render(:form, self, {form: f, input: {label: false}})
   %td
     = link_to_remove_association f, class: 'btn btn-danger' do
