@@ -1,4 +1,4 @@
-.row.search-panel.hidden
+.row.search-panel{ class: display_search_form_on_load? ? "" : :hidden }
   .col-lg-12.no-padding
     .card
       .card-body
@@ -14,7 +14,7 @@
           .row
             .col-sm-12
               %br
-              = button_tag(type: :submit, class: "btn btn-primary search-panel-toggler") do
+              = button_tag(type: :submit, class: "btn btn-primary") do
                 %i.fa.fa-search
                 = t('krudmin.actions.search')
               &nbsp;
@@ -22,6 +22,6 @@
                 %i.fa.fa-close
                 = t('krudmin.actions.cancel')
               &nbsp;
-              = link_to(resource_root(reset_search: 1), class: "btn btn-light search-panel-toggler") do
+              = link_to(resource_root(reset_search: 1), class: "btn btn-light") do
                 %i.fa.fa-close
                 = t('krudmin.actions.reset')

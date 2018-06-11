@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    krudmin (0.1.7.9.5.19)
+    krudmin (0.1.7.9.5.20)
       bootstrap (~> 4.0.0)
       cocoon
       font-awesome-rails
@@ -69,7 +69,7 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
-    autoprefixer-rails (8.6.0)
+    autoprefixer-rails (8.6.2)
       execjs
     awesome_print (1.8.0)
     better_errors (2.1.1)
