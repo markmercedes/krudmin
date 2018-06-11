@@ -20,10 +20,6 @@
       .card-body
         %table.table.table-hover
           %thead
-            - if search_form.filters.any?
-              %tr.search-filters-description
-                %td{colspan: listable_attributes.count + 1}
-                  = search_form.filters.join(", ")
             %tr
               - listable_attributes.each_with_index do |column_label, column_index|
                 %th{class: "#{krudmin_manager.field_for(column_label).html_class}"}

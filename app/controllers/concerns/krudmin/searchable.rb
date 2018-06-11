@@ -3,7 +3,7 @@ module Krudmin
     extend ActiveSupport::Concern
 
     included do
-      helper_method :search_form
+      helper_method :search_form, :display_search_form_on_load?
     end
 
     def search_form_params
@@ -27,6 +27,10 @@ module Krudmin
 
     def search_form
       @search_form ||= Krudmin::SearchForm.new(searchable_attributes, model_class, search_by: search_form_params, order_by: sort_by_criteria)
+    end
+
+    def display_search_form_on_load?
+      search_form.filters.any?
     end
 
     def sort_by_criteria
