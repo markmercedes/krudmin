@@ -37,6 +37,7 @@ module Krudmin
         translation_for(:doesnt_end_with) => :not_end,
         translation_for(:yes) => :true,
         translation_for(:no) => :false,
+        translation_for(:null) => :null,
       }.freeze
 
       def search_predicates_for(field)
