@@ -30,6 +30,7 @@ en:
       doesnt_end_with: "Doesn't end with"
       "yes": "yes"
       "no": "no"
+      "null": "null"
       join_phrases:
         contains: "Contains"
         equals: "Equals"
@@ -47,6 +48,7 @@ en:
         doesnt_end_with: "Doesn't end with"
         "yes": "Is"
         "no": "Is not"
+        "null": "Is"
     messages:
       modified: "%{label} was successfully modified"
       created: "%{label} was successfully created"
