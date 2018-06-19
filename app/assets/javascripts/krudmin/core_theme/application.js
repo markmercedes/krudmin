@@ -16,7 +16,6 @@
 //= require bootstrap
 //= require turbolinks
 //= require cocoon
-//= require trix
 //= require moment
 //= require krudmin/vendor/daterangepicker
 //= require krudmin/vendor/js.cookie
@@ -28,7 +27,10 @@
 //= require krudmin/sweet-confirm
 //= require krudmin/select2-adapter
 //= require krudmin/datepicker-adapter
+//= require krudmin/summernote-adapter
 //= require krudmin/turbo-forms
 //= require krudmin/core_theme/constants
 //= require krudmin/core_theme/app
 //= require krudmin/belongs-to-one-has-one-controls
+
+//= require summernote/summernote-bs4.min

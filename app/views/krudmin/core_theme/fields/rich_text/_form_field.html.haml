@@ -1,9 +1,1 @@
-- if form.options[:wrapper] == :horizontal_form
-  .form-group.row
-    = form.label attribute, class: "col-md-3 control-label"
-    .col-md-9
-      = form.trix_editor attribute, input_options
-- else
-  .form-group
-    = form.label attribute, class: "control-label"
-    = form.trix_editor attribute, input_options
+= form.input attribute, { as: :summernote }.merge(input_options)
