@@ -9,7 +9,7 @@ require "turbolinks"
 require "pundit"
 require "ransack"
 require "cocoon"
-require "trix"
+require "summernote-rails"
 require_relative "../config"
 
 module Krudmin

@@ -16,7 +16,6 @@ gemspec
 gem 'bootsnap', '>= 1.1.0', require: false
 gem "pg"
 gem "redcarpet"
-gem "trix", github: "markmercedes/trix"
 
 group :development do
   gem "better_errors"
@@ -39,7 +38,6 @@ group :test do
   gem "pundit"
   gem "rails-controller-testing"
   gem "rspec-rails"
-  gem "rspec_junit_formatter"
   gem "simplecov"
   gem "timecop"
 end

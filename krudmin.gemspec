@@ -27,6 +27,6 @@ Gem::Specification.new do |s|
   s.add_dependency "ransack"
   s.add_dependency "sass-rails"
   s.add_dependency "simple_form"
-  # s.add_dependency "trix"
+  s.add_dependency "summernote-rails"
   s.add_dependency "turbolinks"
 end
