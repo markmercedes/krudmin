@@ -9,7 +9,6 @@ require "turbolinks"
 require "pundit"
 require "ransack"
 require "cocoon"
-require "trix"
 require_relative "../config"
 
 module Krudmin
