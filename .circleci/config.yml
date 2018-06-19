@@ -54,8 +54,6 @@ jobs:
             mkdir /tmp/test-results
 
             bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
                             --format progress
 
             ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.app.json coverage/.resultset.json
