@@ -31,6 +31,10 @@ describe Krudmin::Fields::Associated do
       end
     end
 
+    it "raises an error if the expected associated resource manager is not found" do
+      expect{ subject.associated_resource_manager_class }.to raise_error(described_class::UndefinedResourceManagerForAssociation, "Undefined resource manager `RangersResourceManager` for attribute `ranger`")
+    end
+
     describe "foreign_key" do
       module Ranger; end
 

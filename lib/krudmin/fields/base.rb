@@ -48,10 +48,6 @@ module Krudmin
         self.class.field_type
       end
 
-      def editable_attribute
-        attribute
-      end
-
       def permitted_attribute
         attribute
       end
@@ -66,14 +62,6 @@ module Krudmin
 
       def self.search_criteria_for(_, value)
         value
-      end
-
-      def self.editable_attribute(attribute)
-        new(attribute).editable_attribute
-      end
-
-      def self.permitted_attribute(attribute)
-        new(attribute).permitted_attribute
       end
 
       def self.type_as_hash(attribute, options)

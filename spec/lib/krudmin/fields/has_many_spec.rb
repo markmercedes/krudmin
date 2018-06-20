@@ -52,15 +52,6 @@ describe Krudmin::Fields::HasMany do
     end
 
     describe "associated resource manager" do
-      module RangersResourceManager; end
-
-      it "infers the class of the associated resource manager" do
-        expect(subject.associated_resource_manager_class_name).to eq("RangersResourceManager")
-        expect(subject.associated_resource_manager_class).to eq(RangersResourceManager)
-      end
-    end
-
-    describe "associated resource manager" do
       let(:resource_double) { double }
 
       module HasManyResourceDouble

@@ -24,6 +24,10 @@ module Krudmin
         type.new(attribute, nil, options).parse(value)
       end
 
+      def permitted_attribute
+        type.new(attribute, nil, options).permitted_attribute
+      end
+
       private
 
       def find_field_klass(source)
