@@ -54,7 +54,7 @@ module Krudmin
       def self.type_as_hash(attribute, options)
         {
           attribute => options,
-          __attributes: Krudmin::ResourceManagers::Attribute.from_list(new(attribute).associated_resource_manager_class::ATTRIBUTE_TYPES),
+          __attributes: Krudmin::ResourceManagers::Attribute.from_list(new(attribute, nil, options).associated_resource_manager_class::ATTRIBUTE_TYPES),
         }
       end
     end
