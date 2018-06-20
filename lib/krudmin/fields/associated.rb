@@ -32,8 +32,16 @@ module Krudmin
       end
 
       def associated_resource_manager_class
-        @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize rescue nil
+        @associated_resource_manager_class ||= associated_resource_manager_class_name.constantize rescue raise_error_for_undefined_manager
       end
+
+      def raise_error_for_undefined_manager
+        msg = "Undefined resource manager `#{associated_resource_manager_class_name}` for attribute `#{association_name}`"
+
+        raise UndefinedResourceManagerForAssociation.new(msg)
+      end
+
+      class UndefinedResourceManagerForAssociation < StandardError; end
 
       def associated_resource_manager
         @associated_resource_manager ||= associated_resource_manager_class.new

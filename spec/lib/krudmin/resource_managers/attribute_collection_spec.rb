@@ -6,6 +6,7 @@ require "#{Dir.pwd}/lib/krudmin/fields/number"
 require "#{Dir.pwd}/lib/krudmin/fields/text"
 require "#{Dir.pwd}/lib/krudmin/fields/associated"
 require "#{Dir.pwd}/lib/krudmin/fields/belongs_to"
+require "#{Dir.pwd}/lib/krudmin/fields/has_many"
 require "#{Dir.pwd}/lib/krudmin/fields/has_many_ids"
 require "#{Dir.pwd}/lib/krudmin/fields/inflector"
 require "#{Dir.pwd}/lib/krudmin/resource_managers/attribute"
@@ -15,9 +16,10 @@ describe Krudmin::ResourceManagers::AttributeCollection do
   let(:attribute_types) do
     {
       name: Krudmin::Fields::String,
-      age: {type: :Number},
+      age: { type: :Number },
       description: "Text",
       skills: :HasManyIds,
+      cars: { type: :HasMany, resource_manager: :MyManager },
     }
   end
   let(:editable_attributes) { [] }
@@ -45,7 +47,7 @@ describe Krudmin::ResourceManagers::AttributeCollection do
 
       it "returns an empty hash if no values are provided" do
         expect(subject.attribute_types.values.map(&:class).uniq).to eq([Krudmin::ResourceManagers::Attribute])
-        expect(subject.attribute_types.values.map(&:type)).to eq([Krudmin::Fields::String, Krudmin::Fields::Number, Krudmin::Fields::Text, Krudmin::Fields::HasManyIds])
+        expect(subject.attribute_types.values.map(&:type)).to eq([Krudmin::Fields::String, Krudmin::Fields::Number, Krudmin::Fields::Text, Krudmin::Fields::HasManyIds, Krudmin::Fields::HasMany])
       end
     end
   end
@@ -61,6 +63,24 @@ describe Krudmin::ResourceManagers::AttributeCollection do
       it "returns the model columns if no editable_attributes are provided" do
         expect(subject.editable_attributes).to eq(default_columns)
         expect(subject.permitted_attributes).to eq([:name, :age, {skills: []}])
+      end
+    end
+
+    context "with custom resource_manager" do
+      let(:default_columns) { [:cars] }
+      let(:editable_attributes) { [:cars] }
+
+      class MyManager
+        class << self
+          def editable_attributes
+            [:name, :something_else]
+          end
+        end
+      end
+
+      it "uses the provided resource manager for a given attribute and passes the needed options" do
+        expect(subject.editable_attributes).to eq(default_columns)
+        expect(subject.permitted_attributes).to eq([{ cars_attributes: [:id, :name, :something_else, :_destroy] }])
       end
     end
 
