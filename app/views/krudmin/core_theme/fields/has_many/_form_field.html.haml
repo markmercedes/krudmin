@@ -9,7 +9,7 @@
             = field.associated_resource_manager_class.model_class.human_attribute_name(attribute)
       %th
   %tbody{id: "krudmin-nested-fields-#{field.association_name}"}
-    = form.simple_fields_for field.association_name do |builder|
+    = form.simple_fields_for field.attribute_for_nested_form do |builder|
       = render_partial.call(field.child_partial_form, f: builder, field: field)
   %tfoot
     %tr

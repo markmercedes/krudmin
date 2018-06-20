@@ -1,6 +1,8 @@
 module Krudmin
   module Fields
     class Associated < Base
+      class UndefinedAcceptsNestedAtributesForAssociation < StandardError; end
+
       def associated_class
         associated_class_name.constantize
       end
@@ -43,6 +45,18 @@ module Krudmin
 
       def edit_path
         options[:edit_path]
+      end
+
+      def attribute_for_nested_form
+        validate_nested_attributes_for_association!
+
+        association_name
+      end
+
+      def validate_nested_attributes_for_association!
+        msg = "`accepts_nested_attributes_for :#{association_name}` needs to be defined in #{model.class.name}"
+
+        raise UndefinedAcceptsNestedAtributesForAssociation.new(msg) unless model.respond_to?("#{association_name}_attributes=")
       end
 
       private

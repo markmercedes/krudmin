@@ -3,10 +3,8 @@ require "#{Dir.pwd}/lib/krudmin/fields/base"
 require "#{Dir.pwd}/lib/krudmin/fields/associated"
 
 describe Krudmin::Fields::Associated do
-  let(:data) { 1 }
+  let(:data) { OpenStruct.new }
   subject { described_class.new(:ranger_id, data) }
-
-
 
   context "inferred relations" do
     describe "association_name" do
@@ -38,6 +36,22 @@ describe Krudmin::Fields::Associated do
 
       it "infers the class of the association" do
         expect(subject.associated_class).to eq(Ranger)
+      end
+    end
+
+    describe "attribute_for_nested_form" do
+      context "when the association is ready for nested attributes" do
+        let(:data) { OpenStruct.new(ranger_attributes: nil) }
+
+        it "returns attribute for the given association" do
+          expect(subject.attribute_for_nested_form).to eq(:ranger)
+        end
+      end
+
+      context "when the association is not ready for nested attributes" do
+        it "raises an error indicating that accepts_nested_attributes_for needs to be defined for the given assocation" do
+          expect{ subject.attribute_for_nested_form }.to raise_error(described_class::UndefinedAcceptsNestedAtributesForAssociation, "`accepts_nested_attributes_for :ranger` needs to be defined in OpenStruct")
+        end
       end
     end
   end
