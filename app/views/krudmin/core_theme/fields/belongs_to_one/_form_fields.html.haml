@@ -1,6 +1,6 @@
 - field.model.send(attribute) or field.model.send("build_#{attribute}")
 
-- form.simple_fields_for field.attribute do |f|
+- form.simple_fields_for field.attribute_for_nested_form do |f|
   = f.hidden_field :id if field.model.send(attribute)&.id
   = f.hidden_field :_destroy, class: "destroy_model_check"
 
