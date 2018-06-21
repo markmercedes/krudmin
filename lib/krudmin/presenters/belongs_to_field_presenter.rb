@@ -89,7 +89,12 @@ module Krudmin
       end
 
       def standarized_associated_options
-        associated_options.as_json(only: [field.primary_key, field.collection_label_field])
+        associated_options.map do |item|
+          {
+            field.primary_key => item.send(field.primary_key),
+            field.collection_label_field => item.send(collection_label_field)
+          }
+        end.as_json
       end
     end
   end
