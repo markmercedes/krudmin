@@ -2,9 +2,15 @@ module Krudmin
   module Presenters
     class BelongsToFieldPresenter < BaseFieldPresenter
       delegate :collection_label_field, :association_name, :association_path, :link_to_path, :humanized_value, :group_method, :group_label_method, to: :field
-      delegate :input_type, :associated_resource_manager_class, :edit_path, :add_path, to: :field
+      delegate :input_type, :edit_path, :add_path, to: :field
 
       alias linkable? association_path
+
+      def associated_resource_manager_class
+        field.associated_resource_manager_class
+      rescue Krudmin::Fields::Associated::UndefinedResourceManagerForAssociation
+        nil
+      end
 
       def associated_model
         associated_resource_manager_class::MODEL_CLASSNAME.constantize.new if associated_resource_manager_class
