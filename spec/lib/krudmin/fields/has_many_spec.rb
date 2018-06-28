@@ -5,7 +5,8 @@ require "#{Dir.pwd}/lib/krudmin/fields/associated"
 require "#{Dir.pwd}/lib/krudmin/fields/has_many"
 
 describe Krudmin::Fields::HasMany do
-  let(:model) { double(id: 1, ranger: 1, class: double(table_name: "rangers")) }
+  let(:reflections) { { "rangers" => double(options: {}) } }
+  let(:model) { double(id: 1, ranger: 1, class: double(table_name: "rangers", reflections: reflections)) }
   subject { described_class.new(:rangers, model) }
 
   module Ranger
@@ -53,6 +54,7 @@ describe Krudmin::Fields::HasMany do
 
     describe "associated resource manager" do
       let(:resource_double) { double }
+      let(:items) { double("items") }
 
       module HasManyResourceDouble
         def self.new
@@ -62,11 +64,12 @@ describe Krudmin::Fields::HasMany do
 
       subject {
         described_class.new(:rangers, model,
-          association_predicate:->(*){Ranger.rangers},
+          association_predicate: ->(*){ items },
           resource_manager: :HasManyResourceDouble)
       }
 
       it "infers the class of the associated resource manager" do
+        allow(items).to receive(:where).with(hash_including(subject.foreign_key => model.id)).and_return(Ranger.rangers)
         expect(subject.associated_resource_manager_class).to eq(HasManyResourceDouble)
         expect(subject.associated_collection).to eq(Ranger.rangers)
       end
