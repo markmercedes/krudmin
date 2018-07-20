@@ -13,7 +13,7 @@ class CarsResourceManager < Krudmin::ResourceManagers::Base
   LISTABLE_ACTIONS = [:show, :edit, :active, :destroy]
   LISTABLE_ATTRIBUTES = [:model, :id, :car_brand_description, :year, :active, :description, :created_at]
   LISTABLE_INCLUDES = [:car_brand]
-  PAGINATOR_POSITION = :top_and_bottom
+  PAGINATOR_POSITION = :bottom
 
   ORDER_BY = [:year]
 
