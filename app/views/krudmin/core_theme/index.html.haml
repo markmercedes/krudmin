@@ -16,7 +16,8 @@
         %h4.pull-left
           = t('krudmin.actions.manage_resources', label: resources_label)
         .pull-right
-          = paginate items.result
+          - if krudmin_manager.paginator_on_top?
+            = paginate items.result
       .card-body
         %table.table.table-hover
           %thead
@@ -28,3 +29,6 @@
                 %th{width: "20%"}= t('krudmin.actions.label')
           %tbody
             = render partial: "list_item", collection: items.result, as: :item
+        .pull-right
+          - if krudmin_manager.paginator_on_bottom?
+            = paginate items.result

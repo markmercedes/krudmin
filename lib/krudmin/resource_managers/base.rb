@@ -26,8 +26,9 @@ module Krudmin
       ATTRIBUTE_TYPES = {}
       PRESENTATION_METADATA = {}
       REMOTE_CRUD = false
+      PAGINATOR_POSITION = :top
 
-      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_actions, :order_by, :remote_crud
+      constantized_methods :searchable_attributes, :resource_label, :resources_label, :model_classname, :listable_actions, :order_by, :remote_crud, :paginator_position
       constantized_methods :listable_includes, :resource_instance_label_attribute, :presentation_metadata, :displayable_attributes
 
       def field_for(field, model = nil, root: nil)
@@ -70,6 +71,14 @@ module Krudmin
         self::MODEL_CLASSNAME.constantize
       rescue NoMethodError
         fail ModelNotFound.new("undefined model for Resource Manager `#{name}`")
+      end
+
+      def paginator_on_top?
+        paginator_position == :top || paginator_position == :top_and_bottom
+      end
+
+      def paginator_on_bottom?
+        paginator_position == :bottom || paginator_position == :top_and_bottom
       end
 
       private
