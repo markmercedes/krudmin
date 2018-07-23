@@ -1,9 +1,12 @@
-var kJs = function () {
+var kJs = (function() {
   function inValidAction(_controller, _action) {
     var controller = $.isArray(_controller) ? _controller : [_controller];
     var actions = $.isArray(_action) ? _action : [_action];
 
-    return controller.includes(document.body.dataset.controller) && actions.includes(document.body.dataset.action);
+    return (
+      controller.includes(document.body.dataset.controller) &&
+      actions.includes(document.body.dataset.action)
+    );
   }
 
   function inValidContext(controller, context) {
@@ -21,6 +24,10 @@ var kJs = function () {
       case "show":
         actions = ["show"];
         break;
+
+      default:
+        actions = context;
+        break;
     }
 
     return inValidAction(controller, actions);
@@ -31,7 +38,7 @@ var kJs = function () {
   }
 
   function loadContextualJS(controller, context, loads, unloads) {
-    var func = function () {
+    var func = function() {
       if (inValidContext(controller, context)) {
         loads();
       } else if (unloads) {
@@ -39,7 +46,7 @@ var kJs = function () {
       }
     };
 
-    var intervalReference = setInterval(function () {
+    var intervalReference = setInterval(function() {
       if (bodyLoaded()) {
         clearInterval(intervalReference);
 
@@ -54,6 +61,6 @@ var kJs = function () {
     bodyLoaded: bodyLoaded,
     loadContextualJS: loadContextualJS,
     inValidAction: inValidAction,
-    inValidContext: inValidContext,
+    inValidContext: inValidContext
   };
-}();
+})();
