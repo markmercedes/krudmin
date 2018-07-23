@@ -20,6 +20,7 @@ Krudmin::config do |cfg|
   cfg.layout = "krudmin/core_theme_top_navbar"
   cfg.form_wrapper = :horizontal_form
   cfg.modal_form_wrapper = :vertical_form
+  cfg.paginator_position = :top_bottom
 end
 
 config = Krudmin::config

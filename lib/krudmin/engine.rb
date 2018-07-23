@@ -1,7 +1,7 @@
 require "jquery-rails"
 require "kaminari"
 require "momentjs-rails"
-require "sass-rails"
+require "sassc-rails"
 require "font-awesome-rails"
 require "bootstrap"
 require "simple_form"

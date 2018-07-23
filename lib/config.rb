@@ -12,7 +12,7 @@ module Krudmin
       def after_config_received
       end
 
-      attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme, :layout
+      attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme, :layout, :paginator_position
       attr_accessor :form_wrapper, :modal_form_wrapper
 
       attr_accessor :edit_profile_path, :logout_path
@@ -24,6 +24,8 @@ module Krudmin
       DEFAULT_ROOT_PATH = "#"
 
       DEFAULT_THEME = "krudmin/core_theme"
+
+      DEFAULT_PAGINATOR_POSITION = :top
 
       def krudmin_root_path
         @krudmin_root_path || DEFAULT_ROOT_PATH
@@ -52,6 +54,10 @@ module Krudmin
 
       def layout
         @layout || theme
+      end
+
+      def paginator_position
+        @paginator_position || DEFAULT_PAGINATOR_POSITION
       end
     end
   end
