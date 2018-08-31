@@ -37,10 +37,22 @@ var kJs = (function() {
     return $("body").data("controller") && $("body").data("action");
   }
 
+  function initializeBody() {
+    $("body").data("initialized", true);
+  }
+
+  function isBodyInitialized() {
+    return !!$("body").data("initialized");
+  }
+
   function loadContextualJS(controller, context, loads, unloads) {
     var func = function() {
+      if (!!isBodyInitialized())
+        return;
+
       if (inValidContext(controller, context)) {
         loads();
+        initializeBody();
       } else if (unloads) {
         unloads();
       }
@@ -53,6 +65,7 @@ var kJs = (function() {
         document.addEventListener("turbolinks:load", func);
 
         loads();
+        initializeBody();
       }
     }, 1);
   }
