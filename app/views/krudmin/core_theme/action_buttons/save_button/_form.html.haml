@@ -1,3 +1,8 @@
-= button_tag(type: :submit, class: "btn btn-primary", form: form_id) do
+- default_content = capture do
   %i.fa.fa-save
   = t('krudmin.actions.save')
+
+- button_content = yield().presence || default_content
+
+= button_tag(type: :submit, class: "btn btn-primary", form: form_id) do
+  = button_content
