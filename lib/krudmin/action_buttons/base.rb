@@ -35,10 +35,11 @@ module Krudmin
       end
 
       def tooltip_options
-        {"data-toggle"=>"tooltip", "title"=> tooltip_title, "data-placement"=> tooltip_position }
+        { "data-toggle" => "tooltip", "title" => tooltip_title, "data-placement" => tooltip_position }
       end
 
       def tooltip_title; end
+
       def tooltip_position; end
 
       def render_list
