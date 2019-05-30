@@ -1,8 +1,8 @@
 - if model.active? && deactivate_access?(model)
-  = link_to(deactivate_path(model, context: :form), method: :post, remote: true, data: {confirm_class: :warning, confirm_icon: :warning, sweet_confirm: confirm_deactivation_message(model)}, class: "btn btn-warning btn-disable btn-deactivate-item") do
+  = link_to(deactivate_path(model, context: :form), { method: :post, remote: true, data: {confirm_class: :warning, confirm_icon: :warning, sweet_confirm: confirm_deactivation_message(model)}, class: "btn btn-warning btn-disable btn-deactivate-item" }.merge(html_options)) do
     %i.fa.fa-times
     = t('krudmin.actions.deactivate')
 - elsif !model.active? && activate_access?(model)
-  = link_to(activate_path(model, context: :form), method: :post, remote: true, data: {confirm_class: :success, confirm_icon: :info, sweet_confirm: confirm_activation_message(model) }, class: "btn btn-success btn-enable btn-activate-item") do
+  = link_to(activate_path(model, context: :form), { method: :post, remote: true, data: {confirm_class: :success, confirm_icon: :info, sweet_confirm: confirm_activation_message(model) }, class: "btn btn-success btn-enable btn-activate-item" }.merge(html_options)) do
     %i.fa.fa-check
     = t('krudmin.actions.activate')

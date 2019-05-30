@@ -65,6 +65,16 @@ en:
       confirm_deactivation: "Are you sure about the deactivation of %{label}?"
       edit_record: "Edit %{label}"
       new_record: "New %{label}"
+    tooltip:
+      destroy: "Eliminate %{label}"
+      activate: "Activate %{label}"
+      deactivate: "Deactivate %{label}"
+      save: "Save changes"
+      add_new: "Add %{label}"
+      edit: "Edit %{label}"
+      show: "View %{label}"
+      cancel: "Cancel"
+      search: "Search"
     actions:
       add_new: "Add"
       manage: "Manage"

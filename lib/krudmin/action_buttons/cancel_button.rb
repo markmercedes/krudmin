@@ -10,6 +10,10 @@ module Krudmin
       def render_base
         render_partial(:base)
       end
+
+      def tooltip_title
+        I18n.t("krudmin.tooltip.cancel")
+      end
     end
   end
 end

@@ -4,5 +4,6 @@
 
 - button_content = yield().presence || default_content
 
-= button_tag(type: :submit, class: "btn btn-primary", form: form_id) do
+= button_tag({ type: :submit, class: "btn btn-primary", form: form_id }.merge(html_options)) do
   = button_content
+

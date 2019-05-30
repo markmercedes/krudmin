@@ -9,6 +9,10 @@ module Krudmin
         render_partial(:form, form_id: form_id)
       end
 
+      def tooltip_title
+        I18n.t("krudmin.tooltip.save")
+      end
+
       private
 
       def id_from_form
