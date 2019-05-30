@@ -1,8 +1,6 @@
 module Krudmin
   module ActionButtons
     class Base
-      DEFAULT_TOOLTIP_POSITION = "top"
-
       attr_reader :page, :view_context, :action_path, :html_options, :button_body
       def initialize(page, view_context, action_path = "#", html_options = {}, &block)
         @page = page
