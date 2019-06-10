@@ -11,6 +11,10 @@ module Krudmin
       def default_locals
         { model: model }.merge(super)
       end
+
+      def model_label
+        view_context.krudmin_manager.model_label(model)
+      end
     end
   end
 end

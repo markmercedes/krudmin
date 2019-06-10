@@ -31,8 +31,16 @@ module Krudmin
       end
 
       def default_locals
-        { html_options: html_options, action_path: action_path }
+        { html_options: tooltip_options.merge(html_options), action_path: action_path }
       end
+
+      def tooltip_options
+        { "data-toggle" => "tooltip", "title" => tooltip_title, "data-placement" => tooltip_position }
+      end
+
+      def tooltip_title; end
+
+      def tooltip_position; end
 
       def render_list
         render_partial(:list)

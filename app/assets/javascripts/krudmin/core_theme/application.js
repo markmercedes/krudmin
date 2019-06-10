@@ -25,6 +25,7 @@
 //= require krudmin/vendor/sweetalert
 //= require krudmin/kjs
 //= require krudmin/sweet-confirm
+//= require krudmin/tooltip
 //= require krudmin/select2-adapter
 //= require krudmin/datepicker-adapter
 //= require krudmin/summernote-adapter
