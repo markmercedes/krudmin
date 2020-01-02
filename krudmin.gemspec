@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "bootstrap", ">= 4.1.3", "< 4.4.0"
+  s.add_dependency "bootstrap", ">= 4.1.3", "< 4.5.0"
   s.add_dependency "cocoon"
   s.add_dependency "font-awesome-rails"
   s.add_dependency "hamlit"
