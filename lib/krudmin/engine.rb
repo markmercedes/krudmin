@@ -1,3 +1,4 @@
+require "devise"
 require "jquery-rails"
 require "kaminari"
 require "momentjs-rails"

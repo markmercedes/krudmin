@@ -1,0 +1,23 @@
+.col-md-8
+  .card-group.mb-0
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .card.p-4
+        .card-body
+          %h1 Login
+          .input-group.mb-3
+            %span.input-group-addon
+              %i.fa.fa-user
+            = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Username or Email'
+          .input-group.mb-4
+            %span.input-group-addon
+              %i.fa.fa-lock
+            = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: "Password"
+          .row
+            .col-6
+              = f.button "Log in", class: 'btn btn-primary px-4'
+            .col-6.text-right
+              = link_to t("devise.passwords.forgot_your_password"), new_password_path(resource_name), class: 'btn btn-link px-0'
+    .card.text-white.bg-primary.py-5.d-md-down-none{:style => "width:44%"}
+      .card-body.text-center
+        %div
+          %h2= Krudmin::Config.login_screen_intro_message
