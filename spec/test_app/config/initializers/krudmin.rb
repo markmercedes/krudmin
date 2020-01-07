@@ -2,8 +2,8 @@
 
 Krudmin::Config.with do |config|
   # config.current_user_method(&:current_user)
-  config.current_user_method(&:current_krudmin_user)
-  config.edit_profile_path = :edit_user_path
+  config.current_user_method(&:current_krudmin_profile)
+  config.edit_profile_path = "/krudmin/users"
   config.logout_path = "/krudmin/user/sign_out"
 
   config.navigation_menu = -> {
@@ -27,7 +27,7 @@ Krudmin::config do |cfg|
   cfg.modal_form_wrapper = :vertical_form
   cfg.paginator_position = :top_bottom
   cfg.login_screen_intro_message = "<login_screen_intro_message> \n CONFIGURE ON KURMIN INITIALIZER"
-  cfg.require_authenticated_user_method = :authenticate_krudmin_user!
+  cfg.require_authenticated_user_method = :authenticate_krudmin_profile!
 end
 
 config = Krudmin::config
