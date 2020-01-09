@@ -1,4 +1,11 @@
 en:
+  devise:
+    passwords:
+      forgot_your_password: Forgot your password?
+      recover_my_password: Recover my password
+      change_password: Change password
+      change_my_password: Change my password
+      minimum_password_length: characters minimum
   hello: "Hello world"
   krudmin:
     datetime:
@@ -9,8 +16,8 @@ en:
       dashboard: Dashboard
       active: Active
       inactive: Inactive
-      'yes': "Yes"
-      'no': "No"
+      "yes": "Yes"
+      "no": "No"
       edit_profile: "Edit Profile"
       logout: "Logout"
     search:

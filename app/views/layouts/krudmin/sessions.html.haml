@@ -1,0 +1,17 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    = stylesheet_link_tag "application", :media => "all"
+    = csrf_meta_tags
+    = stylesheet_link_tag    'krudmin/core_theme/application', media: 'all', 'data-turbolinks-track' => 'reload'
+    = javascript_include_tag 'krudmin/core_theme/application', 'data-turbolinks-track' => 'reload'
+  %body.app.flex-row.align-items-center
+    .container
+      = render 'layouts/krudmin/core_theme/messages'
+
+      .row.justify-content-center
+        = yield

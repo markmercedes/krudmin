@@ -14,6 +14,7 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 gem 'bootsnap', '>= 1.1.0', require: false
+gem "devise"
 gem "pg"
 gem "redcarpet"
 

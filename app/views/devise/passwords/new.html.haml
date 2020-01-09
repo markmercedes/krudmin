@@ -1,0 +1,16 @@
+.col-md-8
+  .card-group.mb-0
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+      = devise_error_messages!
+      .card.p-4
+        .card-body
+          %h1=t("devise.passwords.forgot_your_password")
+          .input-group.mb-3{style: {width: "100%"}}
+            %span.input-group-addon
+              %i.fa.fa-user
+            = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Username or Email', required: :required, style: 'width: 100%'
+          .row
+            .col-6
+              = f.button t("devise.passwords.recover_my_password"), class: 'btn btn-primary px-4'
+            .col-6.text-right
+              = link_to "Log in", new_session_path(resource_name), class: 'btn btn-link px-0'

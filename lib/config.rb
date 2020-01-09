@@ -14,10 +14,12 @@ module Krudmin
 
       attr_writer :navigation_menu, :parent_controller, :krudmin_root_path, :pundit_enabled, :theme, :layout, :paginator_position
       attr_accessor :form_wrapper, :modal_form_wrapper
+      attr_accessor :require_authenticated_user_method
+      attr_accessor :login_screen_intro_message
 
       attr_accessor :edit_profile_path, :logout_path
 
-      DEFAULT_CURRENT_USER = proc {}
+      DEFAULT_CURRENT_USER = proc { }
 
       DEFAULT_PARENT_CONTROLLER_CLASS = "ActionController::Base"
 
