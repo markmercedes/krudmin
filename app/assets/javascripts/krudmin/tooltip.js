@@ -1,5 +1,5 @@
 $.fn.bstooltip = $.fn.tooltip;
 
-document.addEventListener('turbolinks:load', function (event) {
+function initializeTooltipControls() {
   $('[data-toggle="tooltip"]').bstooltip();
-});
+}

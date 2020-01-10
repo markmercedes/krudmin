@@ -22,6 +22,7 @@ var modal = $("#crudFormModal");
 
 if (modal.hasClass("show") && <%= defined?(messages) ? true : false %>) {
   $(crudFormModal).modal('hide');
+  initKrudminScriptsForControls();
 } else {
   if (modal.length > 0) {
     var domElement = new DOMParser().parseFromString(modalContent, "text/html");
@@ -39,7 +40,6 @@ if (modal.hasClass("show") && <%= defined?(messages) ? true : false %>) {
   }
 
   $(crudFormModal).on('show.bs.modal', function (e) {
-    Turbolinks.dispatch("turbolinks:load");
+    initializeTurboSelect2("#crudFormModal");
   }).modal();
 }
-

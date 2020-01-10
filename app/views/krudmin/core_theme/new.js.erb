@@ -11,7 +11,5 @@ if (modal.length > 0) {
 }
 
 $(crudFormModal).on('shown.bs.modal', function (e) {
-  setTimeout(function() {
-    Turbolinks.dispatch("turbolinks:load");
-  }, 250);
+  initializeTurboSelect2("#crudFormModal");
 }).modal();

@@ -6,47 +6,55 @@ function initializeDateTimePickers(container) {
     showDropdowns: true,
     autoApply: true,
     cancelClass: "btn-danger",
-    autoUpdateInput: false,
+    autoUpdateInput: false
   };
 
-  $(container).find('.datetimepicker').each(function (_, inputControl) {
-    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATETIME_FORMAT;
+  $(container)
+    .find(".datetimepicker")
+    .each(function(_, inputControl) {
+      var inputFormat = $(this).data("date-format") || KRUDMIN_OPTIONS.DEFAULT_DATETIME_FORMAT;
 
-    $(inputControl).daterangepicker(
-      $.extend({
-        timePicker: true,
-        locale: {
-          format: inputFormat
+      $(inputControl).daterangepicker(
+        $.extend(
+          {
+            timePicker: true,
+            locale: {
+              format: inputFormat
+            }
+          },
+          inputDefaults
+        ),
+        function(inputValue) {
+          this.element.val(inputValue.format(inputFormat));
         }
-      }, inputDefaults), function (inputValue) {
-        this.element.val(inputValue.format(inputFormat));
-      });
-  });
-
-  $(container).find('.datepicker').each(function (_, inputControl) {
-    var inputFormat = $(this).data('date-format') || KRUDMIN_OPTIONS.DEFAULT_DATE_FORMAT;
-
-    $(inputControl).daterangepicker(
-      $.extend({
-        locale: {
-          format: inputFormat
-        }
-      }, inputDefaults),
-      function (inputValue) {
-        this.element.val(inputValue.format(inputFormat));
-      }
-    );
-
-    $(inputControl).on('apply.daterangepicker', function (ev, picker) {
-      $(this).trigger("change");
+      );
     });
-  });
+
+  $(container)
+    .find(".datepicker")
+    .each(function(_, inputControl) {
+      var inputFormat = $(this).data("date-format") || KRUDMIN_OPTIONS.DEFAULT_DATE_FORMAT;
+
+      $(inputControl).daterangepicker(
+        $.extend(
+          {
+            locale: {
+              format: inputFormat
+            }
+          },
+          inputDefaults
+        ),
+        function(inputValue) {
+          this.element.val(inputValue.format(inputFormat));
+        }
+      );
+
+      $(inputControl).on("apply.daterangepicker", function(ev, picker) {
+        $(this).trigger("change");
+      });
+    });
 }
 
-$(document).on('turbolinks:load', function () {
-  initializeDateTimePickers();
-});
-
-$(document).on("krudmin:updateControls", function (e) {
+$(document).on("krudmin:updateControls", function(e) {
   initializeDateTimePickers(e.detail.selector);
 });
