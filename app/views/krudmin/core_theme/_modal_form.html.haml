@@ -10,7 +10,8 @@
           = render partial: "modal_form_action_buttons", locals: {f: f}
 
           - grouped_attributes.each do |key, metadata|
-            - metadata.fetch(:attributes).each do |attribute|
+            - valid_editable_attributes = metadata.fetch(:attributes) & editable_attributes
+            - valid_editable_attributes.each do |attribute|
               %div{class: metadata.fetch(:input_container_class, 'col-md-12')}
                 .form-group
                   = field_for(attribute, model).render(:form, self, {form: f})
