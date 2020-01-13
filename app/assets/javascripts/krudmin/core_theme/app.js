@@ -26,6 +26,7 @@ function initKrudminScriptsForControls() {
   initializeDateTimePickers();
   initializeSummerNoteControls();
   initializeTooltipControls();
+  initializeTurboSelect2("body");
 }
 
 function updateKrudminControlsOn(selector, e) {

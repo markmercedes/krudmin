@@ -21,7 +21,7 @@
             .col-6
               = button_tag(type: :submit, class: "btn btn-primary") do
                 %i.fa.fa-save
-                %h1=t("devise.passwords.change_my_password")
+                =t("devise.passwords.change_my_password")
             .col-6.text-right
               = link_to "Log in", new_session_path(resource_name), class: 'btn btn-link px-0'
     .card.text-white.bg-primary.py-5.d-md-down-none{:style => "width:44%"}

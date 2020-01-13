@@ -40,6 +40,6 @@ if (modal.hasClass("show") && <%= defined?(messages) ? true : false %>) {
   }
 
   $(crudFormModal).on('show.bs.modal', function (e) {
-    initializeTurboSelect2("#crudFormModal");
+    initKrudminScriptsForControls();
   }).modal();
 }
