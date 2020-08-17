@@ -28,7 +28,7 @@
         - navigation_menu.each do |item|
           - if item.items.any?
             %li.nav-item.dropdown{class: item.label_class}
-              = link_to(item.link, class: "nav-link dropdown-toggle", data: {toggle: :dropdown}) do
+              = link_to(item.link, { class: "nav-link dropdown-toggle", data: {toggle: :dropdown} }.merge(item.html)) do
                 %i{class: "fa fa-#{item.icon}"}
                 = t(item.label)
               .dropdown-menu
@@ -38,7 +38,7 @@
                     = child_item.label
           - else
             %li.pull-right.nav-item{class: item.label_class}
-              = link_to(item.link, class: "nav-link") do
+              = link_to(item.link, { class: "nav-link" }.merge(item.html)) do
                 %i{class: "fa fa-#{item.icon}"}
                 = t(item.label)
 
