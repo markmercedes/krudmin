@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96b92c18-41ac-4bc5-87e3-4af9e2543793" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/views/krudmin/core_theme/_search_form.json.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/krudmin/core_theme/fields/belongs_to/_search.html.haml" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/krudmin/core_theme/fields/belongs_to/_search.html.haml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +152,7 @@
       <option name="presentableId" value="Default" />
       <updated>1649315251884</updated>
       <workItem from="1649315254292" duration="2805000" />
-      <workItem from="1649395290614" duration="3739000" />
+      <workItem from="1649395290614" duration="4397000" />
     </task>
     <servers />
   </component>
